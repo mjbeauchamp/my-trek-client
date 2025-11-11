@@ -1,0 +1,27 @@
+.nav-container {
+    width: 100%;
+    background: var(--color-primary);
+    padding: 0 20px;
+
+    .link-list {
+        display: flex;
+        align-items: center;
+
+        a {
+            color: #FFFFFF;
+
+            &:hover {
+                color: var(--color-bright-highlight);
+            }
+        }
+    }
+
+    nav {
+        display: flex;
+        justify-content: space-between;
+    }
+}
+
+.home-logo {
+    width: 3rem;
+}
