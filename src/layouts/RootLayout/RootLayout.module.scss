@@ -1,3 +1,20 @@
 .root-layout {
     width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+main {
+    flex: 1;
+    min-height: 400px;
+}
+
+footer {
+    display: flex;
+    align-items: center;
+    padding: 30px 20px;
+    background: var(--color-primary);
+    color: var(--color-light-primary);
 }

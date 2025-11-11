@@ -60,6 +60,16 @@ ul {
   padding: 0;
 }
 
+h1, h2, h3, h4, h4, h6, p {
+  margin: 0;
+}
+
+.content-container {
+  margin: 0 auto;
+  width: 75%;
+  max-width: 1500px;
+}
+
 .btn {
   display: inline-block;
   padding: 0.6rem 1.2rem;
@@ -71,6 +81,7 @@ ul {
   cursor: pointer;
   text-align: center;
   transition: background-color 0.2s, transform 0.1s;
+  width: fit-content;
 
   &.light {
     background-color: var(--color-light-primary);

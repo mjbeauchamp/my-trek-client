@@ -1,7 +1,7 @@
 import { useAuth0 } from "@auth0/auth0-react"
 import { Link } from "react-router";
 import styles from './Navbar.module.scss';
-import myTrekLogo from '../../assets/my-trek-logo-green.png';
+import myTrekLogo from '../../assets/mountain-logo.png';
 import { Menu, MenuButton, MenuItem, MenuItems, MenuSeparator } from '@headlessui/react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser } from '@fortawesome/free-solid-svg-icons';
@@ -26,7 +26,7 @@ export default function Navbar() {
             </Link>
           </li>
           <li>
-            <Link to="/gear-tips">Gear Tips</Link>
+            <Link to="/gear-tips">Backpacking 101</Link>
           </li>
         </ul>
 
