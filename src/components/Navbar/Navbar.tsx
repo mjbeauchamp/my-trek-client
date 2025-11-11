@@ -2,7 +2,7 @@ import { useAuth0 } from "@auth0/auth0-react"
 import { Link } from "react-router";
 import styles from './Navbar.module.scss';
 import myTrekLogo from '../../assets/my-trek-logo-green.png';
-import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
+import { Menu, MenuButton, MenuItem, MenuItems, MenuSeparator } from '@headlessui/react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 
@@ -44,12 +44,17 @@ export default function Navbar() {
               </MenuButton>
               <MenuItems className="navbar-menu-items" anchor="bottom end">
                 <MenuItem>
-                  <Link to="/my-gear-lists">My Gear Lists</Link>
+                  <div className="menu-item">
+                    <Link to="/my-gear-lists">My Gear Lists</Link>
+                  </div>
                 </MenuItem>
+                <MenuSeparator className="menu-separator" />
                 <MenuItem>
-                  <button className="btn light" onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}>
-                    Log Out
-                  </button>
+                  <div className="menu-item">
+                    <button onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}>
+                      Log Out
+                    </button>
+                  </div>
                 </MenuItem>
               </MenuItems>
             </Menu>

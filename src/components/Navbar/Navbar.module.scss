@@ -1,7 +1,7 @@
 .nav-container {
     width: 100%;
     background: var(--color-primary);
-    padding: 0 20px;
+    padding: 10px 20px;
 
     nav {
         display: flex;
@@ -12,16 +12,24 @@
     .link-list {
         display: flex;
         align-items: center;
+        margin: 0;
 
         li {
             margin-right: 14px;
         }
 
         a {
-            color: #FFFFFF;
+            color: var(--color-bright-highlight);
+            display: inline-block;
+            text-align: center;
 
             &:hover {
-                color: var(--color-bright-highlight);
+                color: #FFFFFF;
+            }
+
+            .home-logo {
+                width: 3.8rem;
+                margin-right: 5px;
             }
         }
     }
@@ -32,7 +40,7 @@
 
         .profile-image {
             border-radius: 50%;
-            width: 48px;
+            width: 46px;
         }  
 
         .profile-icon-container {
@@ -61,8 +69,4 @@
             }
         }
     }  
-}
-
-.home-logo {
-    width: 3rem;
 }
