@@ -5,6 +5,7 @@
   --color-primary: #{t.$color-primary};
   --color-secondary: #{t.$color-secondary};
   --color-accent: #{t.$color-accent};
+  --color-accent-bright: #{t.$color-accent-bright};
   --color-light-primary: #{t.$color-light-primary};
   --color-text: #{t.$color-text};
   --color-highlight: #{t.$color-highlight};
@@ -43,11 +44,7 @@
 
 a {
   font-weight: 500;
-  color: #646cff;
   text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
 }
 
 body {
@@ -58,16 +55,121 @@ body {
   background-color: var(--color-light-primary);
 }
 
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
 ul {
   list-style: none;
   padding: 0;
+}
+
+.btn {
+  display: inline-block;
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.2s, transform 0.1s;
+
+  &.light {
+    background-color: var(--color-light-primary);
+    color: var(--color-text);
+
+    &:hover:not(:disabled) {
+      background-color: white;
+    }
+
+    &:active:not(:disabled) {
+      transform: scale(0.97);
+    }
+  }
+
+  &.dark {
+    background-color: var(--color-primary);
+    color: var(--color-light-primary);
+
+    &:hover:not(:disabled) {
+      background-color: var(--color-secondary);
+    }
+
+    &:active:not(:disabled) {
+      transform: scale(0.97);
+    }
+  }
+
+  &:focus {
+    outline: 2px solid var(--color-bright-highlight);
+    outline-offset: 2px;
+  }
+
+  &:disabled {
+    background-color: lightgray;
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+}
+
+.navbar-menu-items {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-light-primary);
+  min-width: 250px;
+  margin-top: 4px;
+  border-radius: 6px;
+  border: 2px solid var(--color-primary);
+
+  .menu-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    a, button {
+      padding: 14px;
+      width: 100%;
+    }
+
+    a {
+      text-align: center;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--color-text);
+    }
+
+    button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.6rem 1.2rem;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      background-color: transparent;
+      font-size: 1.2rem;
+      color: var(--color-text);
+    }
+
+    &:hover, &:focus {
+      background-color: #feebc8;
+    }
+
+    &:last-child {
+      background-color: var(--color-accent-bright);
+
+      &:hover, &:focus {
+        background-color: rgba(253, 205, 83, 0.7);
+      }
+    }
+  }
+
+  .menu-separator {
+    background-color: var(--color-primary);
+    height: 2px;
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-highlight);
+    outline-offset: 2px;
+  }
 }
 
