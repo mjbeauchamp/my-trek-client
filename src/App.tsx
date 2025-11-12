@@ -9,15 +9,17 @@ import ProtectedRoute from "./components/ProtectedRoute"
 import Backpacking101Page from "./pages/Backpacking101Page/Backpacking101Page"
 import BackpackingArticlePage from "./pages/BackpackingArticlePage/BackpackingArticlePage"
 import GearListsPage from "./pages/MyGearListsPage/MyGearListsPage"
-import GearListPage from "./pages/GearListPage/GearListPage"
+import GearListPage from "./pages/GearListPage/GearListPage";
+import UserGearListsProvider from "./providers/UserGearListsProvider";
+import UserProvider from "./providers/UserProvider";
 
 // @ts-ignore
 const UserContext = createContext();
 
 function App() {
   const { user, isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
-  const [databaseUser, setDatabaseUser] = useState(null); 
   const [isUserLoading, setIsUserLoading] = useState(true);
+
   const hasSynced = useRef(false);
 
   useEffect(() => {
@@ -40,9 +42,8 @@ function App() {
           // TODO: Handle error with fetching user
         }
 
-        const dbUser = await res.json();
+        // DO WHATEVER WE WANT TO DO AFTER USER REGISTERS/LOGS IN
 
-        setDatabaseUser(dbUser);
       } catch (err) {
         console.error("Failed to sync user:", err);
       } finally {
@@ -55,22 +56,24 @@ function App() {
 
   return (
     <>
-      <UserContext.Provider value={{ databaseUser, isUserLoading, isAuthenticated, user }}>
+      <UserProvider>
         <Routes>
           <Route element={<RootLayout />}>
             <Route path="/" element={<HomePage />} />
             <Route path="/backpacking-101" element={<Backpacking101Page />} />
             <Route path="/backpacking-101/:articleId" element={<BackpackingArticlePage />} />
-            <Route path="/my-gear-lists" element={<GearListsPage />} />
-            <Route path="/my-gear-lists/:listId" element={<ProtectedRoute><GearListPage /></ProtectedRoute>} />
+            <Route element={<UserGearListsProvider/>}>
+              <Route path="/my-gear-lists" element={<GearListsPage />} />
+              <Route path="/my-gear-lists/:listId" element={<ProtectedRoute><GearListPage /></ProtectedRoute>} />
+            </Route>
+            {/* <Route path="/my-gear-lists" element={<ProtectedRoute><GearListsPage /></ProtectedRoute>} />
+            <Route path="/my-gear-lists/:listId" element={<ProtectedRoute><GearListPage /></ProtectedRoute>} /> */}
             <Route path="*" element={<PageNotFound />} />
           </Route>
         </Routes>
-      </UserContext.Provider>
+      </UserProvider>
     </>
   )
 }
 
 export default App;
-
-export { UserContext };
