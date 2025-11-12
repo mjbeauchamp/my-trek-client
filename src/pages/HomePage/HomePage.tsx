@@ -1,7 +1,7 @@
-import styles from './Home.module.scss';
+import styles from './HomePage.module.scss';
 import { Link } from 'react-router';
 
-export default function Home() {
+export default function HomePage() {
   return (
     <div className={styles.home}>
       <section className={styles.hero}>

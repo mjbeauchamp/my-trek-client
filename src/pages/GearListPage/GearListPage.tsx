@@ -9,7 +9,7 @@ interface GearItem {
   notes?: string;
 }
 
-export default function MyGear() {
+export default function GearListPage() {
     const [gear, setGear] = useState<GearItem[]>([]);
     const [loading, setLoading] = useState(true);
     const { getAccessTokenSilently } = useAuth0();

@@ -1,10 +1,12 @@
-import { Link } from "react-router";
+import { Link } from "react-router"
 
 export default function GearLists() {
+    
+
     return (
-        <>
-            ALL GEAR LISTS
+        <div>
+            MY GEAR LISTS GO HERE!
             <Link to="/my-gear-lists/14">Gear List 14</Link>
-        </>
+        </div>
     )
 }

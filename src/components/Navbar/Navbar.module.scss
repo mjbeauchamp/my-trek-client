@@ -38,20 +38,6 @@
         display: flex;
         align-items: center;
 
-        .profile-image {
-            border-radius: 50%;
-            width: 46px;
-        }  
-
-        .profile-icon-container {
-            border-radius: 50%;
-            padding: 4px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            aspect-ratio: 1/1;
-        }
-
         .profile-menu-button {
             all: unset; 
             cursor: pointer;
@@ -68,5 +54,20 @@
                 margin: 0;
             }
         }
+    }
+
+    .profile-image {
+        border-radius: 50%;
+        width: 46px;
+        height: 46px;
     }  
+
+    .profile-icon-container {
+        border-radius: 50%;
+        padding: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        aspect-ratio: 1/1;
+    }
 }

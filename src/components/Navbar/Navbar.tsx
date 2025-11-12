@@ -7,9 +7,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 
 export default function Navbar() {
-  const { loginWithRedirect, logout, user, isAuthenticated, isLoading } = useAuth0();
+  const { loginWithRedirect, logout, user, isAuthenticated } = useAuth0();
 
-  if (isLoading) return <div>Loading auth…</div>;
+  console.log(user)
 
   return (
     <div className={styles['nav-container']}>
@@ -26,7 +26,7 @@ export default function Navbar() {
             </Link>
           </li>
           <li>
-            <Link to="/gear-tips">Backpacking 101</Link>
+            <Link to="/backpacking-101">Backpacking 101</Link>
           </li>
         </ul>
 
@@ -36,7 +36,12 @@ export default function Navbar() {
               <MenuButton className={styles['profile-menu-button']}>
                 { 
                   user?.picture ? 
-                  <img className={styles['profile-image']} src={user.picture} alt={user?.name ?? user?.email} /> : 
+                  <img 
+                    className={styles['profile-image']} 
+                    src={user.picture} 
+                    alt={user?.name ?? user?.email}
+                    // onError={e => { e.currentTarget.src = '/default-avatar.png'; }}
+                  /> : 
                   <div className={styles['profile-icon-container']}>
                     <FontAwesomeIcon icon={faUser} color="white" size="xl" />
                   </div>

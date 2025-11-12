@@ -1,0 +1,35 @@
+ul {
+    width: 100%;
+}
+
+.article-card {
+    padding: 20px;
+    border: 1px solid var(--color-accent);
+    border-radius: 8px;
+    margin-bottom: 20px;
+
+    article {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    img {
+        aspect-ratio: 1/1;
+        width: 25%;
+        min-width: 80px;
+        border-radius: 6px;
+        object-fit: cover;
+        object-position: center;
+    }
+
+    .text-container {
+        width: 80%;
+        padding-left: 10px;
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+        }
+    }
+}
