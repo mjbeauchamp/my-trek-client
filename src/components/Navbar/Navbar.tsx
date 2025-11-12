@@ -9,8 +9,6 @@ import { faUser } from '@fortawesome/free-solid-svg-icons';
 export default function Navbar() {
   const { loginWithRedirect, logout, user, isAuthenticated } = useAuth0();
 
-  console.log(user)
-
   return (
     <div className={styles['nav-container']}>
       <nav aria-label="Main site nav">
