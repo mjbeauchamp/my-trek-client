@@ -10,6 +10,7 @@ import Backpacking101Page from "./pages/Backpacking101Page/Backpacking101Page"
 import BackpackingArticlePage from "./pages/BackpackingArticlePage/BackpackingArticlePage"
 import GearListsPage from "./pages/MyGearListsPage/MyGearListsPage"
 import GearListPage from "./pages/GearListPage/GearListPage";
+import CreateGearListPage from "./pages/CreateGearListPage/CreateGearListPage";
 import UserGearListsProvider from "./providers/UserGearListsProvider";
 import UserProvider from "./providers/UserProvider";
 
@@ -64,10 +65,9 @@ function App() {
             <Route path="/backpacking-101/:articleId" element={<BackpackingArticlePage />} />
             <Route element={<UserGearListsProvider/>}>
               <Route path="/my-gear-lists" element={<GearListsPage />} />
+              <Route path="/my-gear-lists/new" element={<ProtectedRoute><CreateGearListPage /></ProtectedRoute>} />
               <Route path="/my-gear-lists/:listId" element={<ProtectedRoute><GearListPage /></ProtectedRoute>} />
             </Route>
-            {/* <Route path="/my-gear-lists" element={<ProtectedRoute><GearListsPage /></ProtectedRoute>} />
-            <Route path="/my-gear-lists/:listId" element={<ProtectedRoute><GearListPage /></ProtectedRoute>} /> */}
             <Route path="*" element={<PageNotFound />} />
           </Route>
         </Routes>

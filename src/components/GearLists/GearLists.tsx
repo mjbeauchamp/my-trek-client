@@ -39,10 +39,10 @@ export default function GearLists() {
             { userGearLists.length < 1 ? <h1>Loading...</h1> : 
                 <section>
                     <ul>
-                        {userGearLists.map(list => {
+                        {userGearLists.map((list: GearList) => {
                             return (
-                                <li key={list._id}>
-                                    <Link to={`/my-gear-lists/${list._id}`}>
+                                <li key={list.listId}>
+                                    <Link to={`/my-gear-lists/${list.listId}`}>
                                         <article>
                                             {list.listTitle}
                                         </article>

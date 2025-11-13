@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext, useMemo } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router";
 import { useAuth0 } from "@auth0/auth0-react";
 import type { CommonGearItem, UserGearItem } from "../../types/gearTypes";
@@ -12,14 +12,6 @@ export default function GearListPage() {
     const [commonGear, setCommonGear] = useState<CommonGearItem[]>([]);
     const [loadingCommonGear, setLoadingCommonGear] = useState(true);
     const [errorCommonGear, setErrorCommonGear] = useState('');
-    const [newGearList, setNewGearlist] = useState<{listTitle: String, items: UserGearItem[]}>({
-        listTitle: "MY AWESOME LIST",
-        items: [
-            { name: "Tent", quantityNeeded: 1 },
-            { name: "Sleeping Bag", quantityNeeded: 1 },
-        ]
-    });
-
     const [userGearList, setUserGearList] = useState<{listTitle?: String, items?: UserGearItem[]}>({});
     const [loadingUserGearList, setLoadingUserGearList] = useState(false);
     const [errorUserGearList, setErrorUserGearList] = useState('');
@@ -91,34 +83,10 @@ export default function GearListPage() {
         }
     }, [userGearLists, getAccessTokenSilently])
 
-    const createList = async () => {
-        //TODO: Check that gear list data is formed correctly, and that the gear list contains all needed data
-        // and isn't empty or something
-        const token = await getAccessTokenSilently();
-        // TODO: do error handling if there's no token or something
-        const res = await fetch("http://localhost:4000/api/gear-lists/gear-list", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify(newGearList),
-        })
-
-        if (!res.ok) {
-            // TODO: Handle error state
-        }
-
-        const data = await res.json();
-
-        console.log(data)
-
-    }
-
     return (
         <div>
         <h1>{userGearList.listTitle}</h1>
-        <button onClick={createList}>CREATE LIST!!</button>
+        
         <ul>
             {commonGear.map(item => (
             <li key={item._id}>

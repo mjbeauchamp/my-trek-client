@@ -14,7 +14,7 @@ export default function UserGearListsProvider() {
   const [userGearLists, setUserGearLists] = useState<Array<GearList>>([]);
 
   const getGearListById = (id: string) => {
-    return userGearLists.find(list => list._id === id)
+    return userGearLists.find(list => list.listId === id)
   };
 
   return (

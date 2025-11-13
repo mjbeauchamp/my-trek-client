@@ -9,6 +9,7 @@ export default function MyGearListsPage() {
         <div>
             <h1>MY GEAR LISTS</h1>
             <p>Create multiple lists so that you're prepared for any adventure!</p>
+            {isAuthenticated ? <Link to="/my-gear-lists/new">Create New List</Link> : null}
 
             {
                 isAuthenticated ? 
