@@ -41,8 +41,8 @@ export default function GearLists() {
                     <ul>
                         {userGearLists.map((list: GearList) => {
                             return (
-                                <li key={list.listId}>
-                                    <Link to={`/my-gear-lists/${list.listId}`}>
+                                <li key={list._id}>
+                                    <Link to={`/my-gear-lists/${list._id}`}>
                                         <article>
                                             {list.listTitle}
                                         </article>

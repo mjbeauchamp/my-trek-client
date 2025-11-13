@@ -1,7 +1,7 @@
 import { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router";
 import { useAuth0 } from "@auth0/auth0-react";
-import type { CommonGearItem, UserGearItem } from "../../types/gearTypes";
+import type { CommonGearItem, UserGearItem, GearList } from "../../types/gearTypes";
 import { UserGearListsContext } from "../../providers/UserGearListsProvider";
 
 
@@ -12,7 +12,7 @@ export default function GearListPage() {
     const [commonGear, setCommonGear] = useState<CommonGearItem[]>([]);
     const [loadingCommonGear, setLoadingCommonGear] = useState(true);
     const [errorCommonGear, setErrorCommonGear] = useState('');
-    const [userGearList, setUserGearList] = useState<{listTitle?: String, items?: UserGearItem[]}>({});
+    const [userGearList, setUserGearList] = useState<GearList | null>(null);
     const [loadingUserGearList, setLoadingUserGearList] = useState(false);
     const [errorUserGearList, setErrorUserGearList] = useState('');
 
@@ -85,7 +85,8 @@ export default function GearListPage() {
 
     return (
         <div>
-        <h1>{userGearList.listTitle}</h1>
+        <h1>{userGearList?.listTitle}</h1>
+        <p>{userGearList?.listDescription}</p>
         
         <ul>
             {commonGear.map(item => (

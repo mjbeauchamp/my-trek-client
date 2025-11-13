@@ -44,11 +44,11 @@ export default function CreateGearListPage() {
 
             const data = await res.json();
 
-            if (!data.listId) {
+            if (!data._id) {
                 //TODO: hanlde this? Maybe show some kind of error or redirect back to GearLists page?
             } else {
                 setUserGearLists((prev: any) => [...prev, data])
-                navigate(`/my-gear-lists/${data.listId}`)
+                navigate(`/my-gear-lists/${data._id}`)
             }
 
 

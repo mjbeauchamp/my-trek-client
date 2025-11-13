@@ -12,7 +12,7 @@ export interface UserGearItem extends CommonGearItem {
 }
 
 export interface GearList {
-    listId: string;
+    _id: string;
     listTitle: string;
     items: UserGearItem[];
     listDescription?: string;
