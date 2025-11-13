@@ -1,8 +1,9 @@
 import { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router";
 import { useAuth0 } from "@auth0/auth0-react";
-import type { CommonGearItem, UserGearItem, GearList } from "../../types/gearTypes";
+import type { CommonGearItem, GearList, UserGearItem } from "../../types/gearTypes";
 import { UserGearListsContext } from "../../providers/UserGearListsProvider";
+import GearItemForm from "../../components/GearItemForm/GearItemForm";
 
 
 export default function GearListPage() {
@@ -45,7 +46,6 @@ export default function GearListPage() {
 
     useEffect(() => {
         const list = getGearListById(listId);
-        console.log('LISTID:', listId)
 
         if (list) {
             setUserGearList(list);
@@ -56,9 +56,7 @@ export default function GearListPage() {
                 try {
                     const token = await getAccessTokenSilently();
                     const res = await fetch(`http://localhost:4000/api/gear-lists/gear-list/${listId}`, {
-                        method: 'POST',
                         headers: {
-                            "Content-Type": "application/json",
                             Authorization: `Bearer ${token}`,
                         },
                     });
@@ -70,8 +68,6 @@ export default function GearListPage() {
                     const data = await res.json();
 
                     setUserGearList(data);
-
-                    console.log(data)
                 } catch (err) {
                     console.error("Error fetching gear:", err);
                     setErrorUserGearList('There was an error fetching gear list');
@@ -87,15 +83,20 @@ export default function GearListPage() {
         <div>
         <h1>{userGearList?.listTitle}</h1>
         <p>{userGearList?.listDescription}</p>
+
+        <GearItemForm listId={listId} setUserGearList={setUserGearList} />
         
-        <ul>
-            {commonGear.map(item => (
-            <li key={item._id}>
-                {item.name} - {item.category}
-                {item.notes && ` (${item.notes})`}
-            </li>
-            ))}
-        </ul>
+        {userGearList?.items && userGearList.items.length > 0 ? 
+            <ul>
+                {userGearList.items.map(item => (
+                <li key={item._id}>
+                    {item.name} - {item.category}
+                    {item.notes && ` (${item.notes})`}
+                </li>
+                ))}
+            </ul> :
+            null
+        }
         </div>
     );
 }

@@ -18,7 +18,6 @@ export default function GearLists() {
                         headers: { Authorization: `Bearer ${token}` },
                     });
                     const lists = await res.json();
-
                     setUserGearLists(lists);
 
                 } catch (error) {

@@ -19,8 +19,8 @@ export default function CreateGearListPage() {
             return;
         }
         const newGearList = {
-            listTitle,
-            listDescription,
+            listTitle: listTitle.trim(),
+            listDescription: listDescription.trim(),
             items: []
         }
         
@@ -50,13 +50,8 @@ export default function CreateGearListPage() {
                 setUserGearLists((prev: any) => [...prev, data])
                 navigate(`/my-gear-lists/${data._id}`)
             }
-
-
-
-            console.log(data)
-
         } catch (err) {
-            console.error('Noooo!!!', err)
+            console.error(err)
         }
 
     }
