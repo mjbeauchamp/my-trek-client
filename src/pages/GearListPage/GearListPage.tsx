@@ -9,40 +9,12 @@ import GearItemForm from "../../components/GearItemForm/GearItemForm";
 export default function GearListPage() {
     const { listId } = useParams();
     const {getGearListById, userGearLists} = useContext(UserGearListsContext);
-
-    const [commonGear, setCommonGear] = useState<CommonGearItem[]>([]);
-    const [loadingCommonGear, setLoadingCommonGear] = useState(true);
-    const [errorCommonGear, setErrorCommonGear] = useState('');
     const [userGearList, setUserGearList] = useState<GearList | null>(null);
     const [loadingUserGearList, setLoadingUserGearList] = useState(false);
     const [errorUserGearList, setErrorUserGearList] = useState('');
 
 
-    const { getAccessTokenSilently } = useAuth0();
-
-    useEffect(() => {
-        const fetchCommonGear = async () => {
-            try {
-                const token = await getAccessTokenSilently();
-                const res = await fetch("http://localhost:4000/api/commonGear", {
-                    headers: {
-                    Authorization: `Bearer ${token}`,
-                    },
-                });
-                if (!res.ok) {
-                    //TODO: handle error
-                }
-                const data = await res.json();
-
-                setCommonGear(data);
-            } catch (err) {
-                console.error("Error fetching gear:", err);
-            } finally {
-                setLoadingCommonGear(false);
-            }
-        };
-        fetchCommonGear();
-    }, [getAccessTokenSilently]);
+    const { getAccessTokenSilently, user, isAuthenticated } = useAuth0();
 
     useEffect(() => {
         const list = getGearListById(listId);
@@ -77,14 +49,14 @@ export default function GearListPage() {
             };
             fetchGearList();
         }
-    }, [userGearLists, getAccessTokenSilently])
+    }, [userGearLists, getAccessTokenSilently, user, isAuthenticated])
 
     return (
         <div>
         <h1>{userGearList?.listTitle}</h1>
         <p>{userGearList?.listDescription}</p>
 
-        <GearItemForm listId={listId} setUserGearList={setUserGearList} />
+        <GearItemForm listId={listId} userGearListItems={userGearList?.items} setUserGearList={setUserGearList} />
         
         {userGearList?.items && userGearList.items.length > 0 ? 
             <ul>
