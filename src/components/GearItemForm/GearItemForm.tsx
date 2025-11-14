@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Combobox, ComboboxInput, ComboboxOption, ComboboxOptions, ComboboxButton  } from "@headlessui/react";
+import { GEAR_CATEGORIES } from "../../constants/categories";
 
 import type { GearList, CommonGearItem, UserGearItem } from "../../types/gearTypes";
 
 interface PropTypes {
     userGearListItems: UserGearItem[] | undefined;
     setUserGearList: React.Dispatch<React.SetStateAction<GearList | null>>,
+    setNewItemId: React.Dispatch<React.SetStateAction<string>>,
     closeListItemDialog: () => void,
     mode: 'create' | 'edit',
     initialData?: any,
@@ -16,6 +18,7 @@ interface PropTypes {
 export default function GearItemForm({ 
     userGearListItems,
     setUserGearList,
+    setNewItemId,
     closeListItemDialog,
     listId,
     mode = 'create',
@@ -100,8 +103,7 @@ export default function GearItemForm({
                 body: JSON.stringify(newItem),
             });
             if (!res.ok) {
-                const body = await res.json().catch(() => ({}));
-                throw new Error(body.message || "Failed to add item");
+                throw new Error("Failed to add item");
             }
             const createdItem = await res.json();
             setLoading(false);
@@ -111,6 +113,7 @@ export default function GearItemForm({
                     items: [...prev.items, createdItem]
                 }
             })
+            setNewItemId(createdItem._id)
         } catch (err: any) {
             //TODO: error handling
             setError(err.message || "Error");
@@ -239,6 +242,7 @@ export default function GearItemForm({
                                             }
                                         >
                                             {gear.name}
+                                            { alreadyAdded ? <span>Already in list</span> : null }
                                         </ComboboxOption>
                                         );
                                     })}
@@ -256,7 +260,19 @@ export default function GearItemForm({
                 </label>
                 <label>
                     <span>Category</span>
-                    <input type="text" value={category} onChange={(e) => setCategory(e.target.value)} />
+                    <select
+                        id="category"
+                        value={category}
+                        onChange={(e) => setCategory(e.target.value)}
+                        className="border rounded px-3 py-2"
+                    >
+                        <option value="">Select a category</option>
+                        {GEAR_CATEGORIES.map((cat) => (
+                            <option key={cat.id} value={cat.id}>
+                                {cat.label}
+                            </option>
+                        ))}
+                    </select>
                 </label>
                 <label>
                     <span>Quantity Needed</span>

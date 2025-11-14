@@ -3,6 +3,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { Link } from "react-router"
 import type { GearList } from "../../types/gearTypes";
 import { UserGearListsContext } from "../../providers/UserGearListsProvider";
+import ConfirmationModal from "../ConfirmationModal/ConfirmationModal";
 
 
 
@@ -11,6 +12,9 @@ export default function GearLists() {
     const { getAccessTokenSilently } = useAuth0();
     const [loadingUserGearLists, setLoadingUserGearLists] = useState(false);
     const [errorUserGearLists, setErrorUserGearLists] = useState('');
+    // Delete dialog
+    const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+    const [pendingDeleteId, setPendingDeleteId] = useState('');
 
     useEffect(() => {
             const fetchGearLists = async () => {
@@ -31,16 +35,22 @@ export default function GearLists() {
             fetchGearLists();
     }, []);
 
-    const deleteGearList = async (event: React.MouseEvent<HTMLButtonElement>, listId: string) => {
+    const openDeleteListDialog = (event: React.MouseEvent<HTMLButtonElement>, listId: string) => {
         event.preventDefault();
         event.stopPropagation();
-        if (!listId) {
+
+        setPendingDeleteId(listId);
+        setIsDeleteDialogOpen(true);
+    }
+
+    const deleteGearList = async () => {
+        if (!pendingDeleteId) {
             //TODO: handle this
         }
 
         try {
             const token = await getAccessTokenSilently();
-            const res = await fetch(`http://localhost:4000/api/gear-lists/gear-list/${listId}`, {
+            const res = await fetch(`http://localhost:4000/api/gear-lists/gear-list/${pendingDeleteId}`, {
                 method: 'DELETE',
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -73,6 +83,7 @@ export default function GearLists() {
                 setErrorUserGearLists('There was an error fetching gear list');
             } finally {
                 setLoadingUserGearLists(false);
+                return "Item updated successfully!"
             }
         } catch (error) {
             //TODO: Handle error
@@ -95,7 +106,7 @@ export default function GearLists() {
                                     <Link to={`/my-gear-lists/${list._id}`}>
                                         <article>
                                             {list.listTitle}
-                                            <button onClick={(e) => deleteGearList(e, list._id)}>DELETE</button>
+                                            <button onClick={(e) => openDeleteListDialog(e, list._id)}>DELETE</button>
                                         </article>
                                     </Link>
                                 </li>
@@ -103,7 +114,13 @@ export default function GearLists() {
                         })}
                     </ul>
                 </section>
-            } 
+            }
+
+            <ConfirmationModal 
+                isOpen={isDeleteDialogOpen} 
+                onClose={() => setIsDeleteDialogOpen(false)}
+                onConfirm={deleteGearList}
+            />
         </div>
     )
 }
