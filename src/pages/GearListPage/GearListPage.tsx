@@ -230,12 +230,18 @@ export default function GearListPage() {
         }
     }
 
+    const startListMetadataEdit = () => {
+        setListTitle(userGearList?.listTitle || '')
+        setListDescription(userGearList?.listDescription || '')
+        setIsEditMetadataDialogOpen(true);
+    }
+
     return (
         <div>
             <div>
                 <h1>{userGearList?.listTitle}</h1>
                 <p>{userGearList?.listDescription}</p>
-                <button onClick={() => setIsEditMetadataDialogOpen(true)}>Edit</button>
+                <button onClick={startListMetadataEdit}>Edit</button>
             </div>
             
             <button onClick={() => openListItemDialog('create')}>

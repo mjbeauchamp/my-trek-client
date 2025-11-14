@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 
 export default function Navbar() {
-  const { loginWithRedirect, logout, user, isAuthenticated } = useAuth0();
+  const { isLoading, loginWithRedirect, logout, user, isAuthenticated } = useAuth0();
 
   return (
     <div className={styles['nav-container']}>
@@ -28,7 +28,7 @@ export default function Navbar() {
           </li>
         </ul>
 
-        {isAuthenticated ? (
+        {isLoading ? <div className={styles['profile-placeholder']}></div> : isAuthenticated ? (
           <div className={styles['profile-container']}>
             <Menu>
               <MenuButton className={styles['profile-menu-button']}>
@@ -47,9 +47,18 @@ export default function Navbar() {
               </MenuButton>
               <MenuItems className="navbar-menu-items" anchor="bottom end">
                 <MenuItem>
-                  <div className="menu-item">
-                    <Link to="/my-gear-lists">My Gear Lists</Link>
-                  </div>
+                  {({ close }) => (
+                    <Link to="/my-gear-lists" onClick={close} className="menu-item">My Gear Lists</Link>
+                  )}
+                </MenuItem>
+                <MenuSeparator className="menu-separator" />
+                <MenuItem>
+                  {({ close }) => (
+                    <Link to="/my-gear-lists/new" onClick={close} className="menu-item">
+                      Create New List
+                    </Link>
+
+                  )}
                 </MenuItem>
                 <MenuSeparator className="menu-separator" />
                 <MenuItem>
@@ -61,10 +70,6 @@ export default function Navbar() {
                 </MenuItem>
               </MenuItems>
             </Menu>
-            
-            
-
-            
           </div>
         ) : (
           <button className="btn light" onClick={() => loginWithRedirect({authorizationParams: {redirect_uri: window.location.href}})}>

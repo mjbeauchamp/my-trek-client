@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Routes, Route } from "react-router"
 import './App.scss'
@@ -12,10 +12,6 @@ import GearListsPage from "./pages/MyGearListsPage/MyGearListsPage"
 import GearListPage from "./pages/GearListPage/GearListPage";
 import CreateGearListPage from "./pages/CreateGearListPage/CreateGearListPage";
 import UserGearListsProvider from "./providers/UserGearListsProvider";
-import UserProvider from "./providers/UserProvider";
-
-// @ts-ignore
-const UserContext = createContext();
 
 function App() {
   const { user, isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
@@ -57,21 +53,19 @@ function App() {
 
   return (
     <>
-      <UserProvider>
-        <Routes>
-          <Route element={<RootLayout />}>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/backpacking-101" element={<Backpacking101Page />} />
-            <Route path="/backpacking-101/:articleId" element={<BackpackingArticlePage />} />
-            <Route element={<UserGearListsProvider/>}>
-              <Route path="/my-gear-lists" element={<GearListsPage />} />
-              <Route path="/my-gear-lists/new" element={<ProtectedRoute><CreateGearListPage /></ProtectedRoute>} />
-              <Route path="/my-gear-lists/:listId" element={<ProtectedRoute><GearListPage /></ProtectedRoute>} />
-            </Route>
-            <Route path="*" element={<PageNotFound />} />
+      <Routes>
+        <Route element={<RootLayout />}>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/backpacking-101" element={<Backpacking101Page />} />
+          <Route path="/backpacking-101/:articleId" element={<BackpackingArticlePage />} />
+          <Route element={<UserGearListsProvider/>}>
+            <Route path="/my-gear-lists" element={<GearListsPage />} />
+            <Route path="/my-gear-lists/new" element={<ProtectedRoute><CreateGearListPage /></ProtectedRoute>} />
+            <Route path="/my-gear-lists/:listId" element={<ProtectedRoute><GearListPage /></ProtectedRoute>} />
           </Route>
-        </Routes>
-      </UserProvider>
+          <Route path="*" element={<PageNotFound />} />
+        </Route>
+      </Routes>
     </>
   )
 }

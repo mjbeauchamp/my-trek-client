@@ -8,6 +8,8 @@
   --color-accent-bright: #{t.$color-accent-bright};
   --color-light-primary: #{t.$color-light-primary};
   --color-text: #{t.$color-text};
+  --color-light-green: #{t.$color-light-green};
+  --color-light-gray: #{t.$color-light-gray};
   --color-highlight: #{t.$color-highlight};
   --color-bright-highlight: #{t.$color-bright-highlight};
 
@@ -43,8 +45,11 @@
 }
 
 a {
-  font-weight: 500;
   text-decoration: inherit;
+
+  &:visited {
+    color: inherit;
+  }
 }
 
 body {
@@ -82,7 +87,7 @@ h1, h2, h3, h4, h4, h6, p {
   cursor: pointer;
   text-align: center;
   transition: background-color 0.2s, transform 0.1s;
-  width: fit-content;
+  min-width: fit-content;
 
   &.light {
     background-color: var(--color-light-primary);
@@ -129,26 +134,22 @@ h1, h2, h3, h4, h4, h6, p {
   min-width: 250px;
   margin-top: 4px;
   border-radius: 6px;
-  border: 2px solid var(--color-primary);
+  border: 1px solid var(--color-secondary);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
 
   .menu-item {
     display: flex;
     align-items: center;
     justify-content: center;
-
-    a, button {
-      padding: 14px;
-      width: 100%;
-    }
-
-    a {
-      text-align: center;
-      font-size: 1rem;
-      font-weight: 600;
-      color: var(--color-text);
-    }
+    text-align: center;
+    color: var(--color-text);
+    font-weight: 600;
+    padding: 14px;
+    width: 100%;
 
     button {
+      padding: 14px;
+      width: 100%;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -158,25 +159,25 @@ h1, h2, h3, h4, h4, h6, p {
       cursor: pointer;
       background-color: transparent;
       font-size: 1.2rem;
-      color: var(--color-text);
+      color: white;
     }
 
     &:hover, &:focus {
-      background-color: #feebc8;
+      background-color: #f9ebd0;
     }
 
     &:last-child {
-      background-color: var(--color-accent-bright);
+      background-color: var(--color-secondary);
 
       &:hover, &:focus {
-        background-color: rgba(253, 205, 83, 0.7);
+        background-color: var(--color-primary);
       }
     }
   }
 
   .menu-separator {
-    background-color: var(--color-primary);
-    height: 2px;
+    background-color: var(--color-light-gray);
+    height: 1px;
   }
 
   &:focus-visible {
