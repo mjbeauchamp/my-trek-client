@@ -3,7 +3,8 @@
     height: 70vh;
     min-height: 500px;
     max-height: 700px;
-    background: url('../../assets/images/forest-sunrise-flipped.jpg');
+    background: url('../../assets/images/forest-sunrise-optimized.jpg');
+    background-color: var(--color-secondary);
     background-size: cover;
     background-repeat: no-repeat;
     background-position-x: center;
@@ -36,7 +37,7 @@
 }
 
 .articles-info {
-    background-color: var(--color-secondary);
+    background-color: var(--color-primary);
     color: white;
 }
 

@@ -44,20 +44,36 @@
   }
 }
 
-a {
-  text-decoration: inherit;
-
-  &:visited {
-    color: inherit;
-  }
+// FONTS
+.merriweather {
+  font-family: "Merriweather", serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  font-variation-settings: "wdth" 100;
 }
 
+.inter {
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
+
+
+// GENERAL GLOBAL STYLES
 body {
   margin: 0;
   display: flex;
   min-width: 320px;
   min-height: 100vh;
   background-color: var(--color-light-primary);
+}
+
+a {
+  text-decoration: inherit;
+
+  &:visited {
+    color: inherit;
+  }
 }
 
 ul {
@@ -81,7 +97,6 @@ h1, h2, h3, h4, h4, h6, p {
   padding: 0.6rem 1.2rem;
   font-size: 1rem;
   font-weight: 600;
-  font-family: 'Inter', sans-serif;
   border: none;
   border-radius: 0.5rem;
   cursor: pointer;
@@ -127,6 +142,7 @@ h1, h2, h3, h4, h4, h6, p {
   }
 }
 
+// DIALOG & MENU STYLING
 .navbar-menu-items {
   display: flex;
   flex-direction: column;
