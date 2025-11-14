@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router";
 import styles from "./Backpacking101Page.module.scss"
+import LoadingSkeletonSection from "../../components/LoadingSkeletonSection/LoadingSkeletonSection";
 
 interface IBackpackingArticle {
   title: string;
@@ -15,6 +16,19 @@ export default function BackpackingBasicsPage() {
     const [articles, setArticles] = useState<Array<IBackpackingArticle>>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState('');
+    const [showSkeleton, setShowSkeleton] = useState(false);
+
+    useEffect(() => {
+        let timeout: number;
+
+        if (isLoading) {
+            timeout = setTimeout(() => setShowSkeleton(true), 300);
+        } else {
+            setShowSkeleton(false);
+        }
+
+        return () => clearTimeout(timeout);
+    }, [isLoading]);
 
     useEffect(() => {
         const fetchArticles = async () => {
@@ -41,40 +55,60 @@ export default function BackpackingBasicsPage() {
     }, [])
 
     return (
-        <div>
-            <h1>BACKPACKING 101</h1>
+        <div className={styles['articles-container']}>
+            <section className={styles.header}>
+                <h1>BACKPACKING 101</h1>
+            </section>
+            
             <div className="content-container">
-                {
-                    isLoading ? <p>Loading...</p> :
-                    <section>
-                        <ul>
-                            {articles.map(article => {
-                                return (
-                                    <li key={article._id} className={styles['article-card']}>
-                                        <Link to={`/backpacking-101/${article._id}`} state={{article}}>
-                                            <article>
-                                                <img src={article.image}/>
-                                                <div className={styles['text-container']}>
-                                                    <div className={styles['header']}>
-                                                        <div>
-                                                            <h2>{article.title}</h2>
-                                                            <p>{article.author}</p>
-                                                        </div>
+                {(() => {
+                    if (isLoading && showSkeleton) {
+                    return (
+                        <div className={styles['card-skeleton']}>
+                        <LoadingSkeletonSection width="100%" height="200px" />
+                        <LoadingSkeletonSection width="100%" height="200px" />
+                        <LoadingSkeletonSection width="100%" height="200px" />
+                        <LoadingSkeletonSection width="100%" height="200px" />
+                        <LoadingSkeletonSection width="100%" height="200px" />
+                        </div>
+                    );
+                    }
 
-                                                        <p>{article.date}</p>
-                                                    </div>
-                                                    
-                                                    <p>{article.content[0]}</p>
-                                                </div>
-                                                
-                                            </article>
-                                        </Link>
-                                    </li>
-                                )
-                            })}
-                        </ul> 
-                    </section>
-                }
+                    if (isLoading) return null;
+
+                    if (articles.length > 0) {
+                    return (
+                        <section>
+                        <ul>
+                            {articles.map((article) => (
+                            <li key={article._id} className={styles['article-card']}>
+                                <Link
+                                to={`/backpacking-101/${article._id}`}
+                                state={{ article }}
+                                >
+                                <article>
+                                    <img src={article.image} />
+                                    <div className={styles['text-container']}>
+                                    <div className={styles['header']}>
+                                        <div>
+                                        <h2>{article.title}</h2>
+                                        <p>{article.author}</p>
+                                        </div>
+                                        <p>{article.date}</p>
+                                    </div>
+                                    <p>{article.content[0]}</p>
+                                    </div>
+                                </article>
+                                </Link>
+                            </li>
+                            ))}
+                        </ul>
+                        </section>
+                    );
+                    }
+
+                    return null;
+                })()}
             </div>
         </div>
     )
