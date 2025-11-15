@@ -7,6 +7,7 @@
   --color-accent: #{t.$color-accent};
   --color-accent-bright: #{t.$color-accent-bright};
   --color-light-primary: #{t.$color-light-primary};
+  --color-light-highlight: #{t.$color-light-highlight};
   --color-text: #{t.$color-text};
   --color-light-green: #{t.$color-light-green};
   --color-light-gray: #{t.$color-light-gray};
@@ -91,6 +92,20 @@ h1, h2, h3, h4, h4, h6 {
   margin: 0 auto;
   width: 75%;
   max-width: 1500px;
+  min-width: 350px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  @media(max-width: 600px) {
+    width: 87%;
+  }
+}
+
+.content-container-narrow {
+  margin: 0 auto;
+  width: 75%;
+  max-width: 950px;
   min-width: 350px;
   display: flex;
   flex-direction: column;

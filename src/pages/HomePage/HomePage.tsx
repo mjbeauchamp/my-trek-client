@@ -34,10 +34,10 @@ export default function HomePage() {
         <div className="content-container">
           <h2 className="merriweather">Backpacking 101</h2>
           <p>
-            Checkout Backpacking 101 to learn more about how to explore the wilderness safely!
+            Check out Backpacking 101 to learn more about how to explore the wilderness safely!
           </p>
           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. </p>
-          <Link className='btn light large' to="/backpacking-101">Backpacking 101</Link>
+          <Link className='btn light large' to="/backpacking-101">BACKPACKING 101</Link>
         </div>
       </section>
       

@@ -6,7 +6,6 @@ import LoadingSkeletonSection from "../../components/LoadingSkeletonSection/Load
 interface IBackpackingArticle {
   title: string;
   author: string;
-  date: string;
   image: string;
   content: string[];
   _id: string;
@@ -65,11 +64,13 @@ export default function BackpackingBasicsPage() {
                     if (isLoading && showSkeleton) {
                     return (
                         <div className={styles['card-skeleton']}>
-                        <LoadingSkeletonSection width="100%" height="200px" />
-                        <LoadingSkeletonSection width="100%" height="200px" />
-                        <LoadingSkeletonSection width="100%" height="200px" />
-                        <LoadingSkeletonSection width="100%" height="200px" />
-                        <LoadingSkeletonSection width="100%" height="200px" />
+                        <LoadingSkeletonSection />
+                        <LoadingSkeletonSection />
+                        <LoadingSkeletonSection />
+                        <LoadingSkeletonSection />
+                        <LoadingSkeletonSection />
+                        <LoadingSkeletonSection />
+                        <LoadingSkeletonSection />
                         </div>
                     );
                     }
@@ -89,14 +90,16 @@ export default function BackpackingBasicsPage() {
                                 <article>
                                     <img src={article.image} />
                                     <div className={styles['text-container']}>
-                                    <div className={styles['header']}>
-                                        <div>
-                                        <h2>{article.title}</h2>
-                                        <p>{article.author}</p>
+                                        <div className={styles['header']}>
+                                            <div>
+                                            <h2>{article.title}</h2>
+                                            <p>{article.author}</p>
+                                            </div>
                                         </div>
-                                        <p>{article.date}</p>
-                                    </div>
-                                    <p>{article.content[0]}</p>
+
+                                        <p className={styles['article-content']}>
+                                            {article.content[0]}
+                                        </p>
                                     </div>
                                 </article>
                                 </Link>

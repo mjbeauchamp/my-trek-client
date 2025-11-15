@@ -1,7 +1,7 @@
 import styles from "./LoadingSkeletonSection.module.scss"
 
-export default function LoadingSkeletonSection(props: {width: string, height: string}) {
+export default function LoadingSkeletonSection() {
   return (
-    <div className={styles['skeleton']} style={{ width: props.width, height: props.height }}></div>
+    <div className={styles['skeleton']}></div>
   );
 }
