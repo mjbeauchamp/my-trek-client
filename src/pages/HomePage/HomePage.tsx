@@ -20,18 +20,18 @@ export default function HomePage() {
       </section>
 
       <section className={`${styles['info-section']}`}>
-          <div className="content-container">
+          <div className="content-container flex-content-container">
             <h2 className="merriweather"><span>Create Custom</span> <span>Gear Lists</span></h2>
             <p>
               Each adventure has its own unique challenges and gear requirements. Create multiple customized gear lists so you're prepared for whatever comes your way.
             </p>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. </p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
             <Link className='btn dark large' to={isAuthenticated ? '/my-gear-lists/new' : '/my-gear-lists'}>CREATE GEAR LIST</Link>
           </div>
       </section>
 
       <section className={`${styles['articles-info']} ${styles['info-section']}`}>
-        <div className="content-container">
+        <div className="content-container flex-content-container">
           <h2 className="merriweather">Backpacking 101</h2>
           <p>
             Check out Backpacking 101 to learn more about how to explore the wilderness safely!

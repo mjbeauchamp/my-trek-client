@@ -55,11 +55,13 @@ export default function BackpackingBasicsPage() {
 
     return (
         <div className={styles['articles-container']}>
-            <section className={styles.header}>
-                <h1>BACKPACKING 101</h1>
+            <section className={`${styles.header} content-container`}>
+                <h1 className="merriweather">BACKPACKING 101</h1>
+                <p>Expert advice on surviving and thriving on your outdoor adventures</p>
+                <hr />
             </section>
             
-            <div className="content-container">
+            <div className="content-container flex-content-container">
                 {(() => {
                     if (isLoading && showSkeleton) {
                     return (
@@ -90,11 +92,9 @@ export default function BackpackingBasicsPage() {
                                 <article>
                                     <img src={article.image} />
                                     <div className={styles['text-container']}>
-                                        <div className={styles['header']}>
-                                            <div>
-                                            <h2>{article.title}</h2>
-                                            <p>{article.author}</p>
-                                            </div>
+                                        <div className={styles['article-header']}>
+                                            <h2 className="merriweather">{article.title}</h2>
+                                            <p>by {article.author}</p>
                                         </div>
 
                                         <p className={styles['article-content']}>
