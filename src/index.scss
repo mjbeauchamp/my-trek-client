@@ -18,6 +18,7 @@
   --font-serif: #{t.$font-serif};
 
   /* Typography - font sizes */
+  --fs-xxxl: #{t.$fs-xxxl};
   --fs-xxl: #{t.$fs-xxl};
   --fs-xl: #{t.$fs-xl};
   --fs-lg: #{t.$fs-lg};
@@ -50,6 +51,7 @@
   font-optical-sizing: auto;
   font-style: normal;
   font-variation-settings: "wdth" 100;
+  letter-spacing: 0.04em;
 }
 
 .inter {
@@ -81,7 +83,7 @@ ul {
   padding: 0;
 }
 
-h1, h2, h3, h4, h4, h6, p {
+h1, h2, h3, h4, h4, h6 {
   margin: 0;
 }
 
@@ -90,6 +92,13 @@ h1, h2, h3, h4, h4, h6, p {
   width: 75%;
   max-width: 1500px;
   min-width: 350px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  @media(max-width: 600px) {
+    width: 87%;
+  }
 }
 
 .btn {
@@ -104,12 +113,20 @@ h1, h2, h3, h4, h4, h6, p {
   transition: background-color 0.2s, transform 0.1s;
   min-width: fit-content;
 
+  &.large {
+    min-width: 250px;
+    min-height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
   &.light {
     background-color: var(--color-light-primary);
     color: var(--color-text);
 
     &:hover:not(:disabled) {
-      background-color: white;
+      background-color: var(--color-bright-highlight);
     }
 
     &:active:not(:disabled) {
