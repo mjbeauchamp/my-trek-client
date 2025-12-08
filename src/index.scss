@@ -98,8 +98,12 @@ p {
   max-width: 1500px;
   min-width: 350px;
 
+  @media(max-width: 1024px) {
+    width: 85%;
+  }
+
   @media(max-width: 600px) {
-    width: 87%;
+    width: 90%;
   }
 }
 

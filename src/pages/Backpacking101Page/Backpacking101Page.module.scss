@@ -38,7 +38,6 @@ ul {
     border: 1px solid #2e2e2b33;
     box-shadow: 0 .2rem .2rem #2e2e2b33;
     background-color: var(--color-light-highlight);
-
     &:hover {
         box-shadow: 0 .5rem .6rem .3rem #2e2e2b33;
         transition: .15s ease;
@@ -97,6 +96,24 @@ ul {
             overflow: hidden;
             color: #323131;
             font-size: var(--fs-sm);
+        }
+    }
+}
+
+@media(max-width: 800px) {
+    ul {
+        max-width: 450px;
+    }
+}
+
+@media(max-width: 700px) {
+    .header {
+        h1 {
+            font-size: var(--fs-xxl);
+        }
+
+        p {
+            font-size: 1rem;
         }
     }
 }
