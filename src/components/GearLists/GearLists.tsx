@@ -1,14 +1,15 @@
-import { useState, useEffect, useContext } from "react"
+import { useState, useEffect } from "react"
 import { useAuth0 } from "@auth0/auth0-react";
 import { Link } from "react-router"
 import type { GearList } from "../../types/gearTypes";
-import { UserGearListsContext } from "../../providers/UserGearListsProvider";
 import ConfirmationModal from "../ConfirmationModal/ConfirmationModal";
+import useUserGearLists from "../../hooks/useUserGearLists";
+import styles from "./GearLists.module.scss";
 
 
 
 export default function GearLists() {
-    const {userGearLists, setUserGearLists} = useContext(UserGearListsContext)
+    const { userGearLists, setUserGearLists } = useUserGearLists();
     const { getAccessTokenSilently } = useAuth0();
     const [loadingUserGearLists, setLoadingUserGearLists] = useState(false);
     const [errorUserGearLists, setErrorUserGearLists] = useState('');
@@ -74,6 +75,7 @@ export default function GearLists() {
                     }
 
                     const lists = await res.json();
+
                     setUserGearLists(lists);
 
                 
@@ -93,10 +95,7 @@ export default function GearLists() {
     
 
     return (
-        <div>
-            MY GEAR LISTS GO HERE!
-            
-            
+        <section>            
             { userGearLists.length < 1 || loadingUserGearLists ? <h1>Loading...</h1> : 
                 <section>
                     <ul>
@@ -121,6 +120,6 @@ export default function GearLists() {
                 onClose={() => setIsDeleteDialogOpen(false)}
                 onConfirm={deleteGearList}
             />
-        </div>
+        </section>
     )
 }

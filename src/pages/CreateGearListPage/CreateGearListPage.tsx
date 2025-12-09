@@ -1,12 +1,13 @@
 import { useState, useContext } from "react";
 import { useNavigate } from "react-router";
 import { useAuth0 } from "@auth0/auth0-react";
-import { UserGearListsContext } from "../../providers/UserGearListsProvider";
+import useUserGearLists from "../../hooks/useUserGearLists";
+
 
 export default function CreateGearListPage() {
     const [listTitle, setListTitle] = useState('');
     const [listDescription, setListDescription] = useState('');
-    const {setUserGearLists} = useContext(UserGearListsContext);
+    const { setUserGearLists } = useUserGearLists();
 
     let navigate = useNavigate();
     const { getAccessTokenSilently } = useAuth0();

@@ -2,7 +2,7 @@ import { useEffect, useState, useContext, useMemo, useRef } from "react";
 import { useParams } from "react-router";
 import { useAuth0 } from "@auth0/auth0-react";
 import type { GearList, UserGearItem } from "../../types/gearTypes";
-import { UserGearListsContext } from "../../providers/UserGearListsProvider";
+import useUserGearLists from "../../hooks/useUserGearLists";
 import GearItemForm from "../../components/GearItemForm/GearItemForm";
 import { Dialog, DialogPanel, DialogTitle } from '@headlessui/react';
 import ConfirmationModal from "../../components/ConfirmationModal/ConfirmationModal";
@@ -12,7 +12,7 @@ import type {GearCategoryId} from "../../constants/categories"
 
 export default function GearListPage() {
     const { listId } = useParams();
-    const {getGearListById, userGearLists} = useContext(UserGearListsContext);
+    const { getGearListById,  userGearLists} = useUserGearLists();
     const [userGearList, setUserGearList] = useState<GearList | null>(null);
     const [loadingUserGearList, setLoadingUserGearList] = useState(false);
     const [errorUserGearList, setErrorUserGearList] = useState('');

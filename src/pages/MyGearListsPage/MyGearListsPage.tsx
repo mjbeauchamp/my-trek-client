@@ -4,7 +4,7 @@ import GearLists from "../../components/GearLists/GearLists";
 import styles from "./MyGearListsPage.module.scss"
 
 export default function MyGearListsPage() {
-    const { loginWithRedirect, logout, user, isAuthenticated, isLoading } = useAuth0();
+    const { loginWithRedirect, isAuthenticated, isLoading } = useAuth0();
 
     return (
         <div className={`content-container ${styles['my-gear-lists']}`}>
@@ -35,7 +35,6 @@ export default function MyGearListsPage() {
                     </section>
                 </section> 
             }
-            
         </div>
     )
 }
