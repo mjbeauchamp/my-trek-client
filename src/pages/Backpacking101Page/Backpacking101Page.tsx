@@ -8,6 +8,7 @@ const apiUrl = import.meta.env.VITE_API_URL;
 
 interface IBackpackingArticle {
   title: string;
+  tagline: string;
   author: string;
   imageUrl: string;
   imageAlt: string;
@@ -49,8 +50,6 @@ export default function BackpackingBasicsPage() {
                 } else {
                     throw new Error('Article data is an unexpected format.')
                 }
-
-                
             } catch (err) {
                 const message = err instanceof Error && err.message ? err.message : 'Server error fetching articles';
                 console.error(message);
@@ -81,29 +80,29 @@ export default function BackpackingBasicsPage() {
 
         if (articles.length > 0) {
             return (
-                <section aria-live="polite">
+                <section>
                 <ul>
                     {articles.map((article) => (
-                    <li key={article._id} className={styles['article-card']}>
-                        <Link
-                        to={`/backpacking-101/${article._id}`}
-                        state={{ article }}
-                        >
-                        <article>
-                            <img src={article.imageUrl} alt={article.imageAlt} />
-                            <div className={styles['text-container']}>
-                                <div className={styles['article-header']}>
-                                    <h2 className="merriweather">{article.title}</h2>
-                                    <p>by {article.author}</p>
-                                </div>
+                        <li key={article._id} className={styles['article-card']}>
+                            <Link
+                            to={`/backpacking-101/${article._id}`}
+                            state={{ article }}
+                            >
+                            <article>
+                                <img src={`/images/articles/${article.imageUrl}`} alt={article.imageAlt} />
+                                <div className={styles['text-container']}>
+                                    <div className={styles['article-header']}>
+                                        <h2 className="merriweather">{article.title}</h2>
+                                        <p>{article.tagline}</p>
+                                    </div>
 
-                                <p className={styles['article-content']}>
-                                    {article.content[0]}
-                                </p>
-                            </div>
-                        </article>
-                        </Link>
-                    </li>
+                                    <p className={styles['article-content']}>
+                                        {article.content[0]}
+                                    </p>
+                                </div>
+                            </article>
+                            </Link>
+                        </li>
                     ))}
                 </ul>
                 </section>
@@ -111,7 +110,7 @@ export default function BackpackingBasicsPage() {
         }
 
         if (!isLoading && articles.length === 0 && !error) {
-            return <p aria-live="polite">No articles found.</p>;
+            return <p>No articles found.</p>;
         }
 
         return null;

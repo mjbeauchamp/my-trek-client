@@ -70,15 +70,28 @@ export default function BackpackingArticlePage() {
 
         if (article && article.title && article.content && article.imageUrl) {
             return (
-                <div aria-live="polite">
-                    <p>{article?.title}</p>
-                    <p>{article?.author}</p>
-                </div>
+                <article>
+                    <header>
+                        <h1 className={`merriweather ${styles.title}`}>{article.title}</h1>
+                        {article.tagline && <p className={styles.tagline}>{article.tagline}</p>}
+                        {article.author && <address className={styles.byline}>By {article.author}</address>}
+                    </header>
+
+                    {article.imageUrl && <img src={`/images/articles/large/${article.imageUrl}`} alt={article.imageAlt} />}
+
+                    <section className={styles.copy}>
+                        {article.content.map((paragraph: string, i: number) => {
+                            return (
+                                <p key={i}>{paragraph}</p>
+                            )
+                        })}
+                    </section>
+                </article>
             );
         }
 
         if (!isLoading && !error) {
-            return <p aria-live="polite">No article found.</p>;
+            return <p>No article found.</p>;
         }
 
         return null;
@@ -86,7 +99,7 @@ export default function BackpackingArticlePage() {
 
     
     return (
-        <div className={`content-container ${styles['article-content']}`}>
+        <div className={styles['article-content']}>
             {renderContent()}
         </div>
     );
