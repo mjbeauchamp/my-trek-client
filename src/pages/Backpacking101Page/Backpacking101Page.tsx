@@ -118,15 +118,15 @@ export default function BackpackingBasicsPage() {
 
     return (
         <div className={styles['articles-container']}>
-            <section className={`${styles.header} content-container`}>
+            <header className={`${styles.header} content-container`}>
                 <h1 className="merriweather">BACKPACKING 101</h1>
                 <p>Expert advice on getting the most out of your outdoor adventures</p>
                 <hr />
-            </section>
+            </header>
             
-            <div className="content-container flex-content-container">
+            <section className="content-container flex-content-container">
                 {listContent()}
-            </div>
+            </section>
         </div>
     )
 }

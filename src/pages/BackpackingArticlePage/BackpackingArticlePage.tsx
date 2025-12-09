@@ -77,6 +77,8 @@ export default function BackpackingArticlePage() {
                         {article.author && <address className={styles.byline}>By {article.author}</address>}
                     </header>
 
+                    <hr />
+
                     {article.imageUrl && <img src={`/images/articles/large/${article.imageUrl}`} alt={article.imageAlt} />}
 
                     <section className={styles.copy}>
