@@ -1,20 +1,23 @@
 .loading-message {
-    margin: 0 auto;
+    margin: 100px auto;
     width: 75vw;
     max-width: 1500px;
     min-width: 350px;
-    height: 300px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
 
     h1 {
         font-size: var(--fs-lg);
+        font-weight: 600;
         margin-bottom: 4px;
     }
 
-    p {
-        margin-bottom: 30px;
+    .loader {
+        margin-top: 30px;
+    }
+
+    @media(max-width: 700px) {
+        margin: 50px auto;
     }
 }

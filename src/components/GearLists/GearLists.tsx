@@ -3,6 +3,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { Link } from "react-router"
 import type { GearList } from "../../types/gearTypes";
 import ConfirmationModal from "../ConfirmationModal/ConfirmationModal";
+import LoadingMessage from "../LoadingMessage/LoadingMessage";
 import useUserGearLists from "../../hooks/useUserGearLists";
 import styles from "./GearLists.module.scss";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -22,6 +23,7 @@ export default function GearLists() {
     useEffect(() => {
             const fetchGearLists = async () => {
                 try {
+                    setLoadingUserGearLists(true);
                     const token = await getAccessTokenSilently();
                     const res = await fetch("http://localhost:4000/api/gear-lists", {
                         headers: { Authorization: `Bearer ${token}` },
@@ -32,7 +34,9 @@ export default function GearLists() {
                 } catch (error) {
                     console.error(error)
                 }
-
+                finally {
+                    setLoadingUserGearLists(false);
+                }
             }
 
             fetchGearLists();
@@ -99,7 +103,7 @@ export default function GearLists() {
     return (
         <>
             <section className={styles['gear-lists-list']}>            
-                { loadingUserGearLists ? <h1>Loading...</h1> : userGearLists.length < 1 ? null :
+                { loadingUserGearLists ? <LoadingMessage title="Loading Gear Lists..." /> : userGearLists.length < 1 ? null :
                     <ul>
                         {userGearLists.map((list: GearList) => {
                             return (

@@ -7,7 +7,9 @@ export default function LoadingMessage({title, text}: {title: string, text?: str
         <div role="status" className={styles['loading-message']}>
             <h1>{title}</h1>
             {text && <p>{text}</p>}
-            <SyncLoader />
+            <div className={styles.loader}>
+                <SyncLoader />
+            </div>
         </div>
     )
 }
