@@ -1,14 +1,19 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router";
 import { useAuth0 } from "@auth0/auth0-react";
 import useUserGearLists from "../../hooks/useUserGearLists";
 import ActionPanel from "../../components/ActionPanel/ActionPanel";
+import { ErrorAlertBlock } from "../../components/ErrorAlertBlock/ErrorAlertBlock";
 import styles from "./CreateGearListPage.module.scss"
+import type { GearList } from "../../types/gearTypes";
+import {ClipLoader} from 'react-spinners'
 
 
 export default function CreateGearListPage() {
     const [listTitle, setListTitle] = useState('');
     const [listDescription, setListDescription] = useState('');
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState('');
     const { setUserGearLists } = useUserGearLists();
 
     let navigate = useNavigate();
@@ -17,10 +22,23 @@ export default function CreateGearListPage() {
     const createList = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
-        if (!listTitle) {
-            //TODO: handle validation error here, prompt user to add a title
+        setError('');
+
+        if (!listTitle || !listTitle.trim()) {
+            console.warn("List name is required to create a gear list.");
+            setError("List name is required to create a gear list.")
             return;
         }
+
+        if (listTitle.trim().length > 100) {
+            setError("List title cannot exceed 100 characters.");
+            return;
+        }
+        if (listDescription.trim().length > 250) {
+            setError("List description cannot exceed 250 characters.");
+            return;
+        }
+
         const newGearList = {
             listTitle: listTitle.trim(),
             listDescription: listDescription.trim(),
@@ -28,10 +46,16 @@ export default function CreateGearListPage() {
         }
         
         try {
-            //TODO: Check that gear list data is formed correctly, and that the gear list contains all needed data
-            // and isn't empty or something
             const token = await getAccessTokenSilently();
-            // TODO: do error handling if there's no token or something
+
+            if (!token) {
+                console.error("No user token found");
+                setError("There was a problem creating the gear list. User token not found.");
+                return;
+            }
+
+            setLoading(true);
+
             const res = await fetch("http://localhost:4000/api/gear-lists/gear-list", {
                 method: "POST",
                 headers: {
@@ -42,21 +66,28 @@ export default function CreateGearListPage() {
             })
 
             if (!res.ok) {
-                // TODO: Handle error state
+                const serverError = await res.json();
+                console.error("Server error: ", serverError);
+                setError("There was a problem creating the gear list.");
+                return;
             }
 
             const data = await res.json();
 
             if (!data._id) {
-                //TODO: hanlde this? Maybe show some kind of error or redirect back to GearLists page?
+                console.error("There was a problem fetching the gear list.");
+                setError("There was a problem fetching the gear list.");
             } else {
-                setUserGearLists((prev: any) => [...prev, data])
+                setUserGearLists((prev: GearList[]) => [...prev, data])
                 navigate(`/my-gear-lists/${data._id}`)
             }
         } catch (err) {
-            console.error(err)
+            console.error(err);
+            setError("There was a problem creating the gear list.");
         }
-
+        finally {
+            setLoading(false);
+        }
     }
 
     return (
@@ -70,10 +101,13 @@ export default function CreateGearListPage() {
                             id="listName" 
                             type="text" 
                             value={listTitle} 
-                            onChange={(e) => setListTitle(e.target.value)}
-                            required
+                            onChange={(e) => {
+                                setError('');
+                                return setListTitle(e.target.value)
+                            }}
                             maxLength={100}
                             placeholder="e.g. Everest Trip"
+                            required
                         />
                     </div>
 
@@ -89,7 +123,12 @@ export default function CreateGearListPage() {
                         />
                     </div>
 
-                    <button type="submit" className="btn dark large">CREATE LIST</button>
+                    {error ? <ErrorAlertBlock message={error} /> : null
+                    }
+
+                    <button type="submit" className="btn dark large" disabled={loading}>
+                        { loading ? <ClipLoader color="white" speedMultiplier={0.7} />  : 'CREATE LIST'}
+                    </button>
                 </form>
             </ActionPanel>
         </div>

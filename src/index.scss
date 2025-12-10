@@ -220,7 +220,7 @@ p {
   }
 
   &:disabled {
-    background-color: lightgray;
+    background-color: var(--color-light-gray);
     cursor: not-allowed;
     opacity: 0.6;
   }
@@ -319,4 +319,3 @@ hr {
     color: #aaa;
   }
 }
-
