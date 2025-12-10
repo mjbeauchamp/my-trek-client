@@ -5,7 +5,7 @@ import './App.scss'
 import RootLayout from "./layouts/RootLayout/RootLayout"
 import HomePage from "./pages/HomePage/HomePage"
 import PageNotFound from "./pages/PageNotFound"
-import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute"
+import ProtectedRoute from "./components/ProtectedRoute"
 import Backpacking101Page from "./pages/Backpacking101Page/Backpacking101Page"
 import BackpackingArticlePage from "./pages/BackpackingArticlePage/BackpackingArticlePage"
 import GearListsPage from "./pages/MyGearListsPage/MyGearListsPage"

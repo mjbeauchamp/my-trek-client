@@ -99,31 +99,31 @@ export default function GearLists() {
     return (
         <>
             <section className={styles['gear-lists-list']}>            
-                { userGearLists.length < 1 || loadingUserGearLists ? <h1>Loading...</h1> : 
-                        <ul>
-                            {userGearLists.map((list: GearList) => {
-                                return (
-                                    <li key={list._id} className={styles['gear-list']}>
-                                        
-                                            <article>
-                                                <Link to={`/my-gear-lists/${list._id}`}>
-                                                    <h2>{list.listTitle}</h2>
-                                                    {list.listDescription && <p className={styles.description}>{list.listDescription}</p>}
-                                                </Link>
-                                                
-                                                <button
-                                                    onClick={(e) => openDeleteListDialog(e, list._id)}
-                                                    className={styles["list-delete-button"]}
-                                                    aria-label="Delete gear list"
-                                                >
-                                                    <FontAwesomeIcon icon={faTrash} size="lg" />
-                                                </button>
-                                            </article>
-                                        
-                                    </li>
-                                )
-                            })}
-                        </ul>            }
+                { loadingUserGearLists ? <h1>Loading...</h1> : userGearLists.length < 1 ? null :
+                    <ul>
+                        {userGearLists.map((list: GearList) => {
+                            return (
+                                <li key={list._id} className={styles['gear-list']}>
+                                        <article>
+                                            <Link to={`/my-gear-lists/${list._id}`}>
+                                                <h2>{list.listTitle}</h2>
+                                                {list.listDescription && <p className={styles.description}>{list.listDescription}</p>}
+                                            </Link>
+                                            
+                                            <button
+                                                onClick={(e) => openDeleteListDialog(e, list._id)}
+                                                className={styles["list-delete-button"]}
+                                                aria-label="Delete gear list"
+                                            >
+                                                <FontAwesomeIcon icon={faTrash} size="lg" />
+                                            </button>
+                                        </article>
+                                    
+                                </li>
+                            )
+                        })}
+                    </ul>
+                }
             </section>
 
             <ConfirmationModal 
