@@ -12,7 +12,7 @@ import {ClipLoader} from 'react-spinners'
 export default function CreateGearListPage() {
     const [listTitle, setListTitle] = useState('');
     const [listDescription, setListDescription] = useState('');
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const { setUserGearLists } = useUserGearLists();
 

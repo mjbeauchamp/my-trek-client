@@ -1,0 +1,20 @@
+.protected-route {
+    margin: 0 auto;
+    width: 75vw;
+    max-width: 1500px;
+    min-width: 350px;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    h1 {
+        font-size: var(--fs-lg);
+        margin-bottom: 4px;
+    }
+
+    p {
+        margin-bottom: 30px;
+    }
+}
