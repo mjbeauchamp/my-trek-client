@@ -2,6 +2,8 @@ import { useState, useContext } from "react";
 import { useNavigate } from "react-router";
 import { useAuth0 } from "@auth0/auth0-react";
 import useUserGearLists from "../../hooks/useUserGearLists";
+import ActionPanel from "../../components/ActionPanel/ActionPanel";
+import styles from "./CreateGearListPage.module.scss"
 
 
 export default function CreateGearListPage() {
@@ -58,20 +60,38 @@ export default function CreateGearListPage() {
     }
 
     return (
-        <div>
-            <form onSubmit={(e) => createList(e)}>
-                <label>
-                    <span>List Name</span>
-                    <input type="text" value={listTitle} onChange={(e) => setListTitle(e.target.value)} />
-                </label>
+        <div className={`content-container ${styles['create-gear-list']}`}>
+            <ActionPanel headingTag="h1" title="Create Your Gear List">
+                <form onSubmit={(e) => createList(e)}>
+                    <div className={styles['input-container']}>
+                        <label htmlFor="listName">List Name</label>
+                        <input 
+                            className="input-base"
+                            id="listName" 
+                            type="text" 
+                            value={listTitle} 
+                            onChange={(e) => setListTitle(e.target.value)}
+                            required
+                            maxLength={100}
+                            placeholder="e.g. Everest Trip"
+                        />
+                    </div>
 
-                <label>
-                    <span>List Description (optional)</span>
-                    <input type="text" value={listDescription} onChange={(e) => setListDescription(e.target.value)} />
-                </label>
+                    <div className={styles['input-container']}>
+                        <label htmlFor="listDescription">List Description (optional)</label>
+                        <input
+                            className="input-base"
+                            id="listDescription" 
+                            type="text" 
+                            value={listDescription} 
+                            onChange={(e) => setListDescription(e.target.value)}
+                            maxLength={250}
+                        />
+                    </div>
 
-                <button type="submit">CREATE LIST!</button>
-            </form>
+                    <button type="submit" className="btn dark large">CREATE LIST</button>
+                </form>
+            </ActionPanel>
         </div>
     )
 }

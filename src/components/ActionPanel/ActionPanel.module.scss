@@ -9,8 +9,10 @@
     box-shadow: 0 3px 6px rgba(46, 46, 43, 0.09);
     border: 1px solid var(--color-light-gray);
     text-align: center;
+    background-color: var(--color-light-highlight);
 
     .body {
+        width: 100%;
         padding: 50px;
         display: flex;
         flex-direction: column;
@@ -28,12 +30,15 @@
     header {
         display: flex;
         justify-content: center;
-        border-top-left-radius: 4px;
-        border-top-right-radius: 4px;
-        padding: 20px;
-        width: 100%;
+        border-top-left-radius: 6px;
+        border-top-right-radius: 6px;
+        padding: 22px;
+        width: calc(100% + 2px);
         background-color: var(--color-secondary);
-        color: #FFFFFF;
+        color: var(--color-light-highlight);
+        margin-left: -1px;
+        margin-right: -1px;
+        margin-top: -1px;
 
         h1, h2, h3, h4, h5, h6 {
             font-size: var(--fs-xl);
