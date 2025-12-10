@@ -345,7 +345,7 @@ hr {
 
   &__panel {
     width: 100%;
-    max-width: 500px;
+    max-width: 490px;
     background: #fff;
     border-radius: 10px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
@@ -364,13 +364,10 @@ hr {
     }
 
     @media (max-width: 500px) {
-        max-width: none;
-        width: 100%;
+        width: 95%;
         height: auto;
-        min-height: 60vh;
-        max-height: 100vw;
-        border-radius: 0;
         align-self: flex-start;
+        margin-top: 80px;
     }
   }
 
@@ -386,10 +383,6 @@ hr {
     justify-content: center;
     align-items: center;
     padding: 24px;
-
-    @media (max-width: 500px) {
-        border-radius: 0;
-    }
   }
 
   &__description {
