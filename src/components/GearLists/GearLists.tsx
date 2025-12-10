@@ -96,7 +96,6 @@ export default function GearLists() {
         } catch (error) {
             //TODO: Handle error
         }
-
     }
     
 
@@ -131,10 +130,13 @@ export default function GearLists() {
             </section>
 
             <ConfirmationModal 
-                    isOpen={isDeleteDialogOpen} 
-                    onClose={() => setIsDeleteDialogOpen(false)}
-                    onConfirm={deleteGearList}
-                />
+                isOpen={isDeleteDialogOpen} 
+                onClose={() => setIsDeleteDialogOpen(false)}
+                onConfirm={deleteGearList}
+                title="Delete Gear List"
+                description="This action cannot be undone. Are you sure you want to permanently delete this gear list?"
+                actionBtnText="DELETE"
+            />
         </>
     )
 }

@@ -278,6 +278,9 @@ export default function GearListPage() {
                 isOpen={isDeleteDialogOpen} 
                 onClose={() => setIsDeleteDialogOpen(false)}
                 onConfirm={deleteGearItem}
+                title="Delete List Item"
+                description="Are you sure you want to delete this list item?"
+                actionBtnText="DELETE"
             />
 
             <Dialog open={isGearItemDialogOpen} onClose={closeListItemDialog} className="relative z-50">
