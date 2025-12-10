@@ -1,6 +1,7 @@
 import { Link } from "react-router";
 import { useAuth0 } from "@auth0/auth0-react";
 import GearLists from "../../components/GearLists/GearLists";
+import ActionPanel from "../../components/ActionPanel/ActionPanel";
 import styles from "./MyGearListsPage.module.scss"
 
 export default function MyGearListsPage() {
@@ -20,20 +21,14 @@ export default function MyGearListsPage() {
             {
                 isAuthenticated ? 
                 <GearLists/> :
-                <section className={styles['sign-in-prompt']}>
-                    <header>
-                        <h2>Sign In to Start Planning</h2>
-                    </header>
+                <ActionPanel title="Sign In to Start Planning" headingTag="h2">
+                    <p>Log in or create your account to get started!</p>
+                    <p>Once you've signed in, you can create as many gear lists as you want.</p>
 
-                    <section>
-                        <p>Log in or create your account to get started!</p>
-                        <p>Once you've signed in, you can create as many gear lists as you want.</p>
-
-                        <button className="btn dark large" onClick={() => loginWithRedirect({authorizationParams: {redirect_uri: window.location.href}})}>
-                            GET STARTED
-                        </button>
-                    </section>
-                </section> 
+                    <button className="btn dark large" onClick={() => loginWithRedirect({authorizationParams: {redirect_uri: window.location.href}})}>
+                        GET STARTED
+                    </button>
+                </ActionPanel>
             }
         </div>
     )
