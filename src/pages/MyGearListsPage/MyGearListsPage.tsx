@@ -15,7 +15,7 @@ export default function MyGearListsPage() {
 
             <hr />
 
-            {isAuthenticated ? <Link to="/my-gear-lists/new" className="btn large dark">CREATE NEW LIST</Link> : null}
+            {isAuthenticated ? <Link to="/my-gear-lists/new" className="btn large light-green">CREATE NEW LIST</Link> : null}
 
             {
                 isAuthenticated ? 

@@ -81,30 +81,30 @@ export default function BackpackingBasicsPage() {
         if (articles.length > 0) {
             return (
                 <section>
-                <ul>
-                    {articles.map((article) => (
-                        <li key={article._id} className={styles['article-card']}>
-                            <Link
-                            to={`/backpacking-101/${article._id}`}
-                            state={{ article }}
-                            >
-                            <article>
-                                <img src={`/images/articles/${article.imageUrl}`} alt={article.imageAlt} />
-                                <div className={styles['text-container']}>
-                                    <div className={styles['article-header']}>
-                                        <h2 className="merriweather">{article.title}</h2>
-                                        <p>{article.tagline}</p>
-                                    </div>
+                    <ul className={styles.list}>
+                        {articles.map((article) => (
+                            <li key={article._id} className={styles['article-card']}>
+                                <Link
+                                to={`/backpacking-101/${article._id}`}
+                                state={{ article }}
+                                >
+                                <article>
+                                    <img src={`/images/articles/${article.imageUrl}`} alt={article.imageAlt} />
+                                    <div className={styles['text-container']}>
+                                        <div className={styles['article-header']}>
+                                            <h2 className="merriweather">{article.title}</h2>
+                                            <p>{article.tagline}</p>
+                                        </div>
 
-                                    <p className={styles['article-content']}>
-                                        {article.content[0]}
-                                    </p>
-                                </div>
-                            </article>
-                            </Link>
-                        </li>
-                    ))}
-                </ul>
+                                        <p className={styles['article-content']}>
+                                            {article.content[0]}
+                                        </p>
+                                    </div>
+                                </article>
+                                </Link>
+                            </li>
+                        ))}
+                    </ul>
                 </section>
             );
         }

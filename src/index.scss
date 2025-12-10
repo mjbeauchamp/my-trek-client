@@ -151,6 +151,15 @@ p {
     align-items: center;
   }
 
+  &.small {
+    font-size: 0.75rem;
+    padding: 0.4rem 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0.2rem;
+  }
+
   &.light {
     background-color: var(--color-light-primary);
     color: var(--color-text);
@@ -164,12 +173,40 @@ p {
     }
   }
 
+  &.light-green {
+    background-color: var(--color-secondary);
+    color: var(--color-light-primary);
+
+    &:hover:not(:disabled) {
+      background-color: var(--color-primary);
+    }
+
+    &:active:not(:disabled) {
+      transform: scale(0.97);
+    }
+  }
+
   &.dark {
     background-color: var(--color-primary);
     color: var(--color-light-primary);
 
     &:hover:not(:disabled) {
       background-color: var(--color-secondary);
+    }
+
+    &:active:not(:disabled) {
+      transform: scale(0.97);
+    }
+  }
+
+  &.delete {
+    border: 1px solid #ad1515;
+    color: #ad1515;
+    background-color: rgba(0,0,0,0);
+
+    &:hover:not(:disabled) {
+      background-color: #ad1515;
+      color: white;
     }
 
     &:active:not(:disabled) {

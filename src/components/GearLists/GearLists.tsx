@@ -5,6 +5,8 @@ import type { GearList } from "../../types/gearTypes";
 import ConfirmationModal from "../ConfirmationModal/ConfirmationModal";
 import useUserGearLists from "../../hooks/useUserGearLists";
 import styles from "./GearLists.module.scss";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 
 
 
@@ -95,31 +97,40 @@ export default function GearLists() {
     
 
     return (
-        <section>            
-            { userGearLists.length < 1 || loadingUserGearLists ? <h1>Loading...</h1> : 
-                <section>
-                    <ul>
-                        {userGearLists.map((list: GearList) => {
-                            return (
-                                <li key={list._id}>
-                                    <Link to={`/my-gear-lists/${list._id}`}>
-                                        <article>
-                                            {list.listTitle}
-                                            <button onClick={(e) => openDeleteListDialog(e, list._id)}>DELETE</button>
-                                        </article>
-                                    </Link>
-                                </li>
-                            )
-                        })}
-                    </ul>
-                </section>
-            }
+        <>
+            <section className={styles['gear-lists-list']}>            
+                { userGearLists.length < 1 || loadingUserGearLists ? <h1>Loading...</h1> : 
+                        <ul>
+                            {userGearLists.map((list: GearList) => {
+                                return (
+                                    <li key={list._id} className={styles['gear-list']}>
+                                        
+                                            <article>
+                                                <Link to={`/my-gear-lists/${list._id}`}>
+                                                    <h2>{list.listTitle}</h2>
+                                                    {list.listDescription && <p className={styles.description}>{list.listDescription}</p>}
+                                                </Link>
+                                                
+                                                <button
+                                                    onClick={(e) => openDeleteListDialog(e, list._id)}
+                                                    className={styles["list-delete-button"]}
+                                                    aria-label="Delete gear list"
+                                                >
+                                                    <FontAwesomeIcon icon={faTrash} size="lg" />
+                                                </button>
+                                            </article>
+                                        
+                                    </li>
+                                )
+                            })}
+                        </ul>            }
+            </section>
 
             <ConfirmationModal 
-                isOpen={isDeleteDialogOpen} 
-                onClose={() => setIsDeleteDialogOpen(false)}
-                onConfirm={deleteGearList}
-            />
-        </section>
+                    isOpen={isDeleteDialogOpen} 
+                    onClose={() => setIsDeleteDialogOpen(false)}
+                    onConfirm={deleteGearList}
+                />
+        </>
     )
 }
