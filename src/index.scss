@@ -259,6 +259,17 @@ p {
   }
 }
 
+.select-base {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("/icons/angle-down-solid-full.svg");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 1.2rem;
+  padding-right: 2.5rem;
+}
+
 hr {
   border: none;
   height: 1px;

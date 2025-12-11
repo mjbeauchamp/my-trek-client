@@ -274,7 +274,7 @@ export default function GearItemForm({
                     <label htmlFor="category">Category</label>
                     <select
                         id="category"
-                        className="input-base"
+                        className="input-base select-base"
                         value={category}
                         onChange={(e) => setCategory(e.target.value)}
                     >
