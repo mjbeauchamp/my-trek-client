@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import { Combobox, ComboboxInput, ComboboxOption, ComboboxOptions, ComboboxButton  } from "@headlessui/react";
+import { Combobox, ComboboxInput, ComboboxOption, ComboboxOptions  } from "@headlessui/react";
 import { GEAR_CATEGORIES } from "../../constants/categories";
 
 import type { GearList, CommonGearItem, UserGearItem } from "../../types/gearTypes";
@@ -39,16 +39,17 @@ export default function GearItemForm({
     const [loadingCommonGear, setLoadingCommonGear] = useState(true);
     const [errorCommonGear, setErrorCommonGear] = useState('');
     const [query, setQuery] = useState("");
-    const [selected, setSelected] = useState<CommonGearItem | null>(null);
+    const [selectedCommonGear, setSelectedCommonGear] = useState<CommonGearItem | null>(null);
+    const commonGearInputRef = useRef<HTMLInputElement>(null);
 
-  // Filter options based on query
+  // Filter "Common Gear" options based on query
   const filtered = query === ""
     ? commonGear
     : commonGear.filter(gear =>
         gear.name.toLowerCase().includes(query.toLowerCase())
       );
 
-  // Group options by category
+  // Group "Common Gear" options by category
   const grouped: Record<string, CommonGearItem[]> = filtered.reduce((acc: any, gear: any) => {
     if (!acc[gear.category]) acc[gear.category] = [];
     acc[gear.category].push(gear);
@@ -205,31 +206,34 @@ export default function GearItemForm({
 
     return (
         <>
-            {mode === 'create' ? <div>
+            {mode === 'create' ? <div className="w-80">
                 <Combobox
-                value={selected}
-                onChange={gear => {
-                    setSelected(gear);
-                    onCommonGearSelect(gear);
-                }}
-                onClose={() => setQuery('')}
-                immediate
+                    value={selectedCommonGear}
+                    onChange={gear => {
+                        setSelectedCommonGear(gear);
+                        onCommonGearSelect(gear);
+                    }}
+                    onClose={() => setQuery('')}
+                    immediate
                 >
-                    <div className="relative">
+                    <div className="combobox-container">
                         <ComboboxInput
-                        placeholder="Select common gear"
-                        aria-label="Common Gear Item"
-                        onChange={e => setQuery(e.target.value)}
-                        displayValue={(gear: CommonGearItem | null) => gear ? gear.name : ""}
+                            ref={commonGearInputRef}
+                            placeholder="Select common items"
+                            aria-label="Select Common Gear Item"
+                            onChange={e => setQuery(e.target.value)}
+                            onClick={() => {
+                                commonGearInputRef.current?.blur();
+                                commonGearInputRef.current?.focus();    
+                            }}
+                            displayValue={(gear: CommonGearItem | null) => gear ? gear.name : ""}
+                            className="input-base select-base"
                         />
-                            <ComboboxButton>
-                            ▼
-                            </ComboboxButton>
-
-                            <ComboboxOptions>
-                                {Object.entries(grouped).map(([category, items]) => (
-                                    <div key={category}>
-                                    <div>{category}</div>
+                        
+                        <ComboboxOptions className="combobox-options">
+                            {Object.entries(grouped).map(([category, items]) => (
+                                <div key={category} className="combobox-group">
+                                    <h3 className="combobox-group-label">{category}</h3>
                                     {items.map(gear => {
                                         const alreadyAdded = userGearListItems?.some((item: UserGearItem) => item.name === gear.name);
                                         return (
@@ -237,18 +241,19 @@ export default function GearItemForm({
                                             key={gear._id}
                                             value={gear}
                                             disabled={alreadyAdded}
-                                            className={({disabled }) =>
-                                                `${disabled ? "text-gray-400 cursor-not-allowed" : ""}`
+                                            className={({ disabled }) =>
+                                                `combobox-option
+                                                ${disabled ? "disabled" : ""}`
                                             }
                                         >
                                             {gear.name}
-                                            { alreadyAdded ? <span>Already in list</span> : null }
+                                            { alreadyAdded ? <span className="combobox-badge">Already in list</span> : null }
                                         </ComboboxOption>
                                         );
                                     })}
                                 </div>
-                            ))}
-                            </ComboboxOptions>
+                        ))}
+                        </ComboboxOptions>
                     </div>
                 </Combobox>
             </div> : null}
