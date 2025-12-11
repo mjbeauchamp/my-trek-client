@@ -1,5 +1,8 @@
 import styles from "./ListItem.module.scss";
 import type { UserGearItem } from "../../../types/gearTypes";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faEdit } from '@fortawesome/free-solid-svg-icons';
 
 
 interface ListItemProps {
@@ -25,10 +28,20 @@ export default function ListItem({openListItemDialog, openDeleteListDialog, upda
                     </div>
                     
                     <div>
-                        <button onClick={() => openListItemDialog('edit', item)}>
-                            Edit
+                        <button
+                            onClick={() => openListItemDialog('edit', item)}
+                            aria-label="Edit list item"
+                            className={styles['edit-button']}
+                        >
+                            <FontAwesomeIcon icon={faEdit} size="lg" />
                         </button>
-                        <button onClick={(e) => openDeleteListDialog(e, item._id)}>DELETE</button>
+                        <button
+                            onClick={(e) => openDeleteListDialog(e, item._id)}
+                            aria-label="Delete list item"
+                            className={styles['delete-button']}
+                        >
+                            <FontAwesomeIcon icon={faTrash} size="lg" />
+                        </button>
                     </div>
                 </div>
                 

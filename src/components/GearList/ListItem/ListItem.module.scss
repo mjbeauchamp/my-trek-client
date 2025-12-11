@@ -16,4 +16,34 @@
         background-color: var(--color-secondary);
         margin-right: 8px;
     }
+
+    .edit-button {
+        border: none;
+        background-color: transparent;
+        color: var(--color-text-gray);
+        cursor: pointer;
+        padding: 6px;
+        opacity: 0.7;
+
+        &:hover {
+            opacity: 1;
+        }
+    }
+
+    .delete-button {
+        border: none;
+        padding: 4px;
+        background-color: rgba(0,0,0,0);
+        cursor: pointer;
+        color: var(--color-text-gray);
+        opacity: 0.7;
+
+        &:hover {
+            color: #ad1515;
+        }
+
+        &:active {
+            color: #600808;
+        }
+    }
 }
