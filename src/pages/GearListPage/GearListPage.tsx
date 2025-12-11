@@ -4,7 +4,6 @@ import { useAuth0 } from "@auth0/auth0-react";
 import type { GearList, UserGearItem } from "../../types/gearTypes";
 import useUserGearLists from "../../hooks/useUserGearLists";
 import GearItemForm from "../../components/GearItemForm/GearItemForm";
-import { Dialog, DialogPanel, DialogTitle } from '@headlessui/react';
 import ConfirmationModal from "../../components/ConfirmationModal/ConfirmationModal";
 import { ErrorAlertBlock } from "../../components/ErrorAlertBlock/ErrorAlertBlock";
 import { GEAR_CATEGORIES } from "../../constants/categories";
@@ -13,7 +12,7 @@ import styles from "./GearListPage.module.scss"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import { ClipLoader } from "react-spinners";
-
+import ListItem from "../../components/GearList/ListItem/ListItem";
 
 export default function GearListPage() {
     const { listId } = useParams();
@@ -42,6 +41,10 @@ export default function GearListPage() {
     const { getAccessTokenSilently, user, isAuthenticated } = useAuth0();
 
     const itemRefs = useRef<Record<string, HTMLLIElement | null>>({});
+
+    const updateItemRef = (itemId: string, el: HTMLLIElement | null) => {
+        itemRefs.current[itemId] = el;
+    }
 
     useEffect(() => {
         const list = listId && getGearListById(listId);
@@ -293,28 +296,32 @@ export default function GearListPage() {
                 Add Gear Item
             </button>
 
-            <div>
-                {GEAR_CATEGORIES.map((cat) => {
+            <div className={styles['items-list-container']}>
+                {GEAR_CATEGORIES.map((cat, i) => {
                     const items = categorizedList[cat.id];
-                    if (!items || items.length === 0) return null; // skip empty categories
+                    // skip empty categories
+                    if (!items || items.length === 0) return null;
 
                     return (
-                    <section key={cat.id}>
-                        <h2>{cat.label}</h2>
-                        <ul>
-                        {items.map((item) => (
-                            <li key={item._id} ref={(el) => (itemRefs.current[item._id] = el)}>
-                            <span>{item.name}</span>
-                            <div>
-                                <button onClick={() => openListItemDialog('edit', item)}>
-                                    Edit
-                                </button>
-                                <button onClick={(e) => openDeleteListDialog(e, item._id)}>DELETE</button>
-                            </div>
-                            </li>
-                        ))}
-                        </ul>
-                    </section>
+                        <div key={cat.id} >
+                            {i > 0? <hr /> : null}
+
+                            <section className={styles['category-section']}>
+                                <h2>{cat.label}</h2>
+                                <ul className={styles['items-list']}>
+                                {items.map((item) => (
+                                    <ListItem
+                                        key={item._id}
+                                        item={item} 
+                                        updateItemRef={updateItemRef}
+                                        openDeleteListDialog={openDeleteListDialog}
+                                        openListItemDialog={openListItemDialog}
+                                    />
+                                ))}
+                                </ul>
+                            </section>
+                        </div>
+                    
                     );
                 })}
             </div>
