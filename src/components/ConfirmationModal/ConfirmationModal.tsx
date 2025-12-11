@@ -4,9 +4,9 @@ import { Dialog, DialogPanel, DialogTitle, Description } from "@headlessui/react
 interface ConfirmationModalProps {
     isOpen: boolean,
     onClose: () => void,
-    onConfirm: () => Promise<string | undefined>
+    onConfirm?: () => Promise<string | undefined>
     title: string,
-    actionBtnText: string,
+    actionBtnText?: string,
     description?: string,
     children?: React.ReactNode;
 }
@@ -18,6 +18,11 @@ export default function ConfirmationModal({ isOpen, onClose, onConfirm, children
   const completeAction = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     e.stopPropagation();
+
+    if (!onConfirm) {
+      console.error('No button action provided to dialog');
+        return
+    }
 
     try {
         setLoading(true);
@@ -48,32 +53,40 @@ export default function ConfirmationModal({ isOpen, onClose, onConfirm, children
               {title}
             </DialogTitle>
 
-            <Description className="confirmation-modal__description">
-              {description}
-            </Description>
-            
+            <div className="panel-body">
+              {
+                description ? 
+                <Description className="confirmation-modal__description">
+                  {description}
+                </Description> :
+                null
+              }
+              
 
-            { children ? 
-              <div>{children}</div> : 
-              null 
-            }
+              { children ? 
+                children : 
+                null 
+              }
 
-            <div className="confirmation-modal__actions">
-              <button
-                type="button"
-                onClick={onClose}
-                className="btn"
-              >
-                CANCEL
-              </button>
-              <button
-                ref={deleteButtonRef}
-                type="button"
-                onClick={(e) => completeAction(e)}
-                className="btn delete"
-              >
-                {actionBtnText}
-              </button>
+              { onConfirm && actionBtnText ? 
+                <div className="confirmation-modal__actions">
+                  <button
+                    type="button"
+                    onClick={onClose}
+                    className="btn"
+                  >
+                    CANCEL
+                  </button>
+                  <button
+                    ref={deleteButtonRef}
+                    type="button"
+                    onClick={(e) => completeAction(e)}
+                    className="btn delete"
+                  >
+                    {actionBtnText}
+                  </button>
+                </div> : null 
+              }
             </div>
           </DialogPanel>
         </div>

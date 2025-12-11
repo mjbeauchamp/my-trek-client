@@ -6,8 +6,13 @@ import useUserGearLists from "../../hooks/useUserGearLists";
 import GearItemForm from "../../components/GearItemForm/GearItemForm";
 import { Dialog, DialogPanel, DialogTitle } from '@headlessui/react';
 import ConfirmationModal from "../../components/ConfirmationModal/ConfirmationModal";
+import { ErrorAlertBlock } from "../../components/ErrorAlertBlock/ErrorAlertBlock";
 import { GEAR_CATEGORIES } from "../../constants/categories";
-import type {GearCategoryId} from "../../constants/categories"
+import type {GearCategoryId} from "../../constants/categories";
+import styles from "./GearListPage.module.scss"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEdit } from '@fortawesome/free-solid-svg-icons';
+import { ClipLoader } from "react-spinners";
 
 
 export default function GearListPage() {
@@ -31,13 +36,15 @@ export default function GearListPage() {
     const [isEditMetadataDialogOpen, setIsEditMetadataDialogOpen] = useState(false);
     const [listTitle, setListTitle] = useState('');
     const [listDescription, setListDescription] = useState('');
+    const [editingError, setEditingError] = useState('');
+    const [editLoading, setEditLoading] = useState(false);
 
     const { getAccessTokenSilently, user, isAuthenticated } = useAuth0();
 
     const itemRefs = useRef<Record<string, HTMLLIElement | null>>({});
 
     useEffect(() => {
-        const list = getGearListById(listId);
+        const list = listId && getGearListById(listId);
 
         if (list) {
             setUserGearList(list);
@@ -182,10 +189,21 @@ export default function GearListPage() {
     const updateListMetadata = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
-        if (!listTitle) {
-            //TODO: handle validation error here, prompt user to add a title
+        if (!listTitle || !listTitle.trim()) {
+            console.warn("List name is required to create a gear list.");
+            setEditingError("List name is required to create a gear list.")
             return;
         }
+
+        if (listTitle.trim().length > 100) {
+            setEditingError("List title cannot exceed 100 characters.");
+            return;
+        }
+        if (listDescription.trim().length > 250) {
+            setEditingError("List description cannot exceed 250 characters.");
+            return;
+        }
+
         const updatedGearListMetadata: any = {
             listTitle: listTitle.trim(),
             listDescription: listDescription.trim(),
@@ -196,14 +214,21 @@ export default function GearListPage() {
                 userGearList.listDescription === updatedGearListMetadata[listDescription]
             )
         ) {
-            setIsEditMetadataDialogOpen(false);
+            setEditingError("There was an issue updating list.");
+            return;
         }
         
         try {
-            //TODO: Check that gear list data is formed correctly, and that the gear list contains all needed data
-            // and isn't empty or something
             const token = await getAccessTokenSilently();
-            // TODO: do error handling if there's no token or something
+           
+            if (!token) {
+                console.error("No user token found");
+                setEditingError("There was a problem updating the gear list. User token not found.");
+                return;
+            }
+
+            setEditLoading(true);
+
             const res = await fetch(`http://localhost:4000/api/gear-lists/gear-list/${listId}`, {
                 method: "PUT",
                 headers: {
@@ -214,19 +239,27 @@ export default function GearListPage() {
             })
 
             if (!res.ok) {
-                // TODO: Handle error state
+                const serverError = await res.json();
+                console.error("Server error: ", serverError);
+                setEditingError("There was a problem updating the gear list.");
+                return;
             }
 
             const data = await res.json();
 
             if (!data._id) {
-                //TODO: hanlde this? Maybe show some kind of error or redirect back to GearLists page?
+                console.error("There was a problem fetching the gear list.");
+                setEditingError("There was a problem fetching the gear list.");
             } else {
                 setUserGearList(data);
                 setIsEditMetadataDialogOpen(false)
             }
         } catch (err) {
-            console.error(err)
+            console.error(err);
+            setEditingError("There was a problem updating the gear list.");
+        }
+        finally {
+            setEditLoading(false);
         }
     }
 
@@ -237,14 +270,26 @@ export default function GearListPage() {
     }
 
     return (
-        <div>
-            <div>
-                <h1>{userGearList?.listTitle}</h1>
-                <p>{userGearList?.listDescription}</p>
-                <button onClick={startListMetadataEdit}>Edit</button>
-            </div>
+        <div className={`content-container ${styles['gear-list-container']}`}>
+            <header>
+                <div className={styles['list-details']}>
+                    <h1 className={`merriweather ${styles.title}`}>{userGearList?.listTitle}</h1>
+                    <button
+                        onClick={startListMetadataEdit}
+                        aria-label="Edit list title and description"
+                        className={styles['edit-list-details']}
+                    >
+                        <FontAwesomeIcon icon={faEdit} size="lg" />
+                    </button>
+                </div>
+
+                
+                {userGearList?.listDescription ? <p className={styles.description}>{userGearList?.listDescription}</p> : null}
+            </header>
+
+            <hr />
             
-            <button onClick={() => openListItemDialog('create')}>
+            <button onClick={() => openListItemDialog('create')} className="btn large dark">
                 Add Gear Item
             </button>
 
@@ -283,51 +328,68 @@ export default function GearListPage() {
                 actionBtnText="DELETE"
             />
 
-            <Dialog open={isGearItemDialogOpen} onClose={closeListItemDialog} className="relative z-50">
-                <div className="fixed inset-0 flex items-center justify-center p-4">
-                <DialogPanel className="bg-white p-6 rounded-lg max-w-md w-full shadow">
-                    <DialogTitle className="text-lg font-semibold mb-4">
-                        {itemDialogMode === "create" ? <span>Add Item</span> : <span>Edit Item</span>}
-                    </DialogTitle>
+            <ConfirmationModal 
+                isOpen={isGearItemDialogOpen} 
+                onClose={closeListItemDialog}
+                title={itemDialogMode === "create" ? "Add Item" : "Edit Item"}
+            >
+                <GearItemForm 
+                    mode={itemDialogMode} 
+                    listId={listId}
+                    userGearListItems={userGearList?.items} 
+                    setUserGearList={setUserGearList}
+                    setNewItemId={setNewItemId}
+                    closeListItemDialog={closeListItemDialog}
+                    initialData={selectedItem}
+                />
+            </ConfirmationModal>
 
-                    <GearItemForm 
-                        mode={itemDialogMode} 
-                        listId={listId}
-                        userGearListItems={userGearList?.items} 
-                        setUserGearList={setUserGearList}
-                        setNewItemId={setNewItemId}
-                        closeListItemDialog={closeListItemDialog}
-                        initialData={selectedItem}
-                    />
-                </DialogPanel>
-                </div>
-            </Dialog>
+            <ConfirmationModal 
+                isOpen={isEditMetadataDialogOpen} 
+                onClose={() => setIsEditMetadataDialogOpen(false)}
+                title="Update List"
+            >
+                <form onSubmit={(e) => updateListMetadata(e)}>
+                    <div className="input-container">
+                        <label htmlFor="listName">List Name</label>
+                        <input 
+                            className="input-base"
+                            id="listName" 
+                            type="text" 
+                            value={listTitle} 
+                            onChange={(e) => {
+                                setEditingError('');
+                                return setListTitle(e.target.value)
+                            }}
+                            maxLength={100}
+                            placeholder="e.g. Everest Trip"
+                            required
+                        />
+                    </div>
 
-            <Dialog open={isEditMetadataDialogOpen} onClose={() => setIsEditMetadataDialogOpen(false)} className="relative z-50">
-                <div>
-                <DialogPanel>
-                    <DialogTitle className="text-lg font-semibold mb-4">
-                        Update List Info
-                    </DialogTitle>
+                    <div className="input-container">
+                        <label htmlFor="listDescription">List Description (optional)</label>
+                        <input
+                            className="input-base"
+                            id="listDescription" 
+                            type="text" 
+                            value={listDescription} 
+                            onChange={(e) => setListDescription(e.target.value)}
+                            maxLength={250}
+                        />
+                    </div>
 
-                    <form onSubmit={(e) => updateListMetadata(e)}>
-                        <label>
-                            <span>List Name</span>
-                            <input type="text" value={listTitle} onChange={(e) => setListTitle(e.target.value)} />
-                        </label>
-
-                        <label>
-                            <span>List Description (optional)</span>
-                            <input type="text" value={listDescription} onChange={(e) => setListDescription(e.target.value)} />
-                        </label>
-                        <div>
-                            <button type="button" onClick={() => setIsEditMetadataDialogOpen(false)}>Cancel</button>
-                            <button type="submit">Update</button>
-                        </div>
-                    </form>
-                </DialogPanel>
-                </div>
-            </Dialog>
+                    {editingError ? <ErrorAlertBlock message={editingError} /> : null
+                                        }
+    
+                    <div className="action-container">
+                        <button type="button" onClick={() => setIsEditMetadataDialogOpen(false)} className="btn">CANCEL</button>
+                        <button type="submit" className="btn dark" disabled={editLoading}>
+                            { editLoading ? <ClipLoader color="white" size="18px" speedMultiplier={0.7} />  : 'UPDATE'}
+                        </button>
+                    </div>
+                </form>
+            </ConfirmationModal>
         </div>
     );
 }

@@ -254,17 +254,29 @@ export default function GearItemForm({
             </div> : null}
 
             <form onSubmit={(e) => submitForm(e)}>
-                <label>
-                    <span>Item Name</span>
-                    <input type="text" value={itemName} onChange={(e) => setItemName(e.target.value)} />
-                </label>
-                <label>
-                    <span>Category</span>
+                <div className="input-container">
+                    <label htmlFor="itemName">Item Name</label>
+                    <input 
+                        className="input-base"
+                        id="itemName" 
+                        type="text" 
+                        value={itemName} 
+                        onChange={(e) => {
+                            return setItemName(e.target.value)
+                        }}
+                        maxLength={100}
+                        placeholder="e.g. Sleeping Bag"
+                        required
+                    />
+                </div>
+
+                <div className="input-container">
+                    <label htmlFor="category">Category</label>
                     <select
                         id="category"
+                        className="input-base"
                         value={category}
                         onChange={(e) => setCategory(e.target.value)}
-                        className="border rounded px-3 py-2"
                     >
                         <option value="">Select a category</option>
                         {GEAR_CATEGORIES.map((cat) => (
@@ -273,36 +285,66 @@ export default function GearItemForm({
                             </option>
                         ))}
                     </select>
-                </label>
-                <label>
-                    <span>Quantity Needed</span>
-                    <input type="number" value={quantityNeeded} onChange={(e) => setQuantityNeeded(e.target.value)} />
-                </label>
-                <label>
-                    <span>Quantity to Pack</span>
-                    <input type="number" value={quantityToPack} onChange={(e) => setQuantityToPack(e.target.value)} />
-                </label>
-                <label>
-                    <span>Quantity to Shop</span>
-                    <input type="number" value={quantityToShop} onChange={(e) => setQuantityToShop(e.target.value)} />
-                </label>
-                <label>
-                    <span>Notes</span>
-                    <textarea value={notes} onChange={(e) => setNotes(e.target.value)} />
-                </label>
-                
+                </div>
 
-                <div className="flex justify-end gap-3 pt-4">
+                <div className="input-container">
+                    <label htmlFor="quantityNeeded">Quantity Needed</label>
+                    <input
+                        id="quantityNeeded"
+                        type="number" 
+                        value={quantityNeeded} 
+                        onChange={(e) => setQuantityNeeded(e.target.value)}
+                        className="input-base"
+                        min="1"
+                    />
+                </div>
+
+                <div className="input-container">
+                    <label htmlFor="quantityToPack">Quantity to Pack</label>
+                    <input
+                        id="quantityToPack"
+                        type="number" 
+                        value={quantityToPack} 
+                        onChange={(e) => setQuantityToPack(e.target.value)}
+                        className="input-base"
+                        min="0"
+                    />
+                </div>
+
+                <div className="input-container">
+                    <label htmlFor="quantityToShop">Quantity to Shop</label>
+                    <input
+                        id="quantityToShop"
+                        type="number" 
+                        value={quantityToShop} 
+                        onChange={(e) => setQuantityToShop(e.target.value)}
+                        className="input-base"
+                        min="0"
+                    />
+                </div>
+
+                <div className="input-container">
+                    <label htmlFor="notes">Notes</label>
+                    <textarea 
+                        id="notes" 
+                        value={notes} 
+                        onChange={(e) => setNotes(e.target.value)} 
+                        className="input-base"
+                        maxLength={500}
+                    />
+                </div>
+
+                <div className="action-container">
                     <button
                         type="button"
                         onClick={closeListItemDialog}
-                        className="px-4 py-2 border rounded"
+                        className="btn"
                     >
-                    Cancel
+                        CANCEL
                     </button>
 
-                    <button type="submit">
-                        {mode === "create" ? <span>Add Item</span> : <span>Update Item</span>}
+                    <button type="submit" className="btn dark">
+                        {mode === "create" ? <span>ADD</span> : <span>UPDATE</span>}
                     </button>
                 </div>
             </form>
