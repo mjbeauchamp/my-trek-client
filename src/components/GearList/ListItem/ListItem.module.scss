@@ -3,6 +3,8 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    padding: 10px;
+    border-radius: 6px;
 
     .item-info {
         display: flex;
@@ -44,6 +46,11 @@
         font-size: 0.8rem;
     }
 
+    @keyframes checkedFlash {
+        0% { background-color: #d4f5d4; }
+        100% { background-color: transparent; }
+    }
+
     .checkbox {
         display: block;
         height: 20px;
@@ -55,20 +62,26 @@
         margin-top: 0.4rem;
 
         .check {
-            stroke: var(--color-secondary);
+            stroke: #277500;
             opacity: 0;
         }
     }
 
     &.checked {
+        opacity: 0.5;
+
         .checkbox {
-            border-color: var(--color-secondary);
+            border-color: #277500;
         }
 
         .check {
             opacity: 1;
         }
-    }   
+    }
+
+    &.flash {
+        animation: checkedFlash 0.5s ease-out;
+    }
 }
 
 .notes-container {

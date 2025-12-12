@@ -21,12 +21,14 @@ interface ListItemProps {
 
 export default function ListItem({openListItemDialog, openDeleteListDialog, updateItemRef, setUserGearList, item, listId}: ListItemProps) {
     const [checked, setChecked] = useState(item?.quantityToPack === 0);
+    const [showCheckAnimation, setShowCheckAnimation] = useState(false);
     const [showNotes, setShowNotes] = useState(false);
 
     const { getAccessTokenSilently } = useAuth0();
 
     const updateItem = async (checkValueUpdate: boolean) => {
         setChecked(checkValueUpdate);
+        setShowCheckAnimation(checkValueUpdate);
             
         // TODO: VALIDATE/SANITIZE TEXT VALUES
         if (!listId) {
@@ -91,7 +93,7 @@ export default function ListItem({openListItemDialog, openDeleteListDialog, upda
             className="w-full"
         >
             <article>
-                <div className={`${styles['list-item']} ${checked ? styles.checked : ''}`}>
+                <div className={`${styles['list-item']} ${checked ? styles.checked : ''} ${showCheckAnimation ? styles.flash : ''}`}>
                     <div className={styles['item-info']}>
                         <Checkbox checked={checked} onChange={() => updateItem(!checked)} as={Fragment}>
                             <span
