@@ -10,7 +10,22 @@ import { GEAR_CATEGORIES } from "../../constants/categories";
 import type {GearCategoryId} from "../../constants/categories";
 import styles from "./GearListPage.module.scss"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEdit } from '@fortawesome/free-solid-svg-icons';
+import {
+    faEdit,
+    faCampground,
+    faShirt,
+    faCloudRain,
+    faFireBurner,
+    faTree,
+    faUtensils,
+    faBurger,
+    faDroplet,
+    faToiletPaper,
+    faCompass,
+    faBriefcaseMedical,
+    faGlasses,
+    faBinoculars
+} from '@fortawesome/free-solid-svg-icons';
 import { ClipLoader } from "react-spinners";
 import ListItem from "../../components/GearList/ListItem/ListItem";
 
@@ -272,6 +287,37 @@ export default function GearListPage() {
         setIsEditMetadataDialogOpen(true);
     }
 
+    const getCategoryIcon = (category: string) => {
+        switch (category) {
+            case "shelter":
+                return faCampground;
+            case "clothing":
+                return faShirt;
+            case "weather":
+                return faCloudRain;
+            case "essentials":
+                return faFireBurner;
+            case "cooking":
+                return faUtensils;
+            case "food":
+                return faBurger;
+            case "water":
+                return faDroplet;
+            case "toiletries":
+                return faToiletPaper;
+            case "navigation":
+                return faCompass;
+            case "safety":
+                return faBriefcaseMedical;
+            case "personal":
+                return faGlasses;
+            case "misc":
+                return faBinoculars;
+            default:
+                return faTree;
+        }
+    }
+
     return (
         <div className={`content-container ${styles['gear-list-container']}`}>
             <header>
@@ -307,7 +353,11 @@ export default function GearListPage() {
                             {i > 0? <hr /> : null}
 
                             <section className={styles['category-section']}>
-                                <h2>{cat.label}</h2>
+                                <div className={styles['category-title']}>
+                                    <FontAwesomeIcon icon={getCategoryIcon(cat.id)} size="xl" />
+                                    <h2>{cat.label}</h2>
+                                </div>
+                                
                                 <ul className={styles['items-list']}>
                                 {items.map((item) => (
                                     <ListItem
@@ -316,6 +366,8 @@ export default function GearListPage() {
                                         updateItemRef={updateItemRef}
                                         openDeleteListDialog={openDeleteListDialog}
                                         openListItemDialog={openListItemDialog}
+                                        listId={listId}
+                                        setUserGearList={setUserGearList}
                                     />
                                 ))}
                                 </ul>

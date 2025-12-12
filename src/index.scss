@@ -214,9 +214,11 @@ p {
     }
   }
 
-  &:hover:not(:disabled) {
-    background-color: var(--color-text-gray);
-    color: white;
+  &.gray {
+    &:hover:not(:disabled) {
+      background-color: var(--color-text-gray);
+      color: white;
+    }
   }
 
   &:focus {

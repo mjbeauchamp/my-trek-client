@@ -24,6 +24,7 @@ export default function GearItemForm({
     mode = 'create',
     initialData,
 }: PropTypes) {
+    console.log(initialData)
     // Gear list item form data
     const [itemName, setItemName] = useState(initialData?.name || '');
     const [category, setCategory] = useState(initialData?.category || '');
@@ -88,8 +89,7 @@ export default function GearItemForm({
     }
 
 
-    const addGearListItem = async (newItem: {itemData: { name: any; category: any; quantityNeededNum: number; quantityToPackNum: number; quantityToShopNum: number; notes: string; }}) => {
-        
+    const addGearListItem = async (newItem: {itemData: { name: any; category: any; quantityNeeded: number; quantityToPack: number; quantityToShop: number; notes: string; }}) => {   
         try {
             setLoading(true);
             setError(null);
@@ -124,7 +124,7 @@ export default function GearItemForm({
         }
     }
 
-    const editGearListItem = async (newItem: {itemData: { name: any; category: any; quantityNeededNum: number; quantityToPackNum: number; quantityToShopNum: number; notes: string; }}) => {
+    const editGearListItem = async (newItem: {itemData: { name: any; category: any; quantityNeeded: number; quantityToPack: number; quantityToShop: number; notes: string; }}) => {
         if (!listId || !initialData._id) {
             // TODO: HANDLE ERROR, because if we don't have these we can't make the call
         }
@@ -190,9 +190,9 @@ export default function GearItemForm({
                 itemData: {
                     name: itemName.trim(),
                     category: category.trim(),
-                    quantityNeededNum,
-                    quantityToPackNum,
-                    quantityToShopNum,
+                    quantityNeeded: quantityNeededNum,
+                    quantityToPack: quantityToPackNum,
+                    quantityToShop: quantityToShopNum,
                     notes
                 }
             }
@@ -304,7 +304,8 @@ export default function GearItemForm({
                     />
                 </div>
 
-                <div className="input-container">
+                {/* TODO: UPDATE WHEN PACKING LIST IS IMPLEMENTED */}
+                {/* <div className="input-container">
                     <label htmlFor="quantityToPack">Quantity to Pack</label>
                     <input
                         id="quantityToPack"
@@ -314,9 +315,10 @@ export default function GearItemForm({
                         className="input-base"
                         min="0"
                     />
-                </div>
+                </div> */}
 
-                <div className="input-container">
+                {/* TODO: UPDATE WHEN SHOPPING LIST IS IMPLEMENTED */}
+                {/* <div className="input-container">
                     <label htmlFor="quantityToShop">Quantity to Shop</label>
                     <input
                         id="quantityToShop"
@@ -326,7 +328,7 @@ export default function GearItemForm({
                         className="input-base"
                         min="0"
                     />
-                </div>
+                </div> */}
 
                 <div className="input-container">
                     <label htmlFor="notes">Notes</label>
@@ -343,7 +345,7 @@ export default function GearItemForm({
                     <button
                         type="button"
                         onClick={closeListItemDialog}
-                        className="btn"
+                        className="btn gray"
                     >
                         CANCEL
                     </button>
