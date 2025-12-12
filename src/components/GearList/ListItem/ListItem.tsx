@@ -95,7 +95,7 @@ export default function ListItem({openListItemDialog, openDeleteListDialog, upda
             <article>
                 <div className={`${styles['list-item']} ${checked ? styles.checked : ''} ${showCheckAnimation ? styles.flash : ''}`}>
                     <div className={`flex-align-start ${styles['item-info']}`}>
-                        <div className="flex-align-start" >
+                        <div className={`flex-align-start ${styles['item-header']}`}>
                             <Checkbox checked={checked} onChange={() => updateItem(!checked)} as={Fragment}>
                                 <span
                                     className={styles['checkbox']}
@@ -109,7 +109,7 @@ export default function ListItem({openListItemDialog, openDeleteListDialog, upda
                                     </svg>
                                 </span>
                             </Checkbox>
-                            <div>
+                            <div className={styles['header-text']}>
                                 <h3>{item.name}</h3>
                                 { item?.quantityNeeded && item.quantityNeeded > 1 && <p className={styles.quantity}>QTY: {item.quantityNeeded}</p> }
                             </div>

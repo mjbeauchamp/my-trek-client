@@ -213,8 +213,8 @@ export default function GearListPage() {
             return;
         }
 
-        if (listTitle.trim().length > 100) {
-            setEditingError("List title cannot exceed 100 characters.");
+        if (listTitle.trim().length > 60) {
+            setEditingError("List title cannot exceed 60 characters.");
             return;
         }
         if (listDescription.trim().length > 250) {
@@ -420,7 +420,7 @@ export default function GearListPage() {
                                 setEditingError('');
                                 return setListTitle(e.target.value)
                             }}
-                            maxLength={100}
+                            maxLength={60}
                             placeholder="e.g. Everest Trip"
                             required
                         />

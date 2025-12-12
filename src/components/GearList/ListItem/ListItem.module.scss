@@ -16,7 +16,6 @@
 }
 
 .list-item {
-    width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -31,6 +30,19 @@
     .item-info {
         flex-wrap: wrap;
         flex-grow: 1;
+        max-width: 90%;
+    }
+
+    .item-header {
+        max-width: 100%;
+    }
+
+    .header-text {
+        max-width: 94%;
+
+        @media(max-width: 700px) {
+            max-width: 86%;
+        }
     }
 
     .item-buttons {
@@ -96,11 +108,14 @@
         cursor: pointer;
         margin-right: 0.7rem;
         margin-top: 0.4rem;
-        flex-grow: 1;
 
         .check {
             stroke: #277500;
             opacity: 0;
+        }
+
+        @media(max-width: 700px) {
+            margin-top: 0.1rem;
         }
     }
 
@@ -120,7 +135,7 @@
 
     @media(max-width: 700px) {
         h3 {
-            font-size: 1rem;
+            font-size: 1.1rem;
         }
     }
 }
@@ -143,12 +158,17 @@
     padding: 0.25rem 0.45rem;
     border-radius: 4px;
     margin-top: 0.4rem;
-    margin-left: 1.5rem;
+    margin-left: 1.8rem;
     background-color: #9f7f66;
     color: white;
+    flex-grow: 0;
 
     &:hover {
         background-color: #7d6049;
+    }
+
+    @media(max-width: 700px) {
+        margin-top: 0.1rem;
     }
 }
 

@@ -6,6 +6,11 @@
         display: flex;
         align-items: flex-start;
         gap: 18px;
+        width: 100%;
+
+        h1, p {
+            max-width: 86%;
+        }
     }
 
     .title {
