@@ -354,7 +354,7 @@ export default function GearListPage() {
 
                             <section className={styles['category-section']}>
                                 <div className={styles['category-title']}>
-                                    <FontAwesomeIcon icon={getCategoryIcon(cat.id)} size="xl" />
+                                    <FontAwesomeIcon icon={getCategoryIcon(cat.id)} size="2xl" />
                                     <h2>{cat.label}</h2>
                                 </div>
                                 

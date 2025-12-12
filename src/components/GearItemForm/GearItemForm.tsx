@@ -269,7 +269,7 @@ export default function GearItemForm({
                         onChange={(e) => {
                             return setItemName(e.target.value)
                         }}
-                        maxLength={100}
+                        maxLength={60}
                         placeholder="e.g. Sleeping Bag"
                         required
                     />
@@ -301,6 +301,7 @@ export default function GearItemForm({
                         onChange={(e) => setQuantityNeeded(e.target.value)}
                         className="input-base"
                         min="1"
+                        max="100"
                     />
                 </div>
 

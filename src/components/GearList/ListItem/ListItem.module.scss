@@ -1,14 +1,50 @@
+ @keyframes checkedFlash {
+    0% { background-color: #d4f5d4; }
+    100% { background-color: transparent; }
+}
+
+.list-item-container {
+    padding: 4px 8px;
+
+    &:not(:last-child) {
+        border-bottom: 1px solid #dfdcdc;;
+    }
+
+    &.flash {
+        animation: checkedFlash 0.5s ease-out;
+    }
+}
+
 .list-item {
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 10px;
-    border-radius: 6px;
+    padding: 10px 10px 14px;
+
+    h3 {
+        font-size: 1.3rem;
+        font-weight: 500;
+        color: var(--color-text-gray);
+    }
 
     .item-info {
+        flex-wrap: wrap;
+        flex-grow: 1;
+    }
+
+    .item-buttons {
+        padding-top: 4px;
+        align-self: flex-start;
         display: flex;
-        align-items: flex-start;
+        justify-content: flex-end;
+        flex-wrap: wrap;
+        flex-grow: 0;
+
+        @media(max-width: 700px) {
+            flex-direction: column;
+            gap: 10px;
+        }
     }
 
     .edit-button {
@@ -16,7 +52,7 @@
         background-color: transparent;
         color: var(--color-text-gray);
         cursor: pointer;
-        padding: 6px;
+        padding: 8px;
         opacity: 0.7;
 
         &:hover {
@@ -26,7 +62,8 @@
 
     .delete-button {
         border: none;
-        padding: 4px;
+        padding: 8px;
+        margin-left: 4px;
         background-color: rgba(0,0,0,0);
         cursor: pointer;
         color: var(--color-text-gray);
@@ -43,23 +80,23 @@
 
     .quantity {
         margin-bottom: 0;
-        font-size: 0.8rem;
-    }
-
-    @keyframes checkedFlash {
-        0% { background-color: #d4f5d4; }
-        100% { background-color: transparent; }
+        font-size: 0.78rem;
+        color: #686867;
+        margin-left: 4px;
     }
 
     .checkbox {
         display: block;
-        height: 20px;
-        width: 20px;
+        height: 22px;
+        width: 22px;
+        min-height: 22px;
+        min-width: 22px;
         border-radius: 4px;
         border: 1px solid var(--color-light-gray);
         cursor: pointer;
         margin-right: 0.7rem;
         margin-top: 0.4rem;
+        flex-grow: 1;
 
         .check {
             stroke: #277500;
@@ -68,7 +105,9 @@
     }
 
     &.checked {
-        opacity: 0.5;
+        .item-info, .item-buttons {
+            opacity: 0.5;
+        }
 
         .checkbox {
             border-color: #277500;
@@ -79,8 +118,10 @@
         }
     }
 
-    &.flash {
-        animation: checkedFlash 0.5s ease-out;
+    @media(max-width: 700px) {
+        h3 {
+            font-size: 1rem;
+        }
     }
 }
 
@@ -88,6 +129,7 @@
     max-height: 0;
     transition: max-height 0.25s ease-in-out;
     overflow: hidden;
+    margin: 0 18px;
 
     &.visible {
         max-height: 500px;
@@ -98,17 +140,15 @@
 .notes-toggle-btn {
     font-weight: 600;
     font-size: 0.9rem;
-    padding: 0.2rem 0.4rem;
+    padding: 0.25rem 0.45rem;
     border-radius: 4px;
     margin-top: 0.4rem;
     margin-left: 1.5rem;
-    background-color: transparent;
-    border: 1px solid #947156;
-    color: #947156;
+    background-color: #9f7f66;
+    color: white;
 
     &:hover {
-        background-color: #947156;
-        color: white;
+        background-color: #7d6049;
     }
 }
 
@@ -118,4 +158,5 @@
     border-radius: 6px;
     margin-top: 8px;
     padding: 10px 14px 20px;
+    color: var(--color-text-gray);
 }

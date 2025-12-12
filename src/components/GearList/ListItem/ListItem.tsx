@@ -90,27 +90,29 @@ export default function ListItem({openListItemDialog, openDeleteListDialog, upda
             ref={(el) => {
                 updateItemRef(item._id, el)
             }}
-            className="w-full"
+            className={`w-full ${styles['list-item-container']} ${showCheckAnimation ? styles.flash : ''}`}
         >
             <article>
                 <div className={`${styles['list-item']} ${checked ? styles.checked : ''} ${showCheckAnimation ? styles.flash : ''}`}>
-                    <div className={styles['item-info']}>
-                        <Checkbox checked={checked} onChange={() => updateItem(!checked)} as={Fragment}>
-                            <span
-                                className={styles['checkbox']}
-                            >
-                                <svg 
-                                    className={styles.check}
-                                    viewBox="0 0 14 14"
-                                    fill="none"
+                    <div className={`flex-align-start ${styles['item-info']}`}>
+                        <div className="flex-align-start" >
+                            <Checkbox checked={checked} onChange={() => updateItem(!checked)} as={Fragment}>
+                                <span
+                                    className={styles['checkbox']}
                                 >
-                                    <path d="M3 8L6 11L11 3.5" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
-                                </svg>
-                             </span>
-                        </Checkbox>
-                        <div>
-                            <h3>{item.name}</h3>
-                            { item?.quantityNeeded && item.quantityNeeded > 1 && <p className={styles.quantity}>QTY: {item.quantityNeeded}</p> }
+                                    <svg 
+                                        className={styles.check}
+                                        viewBox="0 0 14 14"
+                                        fill="none"
+                                    >
+                                        <path d="M3 8L6 11L11 3.5" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
+                                    </svg>
+                                </span>
+                            </Checkbox>
+                            <div>
+                                <h3>{item.name}</h3>
+                                { item?.quantityNeeded && item.quantityNeeded > 1 && <p className={styles.quantity}>QTY: {item.quantityNeeded}</p> }
+                            </div>
                         </div>
                         
                         { item.notes &&
@@ -123,20 +125,20 @@ export default function ListItem({openListItemDialog, openDeleteListDialog, upda
                         }
                     </div>
                     
-                    <div>
+                    <div className={styles['item-buttons']}>
                         <button
                             onClick={() => openListItemDialog('edit', item)}
                             aria-label="Edit list item"
                             className={styles['edit-button']}
                         >
-                            <FontAwesomeIcon icon={faEdit} size="lg" />
+                            <FontAwesomeIcon icon={faEdit} size="xl" />
                         </button>
                         <button
                             onClick={(e) => openDeleteListDialog(e, item._id)}
                             aria-label="Delete list item"
                             className={styles['delete-button']}
                         >
-                            <FontAwesomeIcon icon={faTrash} size="lg" />
+                            <FontAwesomeIcon icon={faTrash} size="xl" />
                         </button>
                     </div>
                 </div>
