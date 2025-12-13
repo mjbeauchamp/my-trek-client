@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext, useMemo, useRef } from 'react';
+import { useEffect, useState, useMemo, useRef } from 'react';
 import { useParams } from 'react-router';
 import { useAuth0 } from '@auth0/auth0-react';
 import type { GearList, UserGearItem } from '../../types/gearTypes';
@@ -28,6 +28,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { ClipLoader } from 'react-spinners';
 import ListItem from '../../components/GearList/ListItem/ListItem';
+import LoadingMessage from '../../components/LoadingMessage/LoadingMessage';
 
 export default function GearListPage() {
   const { listId } = useParams();
@@ -61,38 +62,39 @@ export default function GearListPage() {
     itemRefs.current[itemId] = el;
   };
 
+  const fetchUserGearList = async () => {
+    setLoadingUserGearList(true);
+    setErrorUserGearList('');
+    try {
+      const token = await getAccessTokenSilently();
+      const res = await fetch(`http://localhost:4000/api/gear-lists/gear-list/${listId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!res.ok) {
+        //TODO: handle error
+      }
+
+      const data = await res.json();
+
+      setUserGearList(data);
+    } catch (err) {
+      console.error('Error fetching gear:', err);
+      setErrorUserGearList('There was an error fetching gear list');
+    } finally {
+      setLoadingUserGearList(false);
+    }
+  };
+
   useEffect(() => {
     const list = listId && getGearListById(listId);
 
     if (list) {
       setUserGearList(list);
     } else {
-      const fetchGearList = async () => {
-        setLoadingUserGearList(true);
-        setErrorUserGearList('');
-        try {
-          const token = await getAccessTokenSilently();
-          const res = await fetch(`http://localhost:4000/api/gear-lists/gear-list/${listId}`, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
-
-          if (!res.ok) {
-            //TODO: handle error
-          }
-
-          const data = await res.json();
-
-          setUserGearList(data);
-        } catch (err) {
-          console.error('Error fetching gear:', err);
-          setErrorUserGearList('There was an error fetching gear list');
-        } finally {
-          setLoadingUserGearList(false);
-        }
-      };
-      fetchGearList();
+      fetchUserGearList();
     }
   }, [userGearLists, getAccessTokenSilently, user, isAuthenticated]);
 
@@ -129,32 +131,6 @@ export default function GearListPage() {
     return result;
   }, [userGearList]);
 
-  const fetchUserGearList = async () => {
-    setLoadingUserGearList(true);
-    setErrorUserGearList('');
-    try {
-      const token = await getAccessTokenSilently();
-      const res = await fetch(`http://localhost:4000/api/gear-lists/gear-list/${listId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (!res.ok) {
-        //TODO: handle error
-      }
-
-      const data = await res.json();
-
-      setUserGearList(data);
-    } catch (err) {
-      console.error('Error fetching gear:', err);
-      setErrorUserGearList('There was an error fetching gear list');
-    } finally {
-      setLoadingUserGearList(false);
-    }
-  };
-
   function openListItemDialog(mode: 'create' | 'edit', item?: any) {
     setItemDialogMode(mode);
     if (item) {
@@ -189,9 +165,9 @@ export default function GearListPage() {
       }
 
       fetchUserGearList();
-      return 'Item deleted successfully!';
     } catch (error) {
       //TODO: Handle error
+      console.error('There was a problem deleting gear item:', error);
     }
   };
 
@@ -316,63 +292,81 @@ export default function GearListPage() {
     }
   };
 
+  const gearListRenderContent = () => {
+    if (loadingUserGearList) {
+      return <LoadingMessage title="Loading list..." />;
+    } else if (errorUserGearList) {
+      return <ErrorAlertBlock message="Whoops! There was an error fetching gear list." />;
+    } else if (userGearList?.items && userGearList.items.length > 0) {
+      return (
+        <>
+          <header>
+            <div className={styles['list-details']}>
+              <h1 className={`merriweather ${styles.title}`}>{userGearList?.listTitle}</h1>
+              <button
+                onClick={startListMetadataEdit}
+                aria-label="Edit list title and description"
+                className={styles['edit-list-details']}
+              >
+                <FontAwesomeIcon icon={faEdit} size="lg" />
+              </button>
+            </div>
+
+            {userGearList?.listDescription ? (
+              <p className={styles.description}>{userGearList?.listDescription}</p>
+            ) : null}
+          </header>
+
+          <hr />
+
+          <button onClick={() => openListItemDialog('create')} className="btn large dark">
+            Add Gear Item
+          </button>
+
+          <div className={styles['items-list-container']}>
+            {GEAR_CATEGORIES.map((cat, i) => {
+              const items = categorizedList[cat.id];
+              // skip empty categories
+              if (!items || items.length === 0) return null;
+
+              return (
+                <div key={cat.id}>
+                  {i > 0 ? <hr /> : null}
+
+                  <section className={styles['category-section']}>
+                    <div className={styles['category-title']}>
+                      <FontAwesomeIcon icon={getCategoryIcon(cat.id)} size="2xl" />
+                      <h2>{cat.label}</h2>
+                    </div>
+
+                    <ul className={styles['items-list']}>
+                      {items.map((item) => (
+                        <ListItem
+                          key={item._id}
+                          item={item}
+                          updateItemRef={updateItemRef}
+                          openDeleteListDialog={openDeleteListDialog}
+                          openListItemDialog={openListItemDialog}
+                          listId={listId}
+                          setUserGearList={setUserGearList}
+                        />
+                      ))}
+                    </ul>
+                  </section>
+                </div>
+              );
+            })}
+          </div>
+        </>
+      );
+    }
+
+    return null;
+  };
+
   return (
     <div className={`content-container ${styles['gear-list-container']}`}>
-      <header>
-        <div className={styles['list-details']}>
-          <h1 className={`merriweather ${styles.title}`}>{userGearList?.listTitle}</h1>
-          <button
-            onClick={startListMetadataEdit}
-            aria-label="Edit list title and description"
-            className={styles['edit-list-details']}
-          >
-            <FontAwesomeIcon icon={faEdit} size="lg" />
-          </button>
-        </div>
-
-        {userGearList?.listDescription ? <p className={styles.description}>{userGearList?.listDescription}</p> : null}
-      </header>
-
-      <hr />
-
-      <button onClick={() => openListItemDialog('create')} className="btn large dark">
-        Add Gear Item
-      </button>
-
-      <div className={styles['items-list-container']}>
-        {GEAR_CATEGORIES.map((cat, i) => {
-          const items = categorizedList[cat.id];
-          // skip empty categories
-          if (!items || items.length === 0) return null;
-
-          return (
-            <div key={cat.id}>
-              {i > 0 ? <hr /> : null}
-
-              <section className={styles['category-section']}>
-                <div className={styles['category-title']}>
-                  <FontAwesomeIcon icon={getCategoryIcon(cat.id)} size="2xl" />
-                  <h2>{cat.label}</h2>
-                </div>
-
-                <ul className={styles['items-list']}>
-                  {items.map((item) => (
-                    <ListItem
-                      key={item._id}
-                      item={item}
-                      updateItemRef={updateItemRef}
-                      openDeleteListDialog={openDeleteListDialog}
-                      openListItemDialog={openListItemDialog}
-                      listId={listId}
-                      setUserGearList={setUserGearList}
-                    />
-                  ))}
-                </ul>
-              </section>
-            </div>
-          );
-        })}
-      </div>
+      {gearListRenderContent()}
 
       <ConfirmationModal
         isOpen={isDeleteDialogOpen}

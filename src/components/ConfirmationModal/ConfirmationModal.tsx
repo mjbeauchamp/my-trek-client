@@ -1,10 +1,11 @@
 import { useRef, useState } from 'react';
 import { Dialog, DialogPanel, DialogTitle, Description } from '@headlessui/react';
+import { Toaster, toast } from 'react-hot-toast';
 
 interface ConfirmationModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onConfirm?: () => Promise<string | undefined>;
+  onConfirm?: () => Promise<void>;
   title: string;
   actionBtnText?: string;
   description?: string;
@@ -34,11 +35,13 @@ export default function ConfirmationModal({
 
     try {
       setLoading(true);
-      const result = await onConfirm();
+      await onConfirm();
       setLoading(false);
     } catch (err) {
-      console.log('ERROR DELETING ITEM');
+      console.log('ERROR DELETING ITEM:', err);
+      toast.error('There was a problem completing action.');
     } finally {
+      setLoading(false);
       onClose();
     }
   };
@@ -65,7 +68,13 @@ export default function ConfirmationModal({
                   <button type="button" onClick={onClose} className="btn">
                     CANCEL
                   </button>
-                  <button ref={deleteButtonRef} type="button" onClick={(e) => completeAction(e)} className="btn delete">
+                  <button
+                    ref={deleteButtonRef}
+                    type="button"
+                    onClick={(e) => completeAction(e)}
+                    className="btn delete"
+                    disabled={loading}
+                  >
                     {actionBtnText}
                   </button>
                 </div>
@@ -74,6 +83,7 @@ export default function ConfirmationModal({
           </DialogPanel>
         </div>
       </Dialog>
+      <Toaster />
     </>
   );
 }

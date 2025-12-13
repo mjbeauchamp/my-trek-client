@@ -21,6 +21,7 @@
     "@headlessui/react": "^2.2.9",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
+    "react-hot-toast": "^2.6.0",
     "react-router": "^7.8.2",
     "react-spinners": "^0.17.0",
     "sass": "^1.93.3"
