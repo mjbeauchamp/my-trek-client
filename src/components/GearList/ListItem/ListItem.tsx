@@ -10,7 +10,7 @@ import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import type { GearList } from '../../../types/gearTypes';
 
 interface ListItemProps {
-  openListItemDialog: (mode: 'create' | 'edit', item?: any) => void;
+  openListItemDialog: (mode: 'create' | 'edit', item?: UserGearItem) => void;
   openDeleteListDialog: (event: React.MouseEvent<HTMLButtonElement>, itemId: string) => void;
   updateItemRef: (itemId: string, el: HTMLLIElement | null) => void;
   setUserGearList: React.Dispatch<React.SetStateAction<GearList | null>>;

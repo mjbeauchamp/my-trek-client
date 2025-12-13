@@ -109,7 +109,9 @@ export default function GearItemForm({
       }
       const createdItem = await res.json();
 
-      setUserGearList((prev: any) => {
+      setUserGearList((prev: GearList | null) => {
+        if (prev === null) return prev;
+
         return {
           ...prev,
           items: [...prev.items, createdItem],
@@ -117,9 +119,13 @@ export default function GearItemForm({
       });
       setNewItemId(createdItem._id);
       closeListItemDialog();
-    } catch (err: any) {
-      console.error('Error adding gear item:', err);
-      setError(err.message || 'There was an error adding gear item');
+    } catch (error) {
+      console.error('Error adding gear item:', error);
+      if (error instanceof Error) {
+        setError(error.message);
+      } else {
+        setError('There was an error adding gear item');
+      }
     } finally {
       setLoading(false);
     }
@@ -151,9 +157,13 @@ export default function GearItemForm({
 
       setUserGearList(updatedList);
       closeListItemDialog();
-    } catch (err: any) {
+    } catch (error) {
       //TODO: error handling
-      setError(err.message || 'There was an error updating gear item');
+      if (error instanceof Error) {
+        setError(error.message);
+      } else {
+        setError('There was an error updating gear item');
+      }
     } finally {
       setLoading(false);
     }

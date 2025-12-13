@@ -39,7 +39,7 @@ export default function GearListPage() {
 
   // List item create and edit dialog management
   const [isGearItemDialogOpen, setIsGearItemDialogOpen] = useState(false);
-  const [selectedItem, setSelectedItem] = useState(null);
+  const [selectedItem, setSelectedItem] = useState<UserGearItem | null>(null);
   const [itemDialogMode, setItemDialogMode] = useState<'create' | 'edit'>('create');
   const [newItemId, setNewItemId] = useState('');
 
@@ -132,7 +132,7 @@ export default function GearListPage() {
     return result;
   }, [userGearList]);
 
-  function openListItemDialog(mode: 'create' | 'edit', item?: any) {
+  function openListItemDialog(mode: 'create' | 'edit', item?: UserGearItem) {
     setItemDialogMode(mode);
     if (item) {
       setSelectedItem(item);
@@ -198,17 +198,17 @@ export default function GearListPage() {
       return;
     }
 
-    const updatedGearListMetadata: any = {
+    const updatedGearListMetadata: { listTitle: string; listDescription: string } = {
       listTitle: listTitle.trim(),
       listDescription: listDescription.trim(),
     };
 
     if (
       !userGearList ||
-      (userGearList?.listTitle === updatedGearListMetadata[listTitle] &&
-        userGearList.listDescription === updatedGearListMetadata[listDescription])
+      (userGearList?.listTitle === updatedGearListMetadata.listTitle &&
+        userGearList.listDescription === updatedGearListMetadata.listDescription)
     ) {
-      setEditingError('There was an issue updating list.');
+      setEditingError('Make a change to list name or description to update the selected list.');
       return;
     }
 
@@ -432,7 +432,14 @@ export default function GearListPage() {
           {editingError ? <ErrorAlertBlock message={editingError} /> : null}
 
           <div className="action-container">
-            <button type="button" onClick={() => setIsEditMetadataDialogOpen(false)} className="btn">
+            <button
+              type="button"
+              onClick={() => {
+                setEditingError('');
+                setIsEditMetadataDialogOpen(false);
+              }}
+              className="btn"
+            >
               CANCEL
             </button>
             <button type="submit" className="btn dark" disabled={editLoading}>
