@@ -10,6 +10,8 @@
 
     h1 {
         font-size: var(--fs-xxxl);
+        line-height: 1.2;
+        margin-bottom: 8px;
     }
 
     p {
@@ -22,14 +24,14 @@
 ul {
     width: 100%;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
     gap: 20px;
 }
 
 .card-skeleton {
     width: 100%;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
     gap: 20px;
 }
 
@@ -101,7 +103,7 @@ ul {
     }
 }
 
-@media(max-width: 800px) {
+@media(max-width: 850px) {
     .list {
         max-width: 450px;
     }

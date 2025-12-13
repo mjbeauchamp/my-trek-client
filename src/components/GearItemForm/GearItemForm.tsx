@@ -24,7 +24,6 @@ export default function GearItemForm({
     mode = 'create',
     initialData,
 }: PropTypes) {
-    console.log(initialData)
     // Gear list item form data
     const [itemName, setItemName] = useState(initialData?.name || '');
     const [category, setCategory] = useState(initialData?.category || '');

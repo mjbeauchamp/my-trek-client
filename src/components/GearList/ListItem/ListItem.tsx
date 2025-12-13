@@ -40,11 +40,9 @@ export default function ListItem({openListItemDialog, openDeleteListDialog, upda
             // TODO: HANDLE ERROR, because if we don't have these we can't make the call
         }
 
-        console.log(item)
         let quantityToPack = item.quantityNeeded;
 
         if (checkValueUpdate) {
-            console.log('BOOP!!')
             quantityToPack = 0;
         } 
 
@@ -72,7 +70,6 @@ export default function ListItem({openListItemDialog, openDeleteListDialog, upda
                 throw new Error(body.message || "Failed to edit item");
             }
             const updatedList = await res.json();
-            console.log(updatedList)
 
             setUserGearList(updatedList);
             // setLoading(false);
