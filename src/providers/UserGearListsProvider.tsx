@@ -1,6 +1,6 @@
-import { createContext, useState } from "react";
-import { Outlet } from "react-router";
-import type { GearList } from "../types/gearTypes";
+import { createContext, useState } from 'react';
+import { Outlet } from 'react-router';
+import type { GearList } from '../types/gearTypes';
 
 interface UserGearListsContextType {
   userGearLists: GearList[];
@@ -14,7 +14,7 @@ export default function UserGearListsProvider() {
   const [userGearLists, setUserGearLists] = useState<Array<GearList>>([]);
 
   const getGearListById = (id: string) => {
-    return userGearLists.find(list => list._id === id)
+    return userGearLists.find((list) => list._id === id);
   };
 
   return (
@@ -22,6 +22,6 @@ export default function UserGearListsProvider() {
       <Outlet />
     </UserGearListsContext.Provider>
   );
-};
+}
 
-export { UserGearListsContext }
+export { UserGearListsContext };

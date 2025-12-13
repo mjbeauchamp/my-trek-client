@@ -1,65 +1,75 @@
 .action-panel {
-    margin: 60px auto;
-    width: 90%;
-    max-width: 700px;
+  margin: 60px auto;
+  width: 90%;
+  max-width: 700px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 6px;
+  box-shadow: 0 3px 6px rgba(46, 46, 43, 0.09);
+  border: 1px solid var(--color-light-gray);
+  text-align: center;
+  background-color: var(--color-light-highlight);
+
+  .body {
+    width: 100%;
+    padding: 50px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    border-radius: 6px;
-    box-shadow: 0 3px 6px rgba(46, 46, 43, 0.09);
-    border: 1px solid var(--color-light-gray);
-    text-align: center;
-    background-color: var(--color-light-highlight);
 
-    .body {
-        width: 100%;
-        padding: 50px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-
-        p {
-            font-size: var(--fs-md-lg);
-        }
-
-        button {
-            margin-top: 20px;
-        }
+    p {
+      font-size: var(--fs-md-lg);
     }
+
+    button {
+      margin-top: 20px;
+    }
+  }
+
+  header {
+    display: flex;
+    justify-content: center;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    padding: 22px;
+    width: calc(100% + 2px);
+    background-color: var(--color-secondary);
+    color: var(--color-light-highlight);
+    margin-left: -1px;
+    margin-right: -1px;
+    margin-top: -1px;
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      font-size: var(--fs-xl);
+      font-weight: 600;
+    }
+  }
+
+  @media (max-width: 700px) {
+    width: 100%;
+    margin: 30px auto;
 
     header {
-        display: flex;
-        justify-content: center;
-        border-top-left-radius: 6px;
-        border-top-right-radius: 6px;
-        padding: 22px;
-        width: calc(100% + 2px);
-        background-color: var(--color-secondary);
-        color: var(--color-light-highlight);
-        margin-left: -1px;
-        margin-right: -1px;
-        margin-top: -1px;
+      padding: 15px;
 
-        h1, h2, h3, h4, h5, h6 {
-            font-size: var(--fs-xl);
-            font-weight: 600;
-        }
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        font-size: var(--fs-lg);
+      }
     }
 
-    @media(max-width: 700px) {
-        width: 100%; 
-        margin: 30px auto;
-
-        header {
-            padding: 15px;
-
-            h1, h2, h3, h4, h5, h6 {
-                font-size: var(--fs-lg);
-            }
-        }
-
-        .body {
-            padding: 50px 25px;
-        }
+    .body {
+      padding: 50px 25px;
     }
+  }
 }

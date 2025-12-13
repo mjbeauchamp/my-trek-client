@@ -1,187 +1,187 @@
 .hero {
-    width: 100%;
-    background: url('../../assets/images/forest-sunrise-optimized.jpg');
-    background-color: var(--color-secondary);
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position-x: center;
-    background-position-y: center;
+  width: 100%;
+  background: url('../../assets/images/forest-sunrise-optimized.jpg');
+  background-color: var(--color-secondary);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position-x: center;
+  background-position-y: center;
+  display: flex;
+
+  .hero-text-container {
+    width: 55%;
+    min-width: 500px;
+    min-height: 700px;
+    padding-top: 100px;
+    padding-bottom: 40px;
+    background: linear-gradient(
+      to right,
+      rgba(6, 18, 12, 0.85) 65%,
+      rgba(6, 18, 12, 0.8) 75%,
+      rgba(6, 18, 12, 0.7) 80%,
+      rgba(6, 18, 12, 0.6) 85%,
+      rgba(16, 18, 12, 0.4) 90%,
+      rgba(16, 18, 12, 0.2) 95%,
+      rgba(6, 18, 12, 0) 100%
+    );
+    color: var(--color-light-primary);
+    text-align: left;
     display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-left: 8%;
+    transition: all 1s ease-in-out;
 
-    .hero-text-container {
-        width: 55%;
-        min-width: 500px;
-        min-height: 700px;
-        padding-top: 100px;
-        padding-bottom: 40px;
-        background: linear-gradient(
-            to right, 
-            rgba(6, 18, 12, 0.85) 65%,
-            rgba(6, 18, 12, 0.8) 75%,
-            rgba(6, 18, 12, 0.7) 80%,
-            rgba(6, 18, 12,0.6) 85%,
-            rgba(16, 18, 12,0.4) 90%,
-            rgba(16, 18, 12,0.2) 95%,
-            rgba(6, 18, 12,0) 100%
-        );
-        color: var(--color-light-primary);
-        text-align: left;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        padding-left: 8%;
-        transition: all 1s ease-in-out;
+    h1 {
+      font-size: 4rem;
+      line-height: 4rem;
+      margin-bottom: 10px;
 
-        h1 {
-            font-size: 4rem;
-            line-height: 4rem;
-            margin-bottom: 10px;
-
-            span {
-                display: inline-block;
-            }
-        }
-
-        p {
-            font-size: 1.9rem;
-            margin-top: 0;
-            margin-bottom: 50px;
-            font-weight: 500;
-        }
-
-        a {
-            width: fit-content;
-
-            &:hover {
-                background-color: var(--color-bright-highlight);
-            }
-        }
-    }
-}
-
-.info-section {
-    padding: 85px 0;
-
-    h2 {
-        font-size: 3rem;
-        margin-bottom: 25px;
-
-        span {
-            display: inline-block;
-        }
+      span {
+        display: inline-block;
+      }
     }
 
     p {
-        width: 90%;
-        min-width: 300px;
-        max-width: 600px;
-        font-size: 1.1rem;
+      font-size: 1.9rem;
+      margin-top: 0;
+      margin-bottom: 50px;
+      font-weight: 500;
     }
 
     a {
-        margin-top: 40px;
-        margin-bottom: 24px;
+      width: fit-content;
+
+      &:hover {
+        background-color: var(--color-bright-highlight);
+      }
     }
+  }
+}
+
+.info-section {
+  padding: 85px 0;
+
+  h2 {
+    font-size: 3rem;
+    margin-bottom: 25px;
+
+    span {
+      display: inline-block;
+    }
+  }
+
+  p {
+    width: 90%;
+    min-width: 300px;
+    max-width: 600px;
+    font-size: 1.1rem;
+  }
+
+  a {
+    margin-top: 40px;
+    margin-bottom: 24px;
+  }
 }
 
 .articles-info {
-    background-color: var(--color-secondary);
-    color: white;
+  background-color: var(--color-secondary);
+  color: white;
 }
 
-@media(max-width: 1800px) {
-    .hero {
-        .hero-text-container {
-            width: 70%;
-            min-height: 650px;
+@media (max-width: 1800px) {
+  .hero {
+    .hero-text-container {
+      width: 70%;
+      min-height: 650px;
 
-            p {
-                font-size: 1.5rem;
-            }
-        }
+      p {
+        font-size: 1.5rem;
+      }
     }
+  }
 }
 
-@media(max-width: 1280px) {
-    .hero {
-        .hero-text-container {
-            width: 85%;
-            min-height: 600px;
+@media (max-width: 1280px) {
+  .hero {
+    .hero-text-container {
+      width: 85%;
+      min-height: 600px;
 
-            h1 {
-                font-size: 3.6rem;
-            }
+      h1 {
+        font-size: 3.6rem;
+      }
 
-            p {
-                font-size: 1.3rem;
-            }
-        }
+      p {
+        font-size: 1.3rem;
+      }
     }
+  }
 
-    .info-section {
-        h2 {
-            font-size: 2.8rem;
-        }
+  .info-section {
+    h2 {
+      font-size: 2.8rem;
     }
+  }
 }
 
-@media(max-width: 920px) {
-    .hero {
-        background-position-y: 80%;
+@media (max-width: 920px) {
+  .hero {
+    background-position-y: 80%;
 
-        .hero-text-container {
-            min-width: 300px;
-            width: 100%;
-            padding-right: 8%;
+    .hero-text-container {
+      min-width: 300px;
+      width: 100%;
+      padding-right: 8%;
 
-            background: linear-gradient(
-                to right,
-                rgba(6, 18, 12, 0.9) 85%,
-       
-                rgba(6, 18, 12, 0.8) 100%
-            );
+      background: linear-gradient(
+        to right,
+        rgba(6, 18, 12, 0.9) 85%,
 
-            h1 {
-                font-size: 3rem;
-            }
-        }
+        rgba(6, 18, 12, 0.8) 100%
+      );
+
+      h1 {
+        font-size: 3rem;
+      }
     }
+  }
 
-    .info-section {
-        h2 {
-            font-size: 2.6rem;
-        }
+  .info-section {
+    h2 {
+      font-size: 2.6rem;
     }
+  }
 }
 
-@media(max-width: 700px) {
-    .hero {
-        .hero-text-container {
-            text-align: center;
-            align-items: center;
+@media (max-width: 700px) {
+  .hero {
+    .hero-text-container {
+      text-align: center;
+      align-items: center;
 
-            h1 {
-                font-size: 2.8rem;
-            }
-        }
+      h1 {
+        font-size: 2.8rem;
+      }
+    }
+  }
+
+  .info-section {
+    h2 {
+      font-size: 2.2rem;
+      margin-bottom: 18px;
     }
 
-    .info-section {
-        h2 {
-            font-size: 2.2rem;
-            margin-bottom: 18px;
-        }
-
-        p {
-            width: 90%;
-            min-width: 300px;
-            max-width: 600px;
-            font-size: 1.1rem;
-        }
-
-        a {
-            margin-top: 40px;
-            margin-bottom: 24px;
-        }
+    p {
+      width: 90%;
+      min-width: 300px;
+      max-width: 600px;
+      font-size: 1.1rem;
     }
+
+    a {
+      margin-top: 40px;
+      margin-bottom: 24px;
+    }
+  }
 }

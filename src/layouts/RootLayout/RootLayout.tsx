@@ -1,13 +1,13 @@
-import { useEffect } from "react";
-import { Outlet, useLocation } from "react-router";
-import Navbar from "../../components/Navbar/Navbar";
-import styles from './RootLayout.module.scss'
+import { useEffect } from 'react';
+import { Outlet, useLocation } from 'react-router';
+import Navbar from '../../components/Navbar/Navbar';
+import styles from './RootLayout.module.scss';
 
 export default function RootLayout() {
   const location = useLocation();
 
   useEffect(() => {
-      window.scrollTo(0, 0);
+    window.scrollTo(0, 0);
   }, [location.pathname]);
 
   return (
@@ -15,7 +15,7 @@ export default function RootLayout() {
       <header>
         <Navbar />
       </header>
-      
+
       <main>
         <Outlet />
       </main>

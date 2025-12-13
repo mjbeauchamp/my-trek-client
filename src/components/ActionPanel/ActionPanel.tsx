@@ -1,6 +1,6 @@
-import styles from "./ActionPanel.module.scss";
+import styles from './ActionPanel.module.scss';
 
-type HeadingLevel = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
+type HeadingLevel = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
 
 interface PanelProps {
   title: string;
@@ -8,7 +8,7 @@ interface PanelProps {
   children: React.ReactNode;
 }
 
-export default function ActionPanel({ title, headingTag = "h2", children }: PanelProps) {
+export default function ActionPanel({ title, headingTag = 'h2', children }: PanelProps) {
   const HeadingTag = headingTag;
 
   return (
@@ -17,9 +17,7 @@ export default function ActionPanel({ title, headingTag = "h2", children }: Pane
         <HeadingTag>{title}</HeadingTag>
       </header>
 
-      <div className={styles.body}>
-        {children}
-      </div>
+      <div className={styles.body}>{children}</div>
     </section>
   );
 }

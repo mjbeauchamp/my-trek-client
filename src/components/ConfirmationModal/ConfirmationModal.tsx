@@ -1,19 +1,27 @@
-import { useRef, useState } from "react";
-import { Dialog, DialogPanel, DialogTitle, Description } from "@headlessui/react";
+import { useRef, useState } from 'react';
+import { Dialog, DialogPanel, DialogTitle, Description } from '@headlessui/react';
 
 interface ConfirmationModalProps {
-    isOpen: boolean,
-    onClose: () => void,
-    onConfirm?: () => Promise<string | undefined>
-    title: string,
-    actionBtnText?: string,
-    description?: string,
-    children?: React.ReactNode;
+  isOpen: boolean;
+  onClose: () => void;
+  onConfirm?: () => Promise<string | undefined>;
+  title: string;
+  actionBtnText?: string;
+  description?: string;
+  children?: React.ReactNode;
 }
 
-export default function ConfirmationModal({ isOpen, onClose, onConfirm, children, title, actionBtnText, description }: ConfirmationModalProps) {
+export default function ConfirmationModal({
+  isOpen,
+  onClose,
+  onConfirm,
+  children,
+  title,
+  actionBtnText,
+  description,
+}: ConfirmationModalProps) {
   const deleteButtonRef = useRef(null);
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
 
   const completeAction = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -21,20 +29,19 @@ export default function ConfirmationModal({ isOpen, onClose, onConfirm, children
 
     if (!onConfirm) {
       console.error('No button action provided to dialog');
-        return
+      return;
     }
 
     try {
-        setLoading(true);
-        const result = await onConfirm();
-        setLoading(false);
-
+      setLoading(true);
+      const result = await onConfirm();
+      setLoading(false);
     } catch (err) {
-        console.log('ERROR DELETING ITEM')
+      console.log('ERROR DELETING ITEM');
     } finally {
-        onClose();
+      onClose();
     }
-  }
+  };
 
   return (
     <>
@@ -49,32 +56,18 @@ export default function ConfirmationModal({ isOpen, onClose, onConfirm, children
 
         <div className="confirmation-modal__container">
           <DialogPanel className="confirmation-modal__panel open">
-            <DialogTitle className="confirmation-modal__title">
-              {title}
-            </DialogTitle>
+            <DialogTitle className="confirmation-modal__title">{title}</DialogTitle>
 
             <div className="panel-body">
-              {
-                description ? 
-                <Description className="confirmation-modal__description">
-                  {description}
-                </Description> :
-                null
-              }
-              
+              {description ? (
+                <Description className="confirmation-modal__description">{description}</Description>
+              ) : null}
 
-              { children ? 
-                children : 
-                null 
-              }
+              {children ? children : null}
 
-              { onConfirm && actionBtnText ? 
+              {onConfirm && actionBtnText ? (
                 <div className="confirmation-modal__actions">
-                  <button
-                    type="button"
-                    onClick={onClose}
-                    className="btn"
-                  >
+                  <button type="button" onClick={onClose} className="btn">
                     CANCEL
                   </button>
                   <button
@@ -85,8 +78,8 @@ export default function ConfirmationModal({ isOpen, onClose, onConfirm, children
                   >
                     {actionBtnText}
                   </button>
-                </div> : null 
-              }
+                </div>
+              ) : null}
             </div>
           </DialogPanel>
         </div>

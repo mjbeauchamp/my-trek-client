@@ -1,15 +1,14 @@
-import { SyncLoader } from "react-spinners";
-import styles from "./LoadingMessage.module.scss";
+import { SyncLoader } from 'react-spinners';
+import styles from './LoadingMessage.module.scss';
 
-export default function LoadingMessage({title, text}: {title: string, text?: string}) {
-
-    return (
-        <div role="status" className={styles['loading-message']}>
-            <h1>{title}</h1>
-            {text && <p>{text}</p>}
-            <div className={styles.loader}>
-                <SyncLoader />
-            </div>
-        </div>
-    )
+export default function LoadingMessage({ title, text }: { title: string; text?: string }) {
+  return (
+    <div role="status" className={styles['loading-message']}>
+      <h1>{title}</h1>
+      {text && <p>{text}</p>}
+      <div className={styles.loader}>
+        <SyncLoader />
+      </div>
+    </div>
+  );
 }
