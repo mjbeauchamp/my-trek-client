@@ -3,7 +3,7 @@ import styles from './HomePage.module.scss';
 import { Link } from 'react-router';
 
 export default function HomePage() {
-  const { isLoading, loginWithRedirect, logout, user, isAuthenticated } = useAuth0();
+  const { isAuthenticated } = useAuth0();
 
   return (
     <div className={styles.home}>

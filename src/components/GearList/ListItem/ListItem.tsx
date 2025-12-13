@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, Fragment } from 'react';
+import { useState, Fragment } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 
 import { Checkbox } from '@headlessui/react';
@@ -79,11 +79,12 @@ export default function ListItem({
 
       setUserGearList(updatedList);
       // setLoading(false);
-    } catch (err: any) {
+    } catch (err: unknown) {
       //TODO: error handling
       // Re-load the list
       // setError(err.message || "Error");
       // setLoading(false);
+      console.error('There was an error updating item: ', err);
     }
   };
 

@@ -1,9 +1,10 @@
 import { useState, useEffect, useRef } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Combobox, ComboboxInput, ComboboxOption, ComboboxOptions } from '@headlessui/react';
+import { ErrorAlertBlock } from '../ErrorAlertBlock/ErrorAlertBlock';
 import { GEAR_CATEGORIES } from '../../constants/categories';
 
-import type { GearList, CommonGearItem, UserGearItem } from '../../types/gearTypes';
+import type { GearList, CommonGearItem, UserGearItem, UserNewGearItem } from '../../types/gearTypes';
 
 interface PropTypes {
   userGearListItems: UserGearItem[] | undefined;
@@ -11,7 +12,7 @@ interface PropTypes {
   setNewItemId: React.Dispatch<React.SetStateAction<string>>;
   closeListItemDialog: () => void;
   mode: 'create' | 'edit';
-  initialData?: any;
+  initialData?: UserGearItem | null;
   listId?: string;
 }
 
@@ -28,16 +29,19 @@ export default function GearItemForm({
   const [itemName, setItemName] = useState(initialData?.name || '');
   const [category, setCategory] = useState(initialData?.category || '');
   const [quantityNeeded, setQuantityNeeded] = useState(initialData?.quantityNeeded || '1');
-  const [quantityToPack, setQuantityToPack] = useState(initialData?.quantityToPack || '1');
-  const [quantityToShop, setQuantityToShop] = useState(initialData?.quantityToShop || '0');
   const [notes, setNotes] = useState(initialData?.notes || '');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  // GIVE USER ABILITY TO UPDATE THESE WHEN SHOPPING LIST
+  // AND PACKING LIST TABS ARE SUPPORTED
+  // eslint-disable-next-line
+  const [quantityToPack, setQuantityToPack] = useState(initialData?.quantityToPack || '1');
+  // eslint-disable-next-line
+  const [quantityToShop, setQuantityToShop] = useState(initialData?.quantityToShop || '0');
+
   // Common gear item list
   const [commonGear, setCommonGear] = useState<CommonGearItem[]>([]);
-  const [loadingCommonGear, setLoadingCommonGear] = useState(true);
-  const [errorCommonGear, setErrorCommonGear] = useState('');
   const [query, setQuery] = useState('');
   const [selectedCommonGear, setSelectedCommonGear] = useState<CommonGearItem | null>(null);
   const commonGearInputRef = useRef<HTMLInputElement>(null);
@@ -67,11 +71,11 @@ export default function GearItemForm({
         }
         const data = await res.json();
 
+        // TODO: Only set common gear if data is an array of the correct types of objects
+
         setCommonGear(data);
       } catch (err) {
-        console.error('Error fetching gear:', err);
-      } finally {
-        setLoadingCommonGear(false);
+        console.error('Error fetching common gear items:', err);
       }
     };
     fetchCommonGear();
@@ -86,16 +90,7 @@ export default function GearItemForm({
     }
   };
 
-  const addGearListItem = async (newItem: {
-    itemData: {
-      name: any;
-      category: any;
-      quantityNeeded: number;
-      quantityToPack: number;
-      quantityToShop: number;
-      notes: string;
-    };
-  }) => {
+  const addGearListItem = async (newItem: { itemData: UserNewGearItem }) => {
     try {
       setLoading(true);
       setError(null);
@@ -113,7 +108,7 @@ export default function GearItemForm({
         throw new Error('Failed to add item');
       }
       const createdItem = await res.json();
-      setLoading(false);
+
       setUserGearList((prev: any) => {
         return {
           ...prev,
@@ -121,27 +116,19 @@ export default function GearItemForm({
         };
       });
       setNewItemId(createdItem._id);
-    } catch (err: any) {
-      //TODO: error handling
-      setError(err.message || 'Error');
-      setLoading(false);
-    } finally {
       closeListItemDialog();
+    } catch (err: any) {
+      console.error('Error adding gear item:', err);
+      setError(err.message || 'There was an error adding gear item');
+    } finally {
+      setLoading(false);
     }
   };
 
-  const editGearListItem = async (newItem: {
-    itemData: {
-      name: any;
-      category: any;
-      quantityNeeded: number;
-      quantityToPack: number;
-      quantityToShop: number;
-      notes: string;
-    };
-  }) => {
-    if (!listId || !initialData._id) {
+  const editGearListItem = async (newItem: { itemData: UserNewGearItem }) => {
+    if (!listId || !initialData?._id) {
       // TODO: HANDLE ERROR, because if we don't have these we can't make the call
+      return;
     }
     try {
       setLoading(true);
@@ -163,13 +150,12 @@ export default function GearItemForm({
       const updatedList = await res.json();
 
       setUserGearList(updatedList);
-      setLoading(false);
+      closeListItemDialog();
     } catch (err: any) {
       //TODO: error handling
-      setError(err.message || 'Error');
-      setLoading(false);
+      setError(err.message || 'There was an error updating gear item');
     } finally {
-      closeListItemDialog();
+      setLoading(false);
     }
   };
 
@@ -201,7 +187,7 @@ export default function GearItemForm({
       return;
     }
 
-    const newItem = {
+    const newItem: { itemData: UserNewGearItem } = {
       itemData: {
         name: itemName.trim(),
         category: category.trim(),
@@ -359,12 +345,14 @@ export default function GearItemForm({
           />
         </div>
 
+        {error && <ErrorAlertBlock message={error} />}
+
         <div className="action-container">
           <button type="button" onClick={closeListItemDialog} className="btn gray">
             CANCEL
           </button>
 
-          <button type="submit" className="btn dark">
+          <button type="submit" className="btn dark" disabled={loading}>
             {mode === 'create' ? <span>ADD</span> : <span>UPDATE</span>}
           </button>
         </div>

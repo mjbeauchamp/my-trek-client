@@ -11,6 +11,8 @@ export interface UserGearItem extends CommonGearItem {
   notes?: string;
 }
 
+export type UserNewGearItem = Omit<UserGearItem, '_id'>;
+
 export interface GearList {
   _id: string;
   listTitle: string;

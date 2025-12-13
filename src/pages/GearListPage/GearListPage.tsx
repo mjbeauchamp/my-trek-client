@@ -96,7 +96,8 @@ export default function GearListPage() {
     } else {
       fetchUserGearList();
     }
-  }, [userGearLists, getAccessTokenSilently, user, isAuthenticated]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [listId, userGearLists, getAccessTokenSilently, user, isAuthenticated]);
 
   useEffect(() => {
     if (!newItemId) return;

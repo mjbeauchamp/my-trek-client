@@ -37,6 +37,7 @@ export default function GearLists() {
     };
 
     fetchGearLists();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const openDeleteListDialog = (event: React.MouseEvent<HTMLButtonElement>, listId: string) => {

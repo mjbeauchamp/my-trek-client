@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Routes, Route } from 'react-router';
 import './App.scss';
@@ -15,8 +15,6 @@ import UserGearListsProvider from './providers/UserGearListsProvider';
 
 function App() {
   const { user, isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
-  const [isUserLoading, setIsUserLoading] = useState(true);
-
   const hasSynced = useRef(false);
 
   useEffect(() => {
@@ -42,8 +40,6 @@ function App() {
         // DO WHATEVER WE WANT TO DO AFTER USER REGISTERS/LOGS IN
       } catch (err) {
         console.error('Failed to sync user:', err);
-      } finally {
-        setIsUserLoading(false);
       }
     };
 
