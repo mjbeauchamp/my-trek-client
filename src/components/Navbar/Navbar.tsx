@@ -66,9 +66,7 @@ export default function Navbar() {
                 <MenuSeparator className="menu-separator" />
                 <MenuItem>
                   <div className="menu-item">
-                    <button
-                      onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}
-                    >
+                    <button onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}>
                       Log Out
                     </button>
                   </div>
@@ -79,9 +77,7 @@ export default function Navbar() {
         ) : (
           <button
             className="btn light"
-            onClick={() =>
-              loginWithRedirect({ authorizationParams: { redirect_uri: window.location.href } })
-            }
+            onClick={() => loginWithRedirect({ authorizationParams: { redirect_uri: window.location.href } })}
           >
             Log In
           </button>

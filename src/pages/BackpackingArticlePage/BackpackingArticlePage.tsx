@@ -44,8 +44,7 @@ export default function BackpackingArticlePage() {
           throw new Error('Article data is an unexpected format.');
         }
       } catch (err) {
-        const message =
-          err instanceof Error && err.message ? err.message : 'Server error fetching article';
+        const message = err instanceof Error && err.message ? err.message : 'Server error fetching article';
         console.error(message);
         setError('There was an issue fetching the article.');
       } finally {
@@ -77,9 +76,7 @@ export default function BackpackingArticlePage() {
 
           <hr />
 
-          {article.imageUrl && (
-            <img src={`/images/articles/large/${article.imageUrl}`} alt={article.imageAlt} />
-          )}
+          {article.imageUrl && <img src={`/images/articles/large/${article.imageUrl}`} alt={article.imageAlt} />}
 
           <section className={styles.copy}>
             {article.content.map((paragraph: string, i: number) => {

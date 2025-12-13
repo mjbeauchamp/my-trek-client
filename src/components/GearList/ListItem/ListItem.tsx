@@ -63,17 +63,14 @@ export default function ListItem({
       // setError(null);
 
       const token = await getAccessTokenSilently();
-      const res = await fetch(
-        `http://localhost:4000/api/gear-lists/gear-list/${listId}/items/${item._id}`,
-        {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(newItem),
+      const res = await fetch(`http://localhost:4000/api/gear-lists/gear-list/${listId}/items/${item._id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
         },
-      );
+        body: JSON.stringify(newItem),
+      });
       if (!res.ok) {
         const body = await res.json().catch(() => ({}));
         throw new Error(body.message || 'Failed to edit item');
@@ -106,12 +103,7 @@ export default function ListItem({
               <Checkbox checked={checked} onChange={() => updateItem(!checked)} as={Fragment}>
                 <span className={styles['checkbox']}>
                   <svg className={styles.check} viewBox="0 0 14 14" fill="none">
-                    <path
-                      d="M3 8L6 11L11 3.5"
-                      strokeWidth={2}
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
+                    <path d="M3 8L6 11L11 3.5" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 </span>
               </Checkbox>
@@ -124,10 +116,7 @@ export default function ListItem({
             </div>
 
             {item.notes && (
-              <button
-                onClick={() => setShowNotes((prev) => !prev)}
-                className={`${styles['notes-toggle-btn']} btn`}
-              >
+              <button onClick={() => setShowNotes((prev) => !prev)} className={`${styles['notes-toggle-btn']} btn`}>
                 {showNotes ? 'Hide Notes' : 'View Notes'}
               </button>
             )}

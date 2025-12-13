@@ -27,9 +27,7 @@ export default function ProtectedRoute({ children }: { children: React.ReactNode
   }, [isLoading]);
 
   if (isLoading) {
-    return (
-      <>{showMessage ? <LoadingMessage title="Loading Account Info" text="Hang tight!" /> : null}</>
-    );
+    return <>{showMessage ? <LoadingMessage title="Loading Account Info" text="Hang tight!" /> : null}</>;
   }
 
   return isAuthenticated ? children : null;

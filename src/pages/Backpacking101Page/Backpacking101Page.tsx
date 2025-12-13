@@ -51,8 +51,7 @@ export default function BackpackingBasicsPage() {
           throw new Error('Article data is an unexpected format.');
         }
       } catch (err) {
-        const message =
-          err instanceof Error && err.message ? err.message : 'Server error fetching articles';
+        const message = err instanceof Error && err.message ? err.message : 'Server error fetching articles';
         console.error(message);
         setError('There was an issue fetching Backpacking 101 articles.');
       } finally {

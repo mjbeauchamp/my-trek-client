@@ -176,16 +176,13 @@ export default function GearListPage() {
 
     try {
       const token = await getAccessTokenSilently();
-      const res = await fetch(
-        `http://localhost:4000/api/gear-lists/gear-list/${listId}/items/${pendingDeleteId}`,
-        {
-          method: 'DELETE',
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
+      const res = await fetch(`http://localhost:4000/api/gear-lists/gear-list/${listId}/items/${pendingDeleteId}`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
         },
-      );
+      });
 
       if (!res.ok) {
         //TODO: handle error
@@ -333,9 +330,7 @@ export default function GearListPage() {
           </button>
         </div>
 
-        {userGearList?.listDescription ? (
-          <p className={styles.description}>{userGearList?.listDescription}</p>
-        ) : null}
+        {userGearList?.listDescription ? <p className={styles.description}>{userGearList?.listDescription}</p> : null}
       </header>
 
       <hr />
@@ -442,19 +437,11 @@ export default function GearListPage() {
           {editingError ? <ErrorAlertBlock message={editingError} /> : null}
 
           <div className="action-container">
-            <button
-              type="button"
-              onClick={() => setIsEditMetadataDialogOpen(false)}
-              className="btn"
-            >
+            <button type="button" onClick={() => setIsEditMetadataDialogOpen(false)} className="btn">
               CANCEL
             </button>
             <button type="submit" className="btn dark" disabled={editLoading}>
-              {editLoading ? (
-                <ClipLoader color="white" size="18px" speedMultiplier={0.7} />
-              ) : (
-                'UPDATE'
-              )}
+              {editLoading ? <ClipLoader color="white" size="18px" speedMultiplier={0.7} /> : 'UPDATE'}
             </button>
           </div>
         </form>

@@ -15,7 +15,7 @@ export default function CreateGearListPage() {
   const [error, setError] = useState('');
   const { setUserGearLists } = useUserGearLists();
 
-  let navigate = useNavigate();
+  const navigate = useNavigate();
   const { getAccessTokenSilently } = useAuth0();
 
   const createList = async (event: React.FormEvent<HTMLFormElement>) => {

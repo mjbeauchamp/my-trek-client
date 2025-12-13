@@ -44,9 +44,7 @@ export default function GearItemForm({
 
   // Filter "Common Gear" options based on query
   const filtered =
-    query === ''
-      ? commonGear
-      : commonGear.filter((gear) => gear.name.toLowerCase().includes(query.toLowerCase()));
+    query === '' ? commonGear : commonGear.filter((gear) => gear.name.toLowerCase().includes(query.toLowerCase()));
 
   // Group "Common Gear" options by category
   const grouped: Record<string, CommonGearItem[]> = filtered.reduce(
@@ -150,17 +148,14 @@ export default function GearItemForm({
       setError(null);
 
       const token = await getAccessTokenSilently();
-      const res = await fetch(
-        `http://localhost:4000/api/gear-lists/gear-list/${listId}/items/${initialData._id}`,
-        {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(newItem),
+      const res = await fetch(`http://localhost:4000/api/gear-lists/gear-list/${listId}/items/${initialData._id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
         },
-      );
+        body: JSON.stringify(newItem),
+      });
       if (!res.ok) {
         const body = await res.json().catch(() => ({}));
         throw new Error(body.message || 'Failed to edit item');
@@ -256,9 +251,7 @@ export default function GearItemForm({
                   <div key={category} className="combobox-group">
                     <h3 className="combobox-group-label">{category}</h3>
                     {items.map((gear) => {
-                      const alreadyAdded = userGearListItems?.some(
-                        (item: UserGearItem) => item.name === gear.name,
-                      );
+                      const alreadyAdded = userGearListItems?.some((item: UserGearItem) => item.name === gear.name);
                       return (
                         <ComboboxOption
                           key={gear._id}
@@ -270,9 +263,7 @@ export default function GearItemForm({
                           }
                         >
                           {gear.name}
-                          {alreadyAdded ? (
-                            <span className="combobox-badge">Already in list</span>
-                          ) : null}
+                          {alreadyAdded ? <span className="combobox-badge">Already in list</span> : null}
                         </ComboboxOption>
                       );
                     })}

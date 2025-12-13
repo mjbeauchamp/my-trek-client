@@ -45,12 +45,7 @@ export default function ConfirmationModal({
 
   return (
     <>
-      <Dialog
-        open={isOpen}
-        onClose={onClose}
-        initialFocus={deleteButtonRef}
-        className="confirmation-modal"
-      >
+      <Dialog open={isOpen} onClose={onClose} initialFocus={deleteButtonRef} className="confirmation-modal">
         {/* Backdrop */}
         <div className="confirmation-modal__backdrop" aria-hidden="true" />
 
@@ -70,12 +65,7 @@ export default function ConfirmationModal({
                   <button type="button" onClick={onClose} className="btn">
                     CANCEL
                   </button>
-                  <button
-                    ref={deleteButtonRef}
-                    type="button"
-                    onClick={(e) => completeAction(e)}
-                    className="btn delete"
-                  >
+                  <button ref={deleteButtonRef} type="button" onClick={(e) => completeAction(e)} className="btn delete">
                     {actionBtnText}
                   </button>
                 </div>

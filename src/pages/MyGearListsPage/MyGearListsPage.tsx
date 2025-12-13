@@ -2,6 +2,7 @@ import { Link } from 'react-router';
 import { useAuth0 } from '@auth0/auth0-react';
 import GearLists from '../../components/GearLists/GearLists';
 import ActionPanel from '../../components/ActionPanel/ActionPanel';
+import LoadingMessage from '../../components/LoadingMessage/LoadingMessage';
 import styles from './MyGearListsPage.module.scss';
 
 export default function MyGearListsPage() {
@@ -11,9 +12,7 @@ export default function MyGearListsPage() {
     <div className={`content-container ${styles['my-gear-lists']}`}>
       <header>
         <h1 className={`merriweather ${styles.header}`}>MY GEAR LISTS</h1>
-        <p className={styles.tagline}>
-          Create multiple lists so you're prepared for any adventure!
-        </p>
+        <p className={styles.tagline}>Create multiple lists so you're prepared for any adventure!</p>
       </header>
 
       <hr />
@@ -24,7 +23,9 @@ export default function MyGearListsPage() {
         </Link>
       ) : null}
 
-      {isAuthenticated ? (
+      {isLoading ? (
+        <LoadingMessage title="Loading User..." />
+      ) : isAuthenticated ? (
         <GearLists />
       ) : (
         <ActionPanel title="Sign In to Start Planning" headingTag="h2">
@@ -33,9 +34,7 @@ export default function MyGearListsPage() {
 
           <button
             className="btn dark large"
-            onClick={() =>
-              loginWithRedirect({ authorizationParams: { redirect_uri: window.location.href } })
-            }
+            onClick={() => loginWithRedirect({ authorizationParams: { redirect_uri: window.location.href } })}
           >
             GET STARTED
           </button>

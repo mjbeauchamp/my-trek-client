@@ -104,9 +104,7 @@ export default function GearLists() {
                   <article>
                     <Link to={`/my-gear-lists/${list._id}`}>
                       <h2>{list.listTitle}</h2>
-                      {list.listDescription && (
-                        <p className={styles.description}>{list.listDescription}</p>
-                      )}
+                      {list.listDescription && <p className={styles.description}>{list.listDescription}</p>}
                     </Link>
 
                     <button
