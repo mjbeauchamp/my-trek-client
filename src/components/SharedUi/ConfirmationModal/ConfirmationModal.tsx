@@ -38,6 +38,7 @@ export default function ConfirmationModal({
       await onConfirm();
       setLoading(false);
     } catch (err) {
+      // TODO: add error handling
       console.log('ERROR DELETING ITEM:', err);
       toast.error('There was a problem completing action.');
     } finally {

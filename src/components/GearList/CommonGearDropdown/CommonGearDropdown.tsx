@@ -43,8 +43,6 @@ export default function CommonGearDropdown({ onCommonGearSelect, userGearListIte
     return orderA - orderB;
   });
 
-  console.log(sortedCategories);
-
   useEffect(() => {
     const fetchCommonGear = async () => {
       try {

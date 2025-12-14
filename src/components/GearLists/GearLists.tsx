@@ -34,7 +34,6 @@ export default function GearLists() {
           console.error('Fetched gear lists are not an array', lists);
           return;
         }
-        console.log('');
         setUserGearLists(lists);
       } catch (error) {
         console.error(error);

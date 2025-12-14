@@ -5,6 +5,7 @@ import type { GearList, UserGearItem } from '../../types/gearTypes';
 import useUserGearLists from '../../hooks/useUserGearLists';
 import GearItemForm from '../../components/GearList/GearItemForm/GearItemForm';
 import ConfirmationModal from '../../components/SharedUi/ConfirmationModal/ConfirmationModal';
+import EditListModal from '../../components/GearList/EditListModal/EditListModal';
 import { ErrorAlertBlock } from '../../components/SharedUi/ErrorAlertBlock/ErrorAlertBlock';
 import { GEAR_CATEGORIES } from '../../constants/categories';
 import type { GearCategoryId } from '../../constants/categories';
@@ -26,7 +27,6 @@ import {
   faGlasses,
   faBinoculars,
 } from '@fortawesome/free-solid-svg-icons';
-import { ClipLoader } from 'react-spinners';
 import ListItem from '../../components/GearList/ListItem/ListItem';
 import LoadingMessage from '../../components/SharedUi/LoadingMessage/LoadingMessage';
 
@@ -47,12 +47,8 @@ export default function GearListPage() {
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [pendingDeleteId, setPendingDeleteId] = useState('');
 
-  // Edit list metadata dialog
+  // Edit metadata dialog
   const [isEditMetadataDialogOpen, setIsEditMetadataDialogOpen] = useState(false);
-  const [listTitle, setListTitle] = useState('');
-  const [listDescription, setListDescription] = useState('');
-  const [editingError, setEditingError] = useState('');
-  const [editLoading, setEditLoading] = useState(false);
 
   const { getAccessTokenSilently, user, isAuthenticated } = useAuth0();
 
@@ -89,10 +85,7 @@ export default function GearListPage() {
   };
 
   useEffect(() => {
-    console.log(listId);
     const list = listId && getGearListById(listId);
-
-    console.log('LIST', list);
 
     if (list) {
       setUserGearList(list);
@@ -183,85 +176,7 @@ export default function GearListPage() {
     setIsDeleteDialogOpen(true);
   };
 
-  const updateListMetadata = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    if (!listTitle || !listTitle.trim()) {
-      console.warn('List name is required to create a gear list.');
-      setEditingError('List name is required to create a gear list.');
-      return;
-    }
-
-    if (listTitle.trim().length > 60) {
-      setEditingError('List title cannot exceed 60 characters.');
-      return;
-    }
-    if (listDescription.trim().length > 250) {
-      setEditingError('List description cannot exceed 250 characters.');
-      return;
-    }
-
-    const updatedGearListMetadata: { listTitle: string; listDescription: string } = {
-      listTitle: listTitle.trim(),
-      listDescription: listDescription.trim(),
-    };
-
-    if (
-      !userGearList ||
-      (userGearList?.listTitle === updatedGearListMetadata.listTitle &&
-        userGearList.listDescription === updatedGearListMetadata.listDescription)
-    ) {
-      setEditingError('Make a change to list name or description to update the selected list.');
-      return;
-    }
-
-    try {
-      const token = await getAccessTokenSilently();
-
-      if (!token) {
-        console.error('No user token found');
-        setEditingError('There was a problem updating the gear list. User token not found.');
-        return;
-      }
-
-      setEditLoading(true);
-
-      const res = await fetch(`http://localhost:4000/api/gear-lists/gear-list/${listId}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(updatedGearListMetadata),
-      });
-
-      if (!res.ok) {
-        const serverError = await res.json();
-        console.error('Server error: ', serverError);
-        setEditingError('There was a problem updating the gear list.');
-        return;
-      }
-
-      const data = await res.json();
-
-      if (!data._id) {
-        console.error('There was a problem fetching the gear list.');
-        setEditingError('There was a problem fetching the gear list.');
-      } else {
-        setUserGearList(data);
-        setIsEditMetadataDialogOpen(false);
-      }
-    } catch (err) {
-      console.error(err);
-      setEditingError('There was a problem updating the gear list.');
-    } finally {
-      setEditLoading(false);
-    }
-  };
-
   const startListMetadataEdit = () => {
-    setListTitle(userGearList?.listTitle || '');
-    setListDescription(userGearList?.listDescription || '');
     setIsEditMetadataDialogOpen(true);
   };
 
@@ -394,60 +309,13 @@ export default function GearListPage() {
         />
       </ConfirmationModal>
 
-      <ConfirmationModal
-        isOpen={isEditMetadataDialogOpen}
-        onClose={() => setIsEditMetadataDialogOpen(false)}
-        title="Update List"
-      >
-        <form onSubmit={(e) => updateListMetadata(e)}>
-          <div className="input-container">
-            <label htmlFor="listName">List Name</label>
-            <input
-              className="input-base"
-              id="listName"
-              type="text"
-              value={listTitle}
-              onChange={(e) => {
-                setEditingError('');
-                return setListTitle(e.target.value);
-              }}
-              maxLength={60}
-              placeholder="e.g. Everest Trip"
-              required
-            />
-          </div>
-
-          <div className="input-container">
-            <label htmlFor="listDescription">List Description (optional)</label>
-            <input
-              className="input-base"
-              id="listDescription"
-              type="text"
-              value={listDescription}
-              onChange={(e) => setListDescription(e.target.value)}
-              maxLength={250}
-            />
-          </div>
-
-          {editingError ? <ErrorAlertBlock message={editingError} /> : null}
-
-          <div className="action-container">
-            <button
-              type="button"
-              onClick={() => {
-                setEditingError('');
-                setIsEditMetadataDialogOpen(false);
-              }}
-              className="btn"
-            >
-              CANCEL
-            </button>
-            <button type="submit" className="btn dark" disabled={editLoading}>
-              {editLoading ? <ClipLoader color="white" size="18px" speedMultiplier={0.7} /> : 'UPDATE'}
-            </button>
-          </div>
-        </form>
-      </ConfirmationModal>
+      <EditListModal
+        isEditMetadataDialogOpen={isEditMetadataDialogOpen}
+        userGearList={userGearList}
+        setIsEditMetadataDialogOpen={setIsEditMetadataDialogOpen}
+        setUserGearList={setUserGearList}
+        listId={listId}
+      />
     </div>
   );
 }
