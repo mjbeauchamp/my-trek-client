@@ -66,7 +66,7 @@
   font-style: normal;
 }
 
-// GENERAL GLOBAL STYLES
+// GENERAL GLOBAL ELEMENT STYLES
 body {
   margin: 0;
   display: flex;
@@ -92,7 +92,7 @@ h1,
 h2,
 h3,
 h4,
-h4,
+h5,
 h6 {
   margin: 0;
   overflow-wrap: break-word;
@@ -102,6 +102,14 @@ p {
   margin-top: 0;
   overflow-wrap: break-word;
 }
+
+hr {
+  border: none;
+  height: 1px;
+  background-color: var(--color-light-gray);
+}
+
+// LAYOUT STYLING
 
 .content-container {
   margin: 0 auto;
@@ -123,6 +131,21 @@ p {
   flex-direction: column;
   align-items: center;
 }
+
+.w-full {
+  width: 100%;
+}
+
+.w-80 {
+  width: 80%;
+}
+
+.flex-align-start {
+  display: flex;
+  align-items: flex-start;
+}
+
+// BUTTON STYLING
 
 .btn {
   display: inline-block;
@@ -230,6 +253,8 @@ p {
   }
 }
 
+// INPUT STYLING
+
 .input-base {
   width: 100%;
   font-size: 1.1rem;
@@ -269,23 +294,4 @@ p {
   background-position: right 12px center;
   background-size: 1.2rem;
   padding-right: 2.5rem;
-}
-
-.w-full {
-  width: 100%;
-}
-
-.w-80 {
-  width: 80%;
-}
-
-.flex-align-start {
-  display: flex;
-  align-items: flex-start;
-}
-
-hr {
-  border: none;
-  height: 1px;
-  background-color: var(--color-light-gray);
 }
