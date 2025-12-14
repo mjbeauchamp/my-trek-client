@@ -11,7 +11,7 @@ import type { GearList } from '../../../types/gearTypes';
 
 interface ListItemProps {
   openListItemDialog: (mode: 'create' | 'edit', item?: UserGearItem) => void;
-  openDeleteListDialog: (event: React.MouseEvent<HTMLButtonElement>, itemId: string) => void;
+  openDeleteItemDialog: (event: React.MouseEvent<HTMLButtonElement>, itemId: string) => void;
   updateItemRef: (itemId: string, el: HTMLLIElement | null) => void;
   setUserGearList: React.Dispatch<React.SetStateAction<GearList | null>>;
   item: UserGearItem;
@@ -20,7 +20,7 @@ interface ListItemProps {
 
 export default function ListItem({
   openListItemDialog,
-  openDeleteListDialog,
+  openDeleteItemDialog,
   updateItemRef,
   setUserGearList,
   item,
@@ -132,7 +132,7 @@ export default function ListItem({
               <FontAwesomeIcon icon={faEdit} size="xl" />
             </button>
             <button
-              onClick={(e) => openDeleteListDialog(e, item._id)}
+              onClick={(e) => openDeleteItemDialog(e, item._id)}
               aria-label="Delete list item"
               className={styles['delete-button']}
             >

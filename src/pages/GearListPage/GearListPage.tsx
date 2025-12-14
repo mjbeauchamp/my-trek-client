@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useParams } from 'react-router';
 import { useAuth0 } from '@auth0/auth0-react';
 import type { GearList, UserGearItem } from '../../types/gearTypes';
@@ -7,27 +7,10 @@ import GearItemForm from '../../components/GearList/GearItemForm/GearItemForm';
 import ConfirmationModal from '../../components/SharedUi/ConfirmationModal/ConfirmationModal';
 import EditListModal from '../../components/GearList/EditListModal/EditListModal';
 import { ErrorAlertBlock } from '../../components/SharedUi/ErrorAlertBlock/ErrorAlertBlock';
-import { GEAR_CATEGORIES } from '../../constants/categories';
-import type { GearCategoryId } from '../../constants/categories';
+import GearListByCategory from '../../components/GearList/GearListByCategory/GearListByCategory';
 import styles from './GearListPage.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faEdit,
-  faCampground,
-  faShirt,
-  faCloudRain,
-  faFireBurner,
-  faTree,
-  faUtensils,
-  faBurger,
-  faDroplet,
-  faToiletPaper,
-  faCompass,
-  faBriefcaseMedical,
-  faGlasses,
-  faBinoculars,
-} from '@fortawesome/free-solid-svg-icons';
-import ListItem from '../../components/GearList/ListItem/ListItem';
+import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import LoadingMessage from '../../components/SharedUi/LoadingMessage/LoadingMessage';
 
 export default function GearListPage() {
@@ -85,6 +68,7 @@ export default function GearListPage() {
   };
 
   useEffect(() => {
+    // Checking for gear list in useUserGearLists provider state
     const list = listId && getGearListById(listId);
 
     if (list) {
@@ -102,31 +86,6 @@ export default function GearListPage() {
       el.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
   }, [newItemId]);
-
-  const categorizedList = useMemo(() => {
-    if (!userGearList?.items || userGearList.items.length < 1) return {};
-
-    const categories: Record<GearCategoryId, UserGearItem[]> = GEAR_CATEGORIES.reduce(
-      (acc, cat) => {
-        acc[cat.id] = [];
-        return acc;
-      },
-      {} as Record<GearCategoryId, UserGearItem[]>,
-    );
-
-    userGearList.items.forEach((item) => {
-      const catId: GearCategoryId = item.category || 'misc';
-      categories[catId]?.push(item);
-    });
-
-    const result: Record<GearCategoryId, UserGearItem[]> = {};
-
-    for (const [key, items] of Object.entries(categories) as [GearCategoryId, UserGearItem[]][]) {
-      if (items.length > 0) result[key] = items;
-    }
-
-    return result;
-  }, [userGearList]);
 
   function openListItemDialog(mode: 'create' | 'edit', item?: UserGearItem) {
     setItemDialogMode(mode);
@@ -168,47 +127,12 @@ export default function GearListPage() {
     }
   };
 
-  const openDeleteListDialog = (event: React.MouseEvent<HTMLButtonElement>, itemId: string) => {
+  const openDeleteItemDialog = (event: React.MouseEvent<HTMLButtonElement>, itemId: string) => {
     event.preventDefault();
     event.stopPropagation();
 
     setPendingDeleteId(itemId);
     setIsDeleteDialogOpen(true);
-  };
-
-  const startListMetadataEdit = () => {
-    setIsEditMetadataDialogOpen(true);
-  };
-
-  const getCategoryIcon = (category: string) => {
-    switch (category) {
-      case 'shelter':
-        return faCampground;
-      case 'clothing':
-        return faShirt;
-      case 'weather':
-        return faCloudRain;
-      case 'essentials':
-        return faFireBurner;
-      case 'cooking':
-        return faUtensils;
-      case 'food':
-        return faBurger;
-      case 'water':
-        return faDroplet;
-      case 'toiletries':
-        return faToiletPaper;
-      case 'navigation':
-        return faCompass;
-      case 'safety':
-        return faBriefcaseMedical;
-      case 'personal':
-        return faGlasses;
-      case 'misc':
-        return faBinoculars;
-      default:
-        return faTree;
-    }
   };
 
   const gearListRenderContent = () => {
@@ -219,40 +143,14 @@ export default function GearListPage() {
     } else if (userGearList?.items && userGearList.items.length > 0) {
       return (
         <>
-          <div className={styles['items-list-container']}>
-            {GEAR_CATEGORIES.map((cat, i) => {
-              const items = categorizedList[cat.id];
-              // skip empty categories
-              if (!items || items.length === 0) return null;
-
-              return (
-                <div key={cat.id}>
-                  {i > 0 ? <hr /> : null}
-
-                  <section className={styles['category-section']}>
-                    <div className={styles['category-title']}>
-                      <FontAwesomeIcon icon={getCategoryIcon(cat.id)} size="2xl" />
-                      <h2>{cat.label}</h2>
-                    </div>
-
-                    <ul className={styles['items-list']}>
-                      {items.map((item) => (
-                        <ListItem
-                          key={item._id}
-                          item={item}
-                          updateItemRef={updateItemRef}
-                          openDeleteListDialog={openDeleteListDialog}
-                          openListItemDialog={openListItemDialog}
-                          listId={listId}
-                          setUserGearList={setUserGearList}
-                        />
-                      ))}
-                    </ul>
-                  </section>
-                </div>
-              );
-            })}
-          </div>
+          <GearListByCategory
+            listId={listId}
+            userGearList={userGearList}
+            updateItemRef={updateItemRef}
+            openDeleteItemDialog={openDeleteItemDialog}
+            openListItemDialog={openListItemDialog}
+            setUserGearList={setUserGearList}
+          />
         </>
       );
     }
@@ -266,7 +164,7 @@ export default function GearListPage() {
         <div className={styles['list-details']}>
           <h1 className={`merriweather ${styles.title}`}>{userGearList?.listTitle}</h1>
           <button
-            onClick={startListMetadataEdit}
+            onClick={() => setIsEditMetadataDialogOpen(true)}
             aria-label="Edit list title and description"
             className={styles['edit-list-details']}
           >

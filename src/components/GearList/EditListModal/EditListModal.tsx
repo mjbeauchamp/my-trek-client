@@ -5,7 +5,6 @@ import { ClipLoader } from 'react-spinners';
 import ConfirmationModal from '../../SharedUi/ConfirmationModal/ConfirmationModal';
 import { ErrorAlertBlock } from '../../SharedUi/ErrorAlertBlock/ErrorAlertBlock';
 import type { GearList } from '../../../types/gearTypes';
-// import styles from './EditListModal.module.scss';
 
 interface EditListModalProps {
   isEditMetadataDialogOpen: boolean;
