@@ -15,12 +15,4 @@ export const GEAR_CATEGORIES = [
 
 export type GearCategoryId = string;
 
-export const GEAR_CATEGORY_MAP: Record<string, string> = GEAR_CATEGORIES.reduce(
-  (acc, cat) => {
-    acc[cat.id] = cat.label;
-    return acc;
-  },
-  {} as Record<string, string>,
-);
-
 export type GearCategory = (typeof GEAR_CATEGORIES)[number];

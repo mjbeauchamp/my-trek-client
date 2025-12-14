@@ -533,6 +533,10 @@ hr {
   text-transform: uppercase;
   text-align: left;
   background-color: var(--color-secondary);
+
+  @media (max-width: 600px) {
+    font-size: 1.2rem;
+  }
 }
 
 .combobox-option {
