@@ -11,7 +11,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 
 export default function GearLists() {
-  const { userGearLists, setUserGearLists } = useUserGearLists();
+  const { userGearLists, setUserGearLists, removeGearList } = useUserGearLists();
   const { getAccessTokenSilently } = useAuth0();
   const [loadingUserGearLists, setLoadingUserGearLists] = useState(false);
   const [errorUserGearLists, setErrorUserGearLists] = useState('');
@@ -28,9 +28,18 @@ export default function GearLists() {
           headers: { Authorization: `Bearer ${token}` },
         });
         const lists = await res.json();
+
+        //TODO Error handle and check that data is the right shape
+        if (!Array.isArray(lists)) {
+          console.error('Fetched gear lists are not an array', lists);
+          return;
+        }
+        console.log('');
         setUserGearLists(lists);
       } catch (error) {
         console.error(error);
+        //TODO: handle error
+        setErrorUserGearLists('There was a problem fetching gear lists');
       } finally {
         setLoadingUserGearLists(false);
       }
@@ -67,26 +76,7 @@ export default function GearLists() {
         //TODO: handle error
       }
 
-      setLoadingUserGearLists(true);
-      setErrorUserGearLists('');
-      try {
-        const token = await getAccessTokenSilently();
-        const res = await fetch('http://localhost:4000/api/gear-lists', {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        if (!res.ok) {
-          //TODO: handle error
-        }
-
-        const lists = await res.json();
-
-        setUserGearLists(lists);
-      } catch (err) {
-        console.error('Error fetching gear:', err);
-        setErrorUserGearLists('There was an error fetching gear list');
-      } finally {
-        setLoadingUserGearLists(false);
-      }
+      removeGearList(pendingDeleteId);
     } catch (error) {
       //TODO: Handle error
 

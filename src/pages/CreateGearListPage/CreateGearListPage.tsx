@@ -5,7 +5,6 @@ import useUserGearLists from '../../hooks/useUserGearLists';
 import ActionPanel from '../../components/SharedUi/ActionPanel/ActionPanel';
 import { ErrorAlertBlock } from '../../components/SharedUi/ErrorAlertBlock/ErrorAlertBlock';
 import styles from './CreateGearListPage.module.scss';
-import type { GearList } from '../../types/gearTypes';
 import { ClipLoader } from 'react-spinners';
 
 export default function CreateGearListPage() {
@@ -13,7 +12,7 @@ export default function CreateGearListPage() {
   const [listDescription, setListDescription] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const { setUserGearLists } = useUserGearLists();
+  const { addGearList } = useUserGearLists();
 
   const navigate = useNavigate();
   const { getAccessTokenSilently } = useAuth0();
@@ -73,11 +72,13 @@ export default function CreateGearListPage() {
 
       const data = await res.json();
 
+      //TODO: check that data is the right shape
+
       if (!data._id) {
         console.error('There was a problem fetching the gear list.');
         setError('There was a problem fetching the gear list.');
       } else {
-        setUserGearLists((prev: GearList[]) => [...prev, data]);
+        addGearList(data);
         navigate(`/my-gear-lists/${data._id}`);
       }
     } catch (err) {

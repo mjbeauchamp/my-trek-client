@@ -89,7 +89,10 @@ export default function GearListPage() {
   };
 
   useEffect(() => {
+    console.log(listId);
     const list = listId && getGearListById(listId);
+
+    console.log('LIST', list);
 
     if (list) {
       setUserGearList(list);
@@ -301,29 +304,6 @@ export default function GearListPage() {
     } else if (userGearList?.items && userGearList.items.length > 0) {
       return (
         <>
-          <header>
-            <div className={styles['list-details']}>
-              <h1 className={`merriweather ${styles.title}`}>{userGearList?.listTitle}</h1>
-              <button
-                onClick={startListMetadataEdit}
-                aria-label="Edit list title and description"
-                className={styles['edit-list-details']}
-              >
-                <FontAwesomeIcon icon={faEdit} size="lg" />
-              </button>
-            </div>
-
-            {userGearList?.listDescription ? (
-              <p className={styles.description}>{userGearList?.listDescription}</p>
-            ) : null}
-          </header>
-
-          <hr />
-
-          <button onClick={() => openListItemDialog('create')} className="btn large dark">
-            Add Gear Item
-          </button>
-
           <div className={styles['items-list-container']}>
             {GEAR_CATEGORIES.map((cat, i) => {
               const items = categorizedList[cat.id];
@@ -367,6 +347,26 @@ export default function GearListPage() {
 
   return (
     <div className={`content-container ${styles['gear-list-container']}`}>
+      <header>
+        <div className={styles['list-details']}>
+          <h1 className={`merriweather ${styles.title}`}>{userGearList?.listTitle}</h1>
+          <button
+            onClick={startListMetadataEdit}
+            aria-label="Edit list title and description"
+            className={styles['edit-list-details']}
+          >
+            <FontAwesomeIcon icon={faEdit} size="lg" />
+          </button>
+        </div>
+
+        {userGearList?.listDescription ? <p className={styles.description}>{userGearList?.listDescription}</p> : null}
+      </header>
+
+      <hr />
+
+      <button onClick={() => openListItemDialog('create')} className="btn large dark">
+        Add Gear Item
+      </button>
       {gearListRenderContent()}
 
       <ConfirmationModal
