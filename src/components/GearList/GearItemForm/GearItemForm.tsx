@@ -1,7 +1,7 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
-import { Combobox, ComboboxInput, ComboboxOption, ComboboxOptions } from '@headlessui/react';
 import { ErrorAlertBlock } from '../../SharedUi/ErrorAlertBlock/ErrorAlertBlock';
+import CommonGearDropdown from '../CommonGearDropdown/CommonGearDropdown';
 import { GEAR_CATEGORIES } from '../../../constants/categories';
 
 import type { GearList, CommonGearItem, UserGearItem, UserNewGearItem } from '../../../types/gearTypes';
@@ -33,53 +33,14 @@ export default function GearItemForm({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // GIVE USER ABILITY TO UPDATE THESE WHEN SHOPPING LIST
+  // TODO: GIVE USER ABILITY TO UPDATE THESE WHEN SHOPPING LIST
   // AND PACKING LIST TABS ARE SUPPORTED
   // eslint-disable-next-line
   const [quantityToPack, setQuantityToPack] = useState(initialData?.quantityToPack || '1');
   // eslint-disable-next-line
   const [quantityToShop, setQuantityToShop] = useState(initialData?.quantityToShop || '0');
 
-  // Common gear item list
-  const [commonGear, setCommonGear] = useState<CommonGearItem[]>([]);
-  const [query, setQuery] = useState('');
-  const [selectedCommonGear, setSelectedCommonGear] = useState<CommonGearItem | null>(null);
-  const commonGearInputRef = useRef<HTMLInputElement>(null);
-
-  // Filter "Common Gear" options based on query
-  const filtered =
-    query === '' ? commonGear : commonGear.filter((gear) => gear.name.toLowerCase().includes(query.toLowerCase()));
-
-  // Group "Common Gear" options by category
-  const grouped: Record<string, CommonGearItem[]> = filtered.reduce(
-    (acc: any, gear: any) => {
-      if (!acc[gear.category]) acc[gear.category] = [];
-      acc[gear.category].push(gear);
-      return acc;
-    },
-    {} as Record<string, CommonGearItem[]>,
-  );
-
   const { getAccessTokenSilently } = useAuth0();
-
-  useEffect(() => {
-    const fetchCommonGear = async () => {
-      try {
-        const res = await fetch('http://localhost:4000/api/commonGear');
-        if (!res.ok) {
-          //TODO: handle error
-        }
-        const data = await res.json();
-
-        // TODO: Only set common gear if data is an array of the correct types of objects
-
-        setCommonGear(data);
-      } catch (err) {
-        console.error('Error fetching common gear items:', err);
-      }
-    };
-    fetchCommonGear();
-  }, []);
 
   const onCommonGearSelect = (gear: CommonGearItem | null) => {
     if (gear?.name) {
@@ -219,55 +180,7 @@ export default function GearItemForm({
     <>
       {mode === 'create' ? (
         <div className="w-80">
-          <Combobox
-            value={selectedCommonGear}
-            onChange={(gear) => {
-              setSelectedCommonGear(gear);
-              onCommonGearSelect(gear);
-            }}
-            onClose={() => setQuery('')}
-            immediate
-          >
-            <div className="combobox-container">
-              <ComboboxInput
-                ref={commonGearInputRef}
-                placeholder="Select common items"
-                aria-label="Select Common Gear Item"
-                onChange={(e) => setQuery(e.target.value)}
-                onClick={() => {
-                  commonGearInputRef.current?.blur();
-                  commonGearInputRef.current?.focus();
-                }}
-                displayValue={(gear: CommonGearItem | null) => (gear ? gear.name : '')}
-                className="input-base select-base"
-              />
-
-              <ComboboxOptions className="combobox-options">
-                {Object.entries(grouped).map(([category, items]) => (
-                  <div key={category} className="combobox-group">
-                    <h3 className="combobox-group-label">{category}</h3>
-                    {items.map((gear) => {
-                      const alreadyAdded = userGearListItems?.some((item: UserGearItem) => item.name === gear.name);
-                      return (
-                        <ComboboxOption
-                          key={gear._id}
-                          value={gear}
-                          disabled={alreadyAdded}
-                          className={({ disabled }) =>
-                            `combobox-option
-                                                ${disabled ? 'disabled' : ''}`
-                          }
-                        >
-                          {gear.name}
-                          {alreadyAdded ? <span className="combobox-badge">Already in list</span> : null}
-                        </ComboboxOption>
-                      );
-                    })}
-                  </div>
-                ))}
-              </ComboboxOptions>
-            </div>
-          </Combobox>
+          <CommonGearDropdown onCommonGearSelect={onCommonGearSelect} userGearListItems={userGearListItems} />
         </div>
       ) : null}
 
