@@ -1,8 +1,8 @@
 import { Link } from 'react-router';
 import { useAuth0 } from '@auth0/auth0-react';
 import GearLists from '../../components/GearLists/GearLists';
-import ActionPanel from '../../components/ActionPanel/ActionPanel';
-import LoadingMessage from '../../components/LoadingMessage/LoadingMessage';
+import ActionPanel from '../../components/SharedUi/ActionPanel/ActionPanel';
+import LoadingMessage from '../../components/SharedUi/LoadingMessage/LoadingMessage';
 import styles from './MyGearListsPage.module.scss';
 
 export default function MyGearListsPage() {

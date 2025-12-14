@@ -1,7 +1,7 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import { Link } from 'react-router';
 import styles from './Navbar.module.scss';
-import myTrekLogo from '../../assets/mountain-logo.png';
+import myTrekLogo from '../../assets/logos/mountain-logo.png';
 import { Menu, MenuButton, MenuItem, MenuItems, MenuSeparator } from '@headlessui/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';

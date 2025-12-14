@@ -1,10 +1,10 @@
 import { useState, useEffect, useRef } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Combobox, ComboboxInput, ComboboxOption, ComboboxOptions } from '@headlessui/react';
-import { ErrorAlertBlock } from '../ErrorAlertBlock/ErrorAlertBlock';
-import { GEAR_CATEGORIES } from '../../constants/categories';
+import { ErrorAlertBlock } from '../../SharedUi/ErrorAlertBlock/ErrorAlertBlock';
+import { GEAR_CATEGORIES } from '../../../constants/categories';
 
-import type { GearList, CommonGearItem, UserGearItem, UserNewGearItem } from '../../types/gearTypes';
+import type { GearList, CommonGearItem, UserGearItem, UserNewGearItem } from '../../../types/gearTypes';
 
 interface PropTypes {
   userGearListItems: UserGearItem[] | undefined;

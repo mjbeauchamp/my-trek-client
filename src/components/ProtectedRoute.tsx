@@ -1,6 +1,6 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import React from 'react';
-import LoadingMessage from './LoadingMessage/LoadingMessage';
+import LoadingMessage from './SharedUi/LoadingMessage/LoadingMessage';
 
 export default function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { isAuthenticated, loginWithRedirect, isLoading } = useAuth0();

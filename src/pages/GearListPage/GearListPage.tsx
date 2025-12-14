@@ -3,9 +3,9 @@ import { useParams } from 'react-router';
 import { useAuth0 } from '@auth0/auth0-react';
 import type { GearList, UserGearItem } from '../../types/gearTypes';
 import useUserGearLists from '../../hooks/useUserGearLists';
-import GearItemForm from '../../components/GearItemForm/GearItemForm';
-import ConfirmationModal from '../../components/ConfirmationModal/ConfirmationModal';
-import { ErrorAlertBlock } from '../../components/ErrorAlertBlock/ErrorAlertBlock';
+import GearItemForm from '../../components/GearList/GearItemForm/GearItemForm';
+import ConfirmationModal from '../../components/SharedUi/ConfirmationModal/ConfirmationModal';
+import { ErrorAlertBlock } from '../../components/SharedUi/ErrorAlertBlock/ErrorAlertBlock';
 import { GEAR_CATEGORIES } from '../../constants/categories';
 import type { GearCategoryId } from '../../constants/categories';
 import styles from './GearListPage.module.scss';
@@ -28,7 +28,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { ClipLoader } from 'react-spinners';
 import ListItem from '../../components/GearList/ListItem/ListItem';
-import LoadingMessage from '../../components/LoadingMessage/LoadingMessage';
+import LoadingMessage from '../../components/SharedUi/LoadingMessage/LoadingMessage';
 
 export default function GearListPage() {
   const { listId } = useParams();

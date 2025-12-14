@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, useLocation } from 'react-router';
 import ArticleSkeleton from '../../components/ArticleSkeleton/ArticleSkeleton';
-import { ErrorAlertBlock } from '../../components/ErrorAlertBlock/ErrorAlertBlock';
+import { ErrorAlertBlock } from '../../components/SharedUi/ErrorAlertBlock/ErrorAlertBlock';
 import styles from './BackpackingArticlePage.module.scss';
 
 const apiUrl = import.meta.env.VITE_API_URL;

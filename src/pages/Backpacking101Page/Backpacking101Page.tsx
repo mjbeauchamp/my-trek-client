@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router';
 import styles from './Backpacking101Page.module.scss';
-import LoadingSkeletonSection from '../../components/LoadingSkeletonSection/LoadingSkeletonSection';
-import { ErrorAlertBlock } from '../../components/ErrorAlertBlock/ErrorAlertBlock';
+import LoadingSkeletonSection from '../../components/SharedUi/LoadingSkeletonSection/LoadingSkeletonSection';
+import { ErrorAlertBlock } from '../../components/SharedUi/ErrorAlertBlock/ErrorAlertBlock';
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
