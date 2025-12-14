@@ -4,7 +4,7 @@ import { Routes, Route } from 'react-router';
 import './App.scss';
 import RootLayout from './layouts/RootLayout/RootLayout';
 import HomePage from './pages/HomePage/HomePage';
-import PageNotFound from './pages/PageNotFound';
+import PageNotFound from './pages/PageNotFound/PageNotFound';
 import ProtectedRoute from './components/ProtectedRoute';
 import Backpacking101Page from './pages/Backpacking101Page/Backpacking101Page';
 import BackpackingArticlePage from './pages/BackpackingArticlePage/BackpackingArticlePage';
