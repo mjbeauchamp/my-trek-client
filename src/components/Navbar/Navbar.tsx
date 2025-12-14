@@ -79,7 +79,7 @@ export default function Navbar() {
             className="btn light"
             onClick={() => loginWithRedirect({ authorizationParams: { redirect_uri: window.location.href } })}
           >
-            Log In
+            Sign In
           </button>
         )}
       </nav>

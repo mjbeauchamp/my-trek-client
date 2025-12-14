@@ -13,15 +13,20 @@ import GearListPage from './pages/GearListPage/GearListPage';
 import CreateGearListPage from './pages/CreateGearListPage/CreateGearListPage';
 import UserGearListsProvider from './providers/UserGearListsProvider';
 
+type SyncStatus = 'idle' | 'syncing' | 'success' | 'error';
+
 function App() {
   const { user, isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
   const hasSynced = useRef(false);
+  const syncStatus = useRef<SyncStatus>('idle');
 
   useEffect(() => {
     const syncUser = async () => {
-      if (isLoading || !isAuthenticated || !user || hasSynced.current) return;
+      if (isLoading || !isAuthenticated || !user || hasSynced.current || syncStatus.current === 'syncing') return;
 
       hasSynced.current = true;
+      syncStatus.current = 'syncing';
+
       try {
         const token = await getAccessTokenSilently();
         const res = await fetch('http://localhost:4000/api/user', {
@@ -34,10 +39,12 @@ function App() {
         });
 
         if (!res.ok) {
-          // TODO: Handle error with fetching user
+          syncStatus.current = 'error';
+          console.error('User sync failed:', res.status);
+          return;
         }
 
-        // DO WHATEVER WE WANT TO DO AFTER USER REGISTERS/LOGS IN
+        syncStatus.current = 'success';
       } catch (err) {
         console.error('Failed to sync user:', err);
       }
