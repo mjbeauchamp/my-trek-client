@@ -36,24 +36,27 @@ export default function EditListModal({
   const updateListMetadata = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!listTitle || !listTitle.trim()) {
+    const trimmedTitle = listTitle.trim();
+    const trimmedDescription = listDescription.trim();
+
+    if (!trimmedTitle) {
       console.warn('List name is required to create a gear list.');
       setEditingError('List name is required to create a gear list.');
       return;
     }
 
-    if (listTitle.trim().length > 60) {
+    if (trimmedTitle.length > 60) {
       setEditingError('List title cannot exceed 60 characters.');
       return;
     }
-    if (listDescription.trim().length > 250) {
+    if (trimmedDescription.length > 250) {
       setEditingError('List description cannot exceed 250 characters.');
       return;
     }
 
     const updatedGearListMetadata: { listTitle: string; listDescription: string } = {
-      listTitle: listTitle.trim(),
-      listDescription: listDescription.trim(),
+      listTitle: trimmedTitle,
+      listDescription: trimmedDescription,
     };
 
     if (
@@ -61,11 +64,14 @@ export default function EditListModal({
       (userGearList?.listTitle === updatedGearListMetadata.listTitle &&
         userGearList.listDescription === updatedGearListMetadata.listDescription)
     ) {
+      console.log('Make a change to list name or description to update the selected list.');
       setEditingError('Make a change to list name or description to update the selected list.');
       return;
     }
 
     try {
+      if (!listId) throw new Error('ListId required to update list.');
+
       const token = await getAccessTokenSilently();
 
       if (!token) {
@@ -88,27 +94,34 @@ export default function EditListModal({
       if (!res.ok) {
         const serverError = await res.json();
         console.error('Server error: ', serverError);
-        setEditingError('There was a problem updating the gear list.');
-        return;
+        throw new Error('There was a problem updating the gear list.');
       }
 
       const data: GearList = await res.json();
-      //TODO: check for malformed data
 
       if (!data._id) {
-        console.error('There was a problem fetching the gear list.');
-        setEditingError('There was a problem fetching the gear list.');
-      } else {
-        setUserGearList((prev: GearList | null) => {
-          if (prev === null) return prev;
-          return {
-            ...prev,
-            listTitle: data.listTitle,
-            listDescription: data.listDescription,
-          };
-        });
-        setIsEditMetadataDialogOpen(false);
+        throw new Error('There was a problem fetching the gear list.');
       }
+
+      let newTitle: string | undefined = undefined;
+      if (typeof data.listTitle === 'string' && data.listTitle.trim().length > 0) {
+        newTitle = data.listTitle.trim();
+      }
+
+      let newDescription: string | undefined = undefined;
+      if (typeof data.listDescription === 'string') {
+        newDescription = data.listDescription.trim();
+      }
+
+      setUserGearList((prev: GearList | null) => {
+        if (!prev) return prev;
+        return {
+          ...prev,
+          listTitle: newTitle !== undefined ? newTitle : prev.listTitle,
+          listDescription: newDescription !== undefined ? newDescription : prev.listDescription,
+        };
+      });
+      setIsEditMetadataDialogOpen(false);
     } catch (err) {
       console.error(err);
       setEditingError('There was a problem updating the gear list.');
@@ -160,6 +173,8 @@ export default function EditListModal({
             type="button"
             onClick={() => {
               setEditingError('');
+              if (userGearList?.listTitle) setListTitle(userGearList.listTitle);
+              if (userGearList?.listDescription) setListDescription(userGearList.listDescription);
               setIsEditMetadataDialogOpen(false);
             }}
             className="btn"
