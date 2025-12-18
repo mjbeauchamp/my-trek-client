@@ -3,8 +3,8 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { ErrorAlertBlock } from '../../SharedUi/ErrorAlertBlock/ErrorAlertBlock';
 import CommonGearDropdown from '../CommonGearDropdown/CommonGearDropdown';
 import { GEAR_CATEGORIES } from '../../../constants/categories';
-
 import type { GearList, CommonGearItem, UserGearItem, UserNewGearItem } from '../../../types/gearTypes';
+import { isUserGearItem } from '../../../utils/validators/gearTypeValidators';
 
 interface PropTypes {
   userGearListItems: UserGearItem[] | undefined;
@@ -57,6 +57,13 @@ export default function GearItemForm({
       setError(null);
 
       const token = await getAccessTokenSilently();
+
+      if (!token) {
+        console.error('No user token found');
+        setError('There was a problem creating the gear list. User token not found.');
+        return;
+      }
+
       const res = await fetch(`http://localhost:4000/api/gear-lists/gear-list/${listId}/items`, {
         method: 'POST',
         headers: {
@@ -65,26 +72,32 @@ export default function GearItemForm({
         },
         body: JSON.stringify(newItem),
       });
+
       if (!res.ok) {
         throw new Error('Failed to add item');
       }
+
       const createdItem = await res.json();
 
-      setUserGearList((prev: GearList | null) => {
-        if (prev === null) return prev;
+      if (isUserGearItem(createdItem)) {
+        setUserGearList((prev: GearList | null) => {
+          if (prev === null) return prev;
 
-        return {
-          ...prev,
-          items: [...prev.items, createdItem],
-        };
-      });
-      setNewItemId(createdItem._id);
+          return {
+            ...prev,
+            items: [...prev.items, createdItem],
+          };
+        });
+        setNewItemId(createdItem._id);
+      }
+
       closeListItemDialog();
     } catch (error) {
-      console.error('Error adding gear item:', error);
       if (error instanceof Error) {
+        console.error('Error adding gear item:', error.message);
         setError(error.message);
       } else {
+        console.error('Error adding gear item:', error);
         setError('There was an error adding gear item');
       }
     } finally {
@@ -102,6 +115,12 @@ export default function GearItemForm({
       setError(null);
 
       const token = await getAccessTokenSilently();
+
+      if (!token) {
+        console.error('No user token found');
+        setError('There was a problem editing the gear list. User token not found.');
+        return;
+      }
       const res = await fetch(`http://localhost:4000/api/gear-lists/gear-list/${listId}/items/${initialData._id}`, {
         method: 'PUT',
         headers: {

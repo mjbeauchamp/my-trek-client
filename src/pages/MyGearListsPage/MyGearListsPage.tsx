@@ -11,7 +11,7 @@ export default function MyGearListsPage() {
   return (
     <div className={`content-container ${styles['my-gear-lists']}`}>
       <header>
-        <h1 className={`merriweather ${styles.header}`}>MY GEAR LISTS</h1>
+        <h1 className={`fjord-one ${styles.header}`}>MY GEAR LISTS</h1>
         <p className={styles.tagline}>Create multiple lists so you're prepared for any adventure!</p>
       </header>
 

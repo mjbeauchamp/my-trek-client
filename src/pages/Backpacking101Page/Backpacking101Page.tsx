@@ -114,7 +114,7 @@ export default function BackpackingBasicsPage() {
   return (
     <div className={styles['articles-container']}>
       <header className={`${styles.header} content-container`}>
-        <h1 className="merriweather">BACKPACKING 101</h1>
+        <h1 className="fjord-one">BACKPACKING 101</h1>
         <p>Expert advice on getting the most out of your outdoor adventures</p>
         <hr />
       </header>

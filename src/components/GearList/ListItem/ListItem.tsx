@@ -63,6 +63,11 @@ export default function ListItem({
       // setError(null);
 
       const token = await getAccessTokenSilently();
+
+      if (!token) {
+        console.error('No user token found');
+        throw new Error('There was a problem creating the gear list. User token not found.');
+      }
       const res = await fetch(`http://localhost:4000/api/gear-lists/gear-list/${listId}/items/${item._id}`, {
         method: 'PUT',
         headers: {

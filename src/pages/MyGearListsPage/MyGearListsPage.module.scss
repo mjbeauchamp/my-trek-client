@@ -3,9 +3,9 @@
   text-align: left;
 
   .header {
-    font-size: var(--fs-xxxl);
+    font-size: var(--fs-3xl);
     line-height: 1.2;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
   }
 
   .tagline {
@@ -19,7 +19,7 @@
 
   @media (max-width: 740px) {
     .header {
-      font-size: var(--fs-xxl);
+      font-size: var(--fs-2xl);
       line-height: 1.2;
     }
   }

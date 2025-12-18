@@ -9,9 +9,9 @@
   margin-bottom: 40px;
 
   h1 {
-    font-size: var(--fs-xxxl);
+    font-size: var(--fs-3xl);
     line-height: 1.2;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
   }
 
   p {
@@ -112,7 +112,7 @@ ul {
 @media (max-width: 700px) {
   .header {
     h1 {
-      font-size: var(--fs-xxl);
+      font-size: var(--fs-2xl);
     }
 
     p {

@@ -97,7 +97,7 @@ export default function EditListModal({
         throw new Error('There was a problem updating the gear list.');
       }
 
-      const data: GearList = await res.json();
+      const data = await res.json();
 
       if (!data._id) {
         throw new Error('There was a problem fetching the gear list.');

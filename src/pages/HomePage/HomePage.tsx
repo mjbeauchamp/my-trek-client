@@ -9,7 +9,7 @@ export default function HomePage() {
     <div className={styles.home}>
       <section className={styles.hero}>
         <div className={styles['hero-text-container']}>
-          <h1 className="merriweather">
+          <h1 className="fjord-one">
             <span>Welcome to</span> <span>My Trek</span>
           </h1>
           <p>Your adventure starts here!</p>
@@ -21,7 +21,7 @@ export default function HomePage() {
 
       <section className={`${styles['info-section']}`}>
         <div className="content-container flex-content-container">
-          <h2 className="merriweather">
+          <h2 className="fjord-one">
             <span>Create Custom</span> <span>Gear Lists</span>
           </h2>
           <p>
@@ -40,7 +40,7 @@ export default function HomePage() {
 
       <section className={`${styles['articles-info']} ${styles['info-section']}`}>
         <div className="content-container flex-content-container">
-          <h2 className="merriweather">Backpacking 101</h2>
+          <h2 className="fjord-one">Backpacking 101</h2>
           <p>Check out Backpacking 101 to learn more about how to explore the wilderness safely!</p>
           <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et

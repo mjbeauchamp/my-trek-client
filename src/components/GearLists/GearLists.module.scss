@@ -47,7 +47,7 @@
       }
 
       h2 {
-        font-size: var(--fs-xl);
+        font-size: var(--fs-2xl);
         line-height: 1.2;
         margin-bottom: 8px;
       }
@@ -58,7 +58,7 @@
 
       @media (max-width: 740px) {
         h2 {
-          font-size: var(--fs-lg);
+          font-size: var(--fs-xl);
           line-height: 1.2;
         }
 
@@ -75,7 +75,7 @@
 
       @media (max-width: 500px) {
         h2 {
-          font-size: var(--fs-md-lg);
+          font-size: var(--fs-lg);
         }
 
         p {

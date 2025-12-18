@@ -23,8 +23,8 @@
   --font-serif: #{t.$font-serif};
 
   /* Typography - font sizes */
-  --fs-xxxl: #{t.$fs-xxxl};
-  --fs-xxl: #{t.$fs-xxl};
+  --fs-3xl: #{t.$fs-3xl};
+  --fs-2xl: #{t.$fs-2xl};
   --fs-xl: #{t.$fs-xl};
   --fs-lg: #{t.$fs-lg};
   --fs-md-lg: #{t.$fs-md-lg};
@@ -38,11 +38,6 @@
 
   font-family: var(--font-sans);
   line-height: 1.5;
-  font-weight: 400;
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 
   *,
   *::before,
@@ -63,6 +58,12 @@
 .inter {
   font-family: 'Inter', sans-serif;
   font-optical-sizing: auto;
+  font-style: normal;
+}
+
+.fjord-one {
+  font-family: 'Fjord One', serif;
+  font-weight: 400;
   font-style: normal;
 }
 

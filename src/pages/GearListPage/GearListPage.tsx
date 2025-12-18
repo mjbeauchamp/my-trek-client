@@ -46,6 +46,13 @@ export default function GearListPage() {
     setErrorUserGearList('');
     try {
       const token = await getAccessTokenSilently();
+
+      if (!token) {
+        console.error('No user token found');
+        setErrorUserGearList('There was a problem fetching gear lists: User token not found');
+        return;
+      }
+
       const res = await fetch(`http://localhost:4000/api/gear-lists/gear-list/${listId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -108,6 +115,13 @@ export default function GearListPage() {
 
     try {
       const token = await getAccessTokenSilently();
+
+      if (!token) {
+        console.error('No user token found');
+        setErrorUserGearList('There was a problem deleting gear item: User token not found');
+        return;
+      }
+
       const res = await fetch(`http://localhost:4000/api/gear-lists/gear-list/${listId}/items/${pendingDeleteId}`, {
         method: 'DELETE',
         headers: {
@@ -162,7 +176,7 @@ export default function GearListPage() {
     <div className={`content-container ${styles['gear-list-container']}`}>
       <header>
         <div className={styles['list-details']}>
-          <h1 className={`merriweather ${styles.title}`}>{userGearList?.listTitle}</h1>
+          <h1 className={`fjord-one ${styles.title}`}>{userGearList?.listTitle}</h1>
           <button
             onClick={() => setIsEditMetadataDialogOpen(true)}
             aria-label="Edit list title and description"

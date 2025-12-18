@@ -29,6 +29,13 @@ function App() {
 
       try {
         const token = await getAccessTokenSilently();
+
+        if (!token) {
+          console.error('User sync failed: No user token found');
+          syncStatus.current = 'error';
+          return;
+        }
+
         const res = await fetch('http://localhost:4000/api/user', {
           method: 'POST',
           headers: {

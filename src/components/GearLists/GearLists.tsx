@@ -24,6 +24,11 @@ export default function GearLists() {
       try {
         setLoadingUserGearLists(true);
         const token = await getAccessTokenSilently();
+        if (!token) {
+          console.error('No user token found');
+          setErrorUserGearLists('There was a problem fetching gear lists: User token not found');
+          return;
+        }
         const res = await fetch('http://localhost:4000/api/gear-lists', {
           headers: { Authorization: `Bearer ${token}` },
         });
@@ -63,6 +68,12 @@ export default function GearLists() {
 
     try {
       const token = await getAccessTokenSilently();
+
+      if (!token) {
+        console.error('No user token found');
+        setErrorUserGearLists('There was a problem deleting gear list: User token not found');
+        return;
+      }
       const res = await fetch(`http://localhost:4000/api/gear-lists/gear-list/${pendingDeleteId}`, {
         method: 'DELETE',
         headers: {
@@ -96,7 +107,7 @@ export default function GearLists() {
               <li key={list._id} className={styles['gear-list']}>
                 <article>
                   <Link to={`/my-gear-lists/${list._id}`}>
-                    <h2>{list.listTitle}</h2>
+                    <h2 className="fjord-one">{list.listTitle}</h2>
                     {list.listDescription && <p className={styles.description}>{list.listDescription}</p>}
                   </Link>
 
