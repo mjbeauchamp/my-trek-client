@@ -94,6 +94,10 @@ export default function GearLists() {
     }
   };
 
+  const getDescriptionPreview = (description: string) => {
+    return `${description.slice(0, 90).trim()}...`;
+  };
+
   const listSectionContent = () => {
     if (loadingUserGearLists) {
       return <LoadingMessage title="Loading Gear Lists..." />;
@@ -108,7 +112,9 @@ export default function GearLists() {
                 <article>
                   <Link to={`/my-gear-lists/${list._id}`}>
                     <h2 className="fjord-one">{list.listTitle}</h2>
-                    {list.listDescription && <p className={styles.description}>{list.listDescription}</p>}
+                    {list.listDescription && (
+                      <p className={styles.description}>{getDescriptionPreview(list.listDescription)}</p>
+                    )}
                   </Link>
 
                   <button

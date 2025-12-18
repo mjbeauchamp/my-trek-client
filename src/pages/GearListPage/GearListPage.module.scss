@@ -23,6 +23,19 @@
   .description {
     font-size: 1.2rem;
     line-height: 1.1;
+    max-width: 70%;
+
+    @media (max-width: 1200px) {
+      max-width: 80%;
+    }
+
+    @media (max-width: 90px) {
+      max-width: 90%;
+    }
+
+    @media (max-width: 700px) {
+      max-width: 100%;
+    }
   }
 
   .edit-list-details {

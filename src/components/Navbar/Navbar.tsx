@@ -20,7 +20,7 @@ export default function Navbar() {
           </li>
           <li>
             <Link to="/my-gear-lists">
-              {isAuthenticated ? <span>My Gear Lists</span> : <span>Create Gear List</span>}
+              {isAuthenticated ? <span>My Checklists</span> : <span>Create Gear List</span>}
             </Link>
           </li>
           <li>
@@ -51,7 +51,7 @@ export default function Navbar() {
                 <MenuItem>
                   {({ close }) => (
                     <Link to="/my-gear-lists" onClick={close} className="menu-item">
-                      My Gear Lists
+                      My Checklists
                     </Link>
                   )}
                 </MenuItem>

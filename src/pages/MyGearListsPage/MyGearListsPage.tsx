@@ -12,7 +12,7 @@ export default function MyGearListsPage() {
     <div className={`content-container base-padding-top ${styles['my-gear-lists']}`}>
       <header>
         <h1 className={`fjord-one ${styles.header}`}>MY GEAR LISTS</h1>
-        <p className={styles.tagline}>Create multiple lists so you're prepared for any adventure!</p>
+        <p className={styles.tagline}>Create multiple gear checklists so you're prepared for any adventure!</p>
       </header>
 
       <hr />

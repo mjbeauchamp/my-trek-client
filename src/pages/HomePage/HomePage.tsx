@@ -22,11 +22,11 @@ export default function HomePage() {
       <section className={`${styles['info-section']}`}>
         <div className="content-container flex-content-container">
           <h2 className="fjord-one">
-            <span>Create Custom</span> <span>Gear Lists</span>
+            <span>Create Gear</span> <span>Checklists</span>
           </h2>
           <p>
-            Each adventure has its own unique challenges and gear requirements. Create multiple customized gear lists so
-            you're prepared for whatever comes your way.
+            Each adventure has its own unique challenges and gear requirements. Create multiple customized gear
+            checklists so you're prepared for whatever comes your way!
           </p>
           <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
