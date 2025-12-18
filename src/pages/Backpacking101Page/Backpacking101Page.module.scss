@@ -23,7 +23,7 @@
 ul {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 20px;
 }
 
@@ -102,9 +102,19 @@ ul {
   }
 }
 
+@media (max-width: 1400px) {
+  .article-card .text-container .article-header h2 {
+    font-size: var(--fs-md-lg);
+  }
+}
+
 @media (max-width: 850px) {
   .list {
     max-width: 450px;
+  }
+
+  .article-card .text-container .article-header h2 {
+    font-size: var(--fs-lg);
   }
 }
 
