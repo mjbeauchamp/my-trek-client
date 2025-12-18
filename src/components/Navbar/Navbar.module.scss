@@ -1,7 +1,7 @@
 .nav-container {
   width: 100%;
   background: var(--color-primary);
-  padding: 10px 20px;
+  padding: 12px 20px;
 
   nav {
     display: flex;
@@ -13,9 +13,10 @@
     display: flex;
     align-items: center;
     margin: 0;
+    margin-right: 16px;
+    gap: 2rem;
 
     li {
-      margin-right: 14px;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -35,6 +36,10 @@
         width: 2.8rem;
         margin-right: 5px;
       }
+    }
+
+    @media (max-width: 700px) {
+      gap: 1.1rem;
     }
   }
 

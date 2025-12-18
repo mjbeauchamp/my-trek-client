@@ -173,7 +173,7 @@ export default function GearListPage() {
   };
 
   return (
-    <div className={`content-container ${styles['gear-list-container']}`}>
+    <div className={`content-container base-padding-top ${styles['gear-list-container']}`}>
       <header>
         <div className={styles['list-details']}>
           <h1 className={`fjord-one ${styles.title}`}>{userGearList?.listTitle}</h1>

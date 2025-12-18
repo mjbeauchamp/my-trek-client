@@ -21,7 +21,7 @@ export default function RootLayout() {
       </main>
 
       <footer>
-        <p>&copy; 2025 My Trek. All rights reserved.</p>
+        <p>&copy; 2025 Trek List. All rights reserved.</p>
       </footer>
     </div>
   );

@@ -1,6 +1,6 @@
 .gear-list-container {
   text-align: left;
-  padding: 80px 0;
+  padding-bottom: 70px;
 
   .list-details {
     display: flex;
@@ -42,15 +42,9 @@
     margin: 30px 0 40px;
   }
 
-  @media (max-width: 900px) {
-    .title {
-      font-size: var(--fs-2xl);
-    }
-  }
-
   @media (max-width: 700px) {
     .title {
-      font-size: var(--fs-xl);
+      font-size: var(--fs-2xl);
     }
   }
 }

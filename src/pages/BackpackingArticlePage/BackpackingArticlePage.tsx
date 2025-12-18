@@ -94,5 +94,5 @@ export default function BackpackingArticlePage() {
     return null;
   };
 
-  return <div className={styles['article-content']}>{renderContent()}</div>;
+  return <div className={`base-padding-top ${styles['article-content']}`}>{renderContent()}</div>;
 }

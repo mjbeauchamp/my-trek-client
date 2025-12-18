@@ -15,12 +15,12 @@ export default function Navbar() {
         <ul className={styles['link-list']}>
           <li>
             <Link to="/" aria-label="Home">
-              <img className={styles['home-logo']} src={myTrekLogo} alt="My Trek Logo" />
+              <img className={styles['home-logo']} src={myTrekLogo} alt="Trek List Logo" />
             </Link>
           </li>
           <li>
             <Link to="/my-gear-lists">
-              {isAuthenticated ? <span>My Gear Lists</span> : <span>Create My List</span>}
+              {isAuthenticated ? <span>My Gear Lists</span> : <span>Create Gear List</span>}
             </Link>
           </li>
           <li>

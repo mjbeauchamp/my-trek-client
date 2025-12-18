@@ -10,7 +10,7 @@ export default function HomePage() {
       <section className={styles.hero}>
         <div className={styles['hero-text-container']}>
           <h1 className="fjord-one">
-            <span>Welcome to</span> <span>My Trek</span>
+            <span>Welcome to</span> <span>Trek List</span>
           </h1>
           <p>Your adventure starts here!</p>
           <Link className="btn light" to={isAuthenticated ? '/my-gear-lists/new' : '/my-gear-lists'}>

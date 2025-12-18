@@ -20,7 +20,6 @@
 
   /* Typography - fonts */
   --font-sans: #{t.$font-sans};
-  --font-serif: #{t.$font-serif};
 
   /* Typography - font sizes */
   --fs-3xl: #{t.$fs-3xl};
@@ -30,11 +29,6 @@
   --fs-md-lg: #{t.$fs-md-lg};
   --fs-body: #{t.$fs-body};
   --fs-sm: #{t.$fs-sm};
-
-  /* Typography - font weights */
-  --fw-regular: #{t.$fw-regular};
-  --fw-medium: #{t.$fw-medium};
-  --fw-bold: #{t.$fw-bold};
 
   font-family: var(--font-sans);
   line-height: 1.5;
@@ -111,7 +105,6 @@ hr {
 }
 
 // LAYOUT STYLING
-
 .content-container {
   margin: 0 auto;
   width: 75%;
@@ -133,6 +126,11 @@ hr {
   align-items: center;
 }
 
+.flex-align-start {
+  display: flex;
+  align-items: flex-start;
+}
+
 .w-full {
   width: 100%;
 }
@@ -141,9 +139,16 @@ hr {
   width: 80%;
 }
 
-.flex-align-start {
-  display: flex;
-  align-items: flex-start;
+.base-padding-top {
+  padding-top: 70px;
+
+  @media (max-width: 700px) {
+    padding-top: 40px;
+  }
+
+  @media (max-width: 460px) {
+    padding-top: 24px;
+  }
 }
 
 // BUTTON STYLING
