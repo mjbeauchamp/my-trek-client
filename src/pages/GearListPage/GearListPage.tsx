@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
-import { useParams } from 'react-router';
+import { useParams, Link } from 'react-router';
 import { useAuth0 } from '@auth0/auth0-react';
 import type { GearList, UserGearItem } from '../../types/gearTypes';
 import useUserGearLists from '../../hooks/useUserGearLists';
@@ -10,7 +10,7 @@ import { ErrorAlertBlock } from '../../components/SharedUi/ErrorAlertBlock/Error
 import GearListByCategory from '../../components/GearList/GearListByCategory/GearListByCategory';
 import styles from './GearListPage.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import LoadingMessage from '../../components/SharedUi/LoadingMessage/LoadingMessage';
 
 export default function GearListPage() {
@@ -173,7 +173,11 @@ export default function GearListPage() {
   };
 
   return (
-    <div className={`content-container base-padding-top ${styles['gear-list-container']}`}>
+    <div className={`content-container ${styles['gear-list-container']}`}>
+      <Link to="/my-gear-lists" className="back-link">
+        <FontAwesomeIcon icon={faArrowLeft} size="sm" />
+        <span>My Gear Lists</span>
+      </Link>
       <header>
         <div className={styles['list-details']}>
           <h1 className={`fjord-one ${styles.title}`}>{userGearList?.listTitle}</h1>

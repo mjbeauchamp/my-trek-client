@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
-import { useParams, useLocation } from 'react-router';
+import { useParams, useLocation, Link } from 'react-router';
 import ArticleSkeleton from '../../components/ArticleSkeleton/ArticleSkeleton';
 import { ErrorAlertBlock } from '../../components/SharedUi/ErrorAlertBlock/ErrorAlertBlock';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import styles from './BackpackingArticlePage.module.scss';
 
 const apiUrl = import.meta.env.VITE_API_URL;
@@ -94,5 +96,13 @@ export default function BackpackingArticlePage() {
     return null;
   };
 
-  return <div className={`base-padding-top ${styles['article-content']}`}>{renderContent()}</div>;
+  return (
+    <div className={`${styles['article-content']}`}>
+      <Link to="/backpacking-101" className="back-link">
+        <FontAwesomeIcon icon={faArrowLeft} size="sm" />
+        <span>Backpacking 101</span>
+      </Link>
+      {renderContent()}
+    </div>
+  );
 }

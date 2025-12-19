@@ -35,7 +35,7 @@ ul {
 }
 
 .article-card {
-  border-radius: 8px;
+  border-radius: 6px;
   border: 1px solid #2e2e2b33;
   box-shadow: 0 0.2rem 0.2rem #2e2e2b33;
   background-color: var(--color-light-highlight);
@@ -59,17 +59,17 @@ ul {
 
   img {
     width: 100%;
-    aspect-ratio: 1/1;
+    aspect-ratio: 4/3;
     object-fit: cover;
     object-position: center;
     background-color: #e8e5dc;
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
     flex-grow: 1;
   }
 
   .text-container {
-    padding: 20px 30px;
+    padding: 20px 30px 28px;
     width: 100%;
     text-align: left;
     display: flex;
@@ -86,14 +86,13 @@ ul {
       }
 
       p {
-        color: var(--color-text-gray);
-        font-size: var(--fs-sm);
+        color: #787875;
         font-style: italic;
       }
     }
-
     .article-content {
       color: var(--color-text-gray);
+      margin-bottom: 0;
     }
   }
 }

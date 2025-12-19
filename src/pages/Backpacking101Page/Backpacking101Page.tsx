@@ -63,7 +63,7 @@ export default function BackpackingBasicsPage() {
 
   const getArticlePreview = (article: IBackpackingArticle) => {
     if (Array.isArray(article?.content) && typeof article.content[0] === 'string') {
-      return `${article.content[0].slice(0, 90).trim()}...`;
+      return `${article.content[0].slice(0, 80).trim()}...`;
     }
     return '';
   };
