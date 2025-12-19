@@ -43,7 +43,6 @@ export default function GearLists() {
         }
 
         const lists = await res.json();
-        console.log(lists);
 
         if (!isArrayOfGearLists(lists)) {
           const error = await res.json();

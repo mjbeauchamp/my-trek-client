@@ -42,7 +42,7 @@ export default function BackpackingBasicsPage() {
         const data = await res.json();
 
         if (!res.ok) {
-          throw new Error(data.message || 'Server error');
+          throw new Error(data.message || 'Server error fetching gear lists');
         }
 
         if (Array.isArray(data)) {
