@@ -10,6 +10,7 @@ import styles from './GearLists.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { isArrayOfGearLists } from '../../utils/validators/gearTypeValidators';
+import { Toaster, toast } from 'react-hot-toast';
 
 export default function GearLists() {
   const { userGearLists, setUserGearLists, removeGearList } = useUserGearLists();
@@ -81,7 +82,9 @@ export default function GearLists() {
 
   const deleteGearList = async () => {
     if (!pendingDeleteId) {
-      //TODO: handle this
+      console.error('No gear list selected to update.');
+      toast.error('No gear list selected to update.');
+      return;
     }
 
     try {
@@ -89,9 +92,10 @@ export default function GearLists() {
 
       if (!token) {
         console.error('No user token found');
-        setErrorUserGearLists('There was a problem deleting gear list: User token not found');
+        toast.error('There was a problem deleting gear list: User token not found');
         return;
       }
+
       const res = await fetch(`http://localhost:4000/api/gear-lists/gear-list/${pendingDeleteId}`, {
         method: 'DELETE',
         headers: {
@@ -101,14 +105,19 @@ export default function GearLists() {
       });
 
       if (!res.ok) {
-        //TODO: handle error
+        const error = await res.json();
+        throw new Error(error?.message || 'Failed to delete item');
       }
 
       removeGearList(pendingDeleteId);
     } catch (error) {
-      //TODO: Handle error
-
-      console.error(error);
+      if (error instanceof Error) {
+        console.error('Error updating gear item:', error.message);
+        toast.error(`There was a problem deleting gear list: ${error.message}`);
+      } else {
+        console.error('Error updating gear item:', error);
+        toast.error(`There was a problem deleting gear list.`);
+      }
     }
   };
 
@@ -164,6 +173,7 @@ export default function GearLists() {
         description="This action cannot be undone. Are you sure you want to permanently delete this gear list?"
         actionBtnText="DELETE"
       />
+      <Toaster />
     </>
   );
 }
