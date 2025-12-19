@@ -67,7 +67,7 @@
     position: sticky;
     top: 0;
     width: 100%;
-    font-size: var(--fs-xl);
+    font-size: var(--fs-2xl);
     font-weight: 600;
     color: #ffffff;
     background-color: var(--color-secondary);
@@ -77,6 +77,10 @@
     justify-content: center;
     align-items: center;
     padding: 24px;
+
+    @media (max-width: 700px) {
+      font-size: var(--fs-xl);
+    }
   }
 
   &__description {

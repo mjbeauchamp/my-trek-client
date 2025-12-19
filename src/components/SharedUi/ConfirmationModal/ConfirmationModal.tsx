@@ -55,7 +55,7 @@ export default function ConfirmationModal({
 
         <div className="confirmation-modal__container">
           <DialogPanel className="confirmation-modal__panel open">
-            <DialogTitle className="confirmation-modal__title">{title}</DialogTitle>
+            <DialogTitle className="confirmation-modal__title fjord-one">{title}</DialogTitle>
 
             <div className="panel-body">
               {description ? (
