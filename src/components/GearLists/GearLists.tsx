@@ -9,6 +9,7 @@ import useUserGearLists from '../../hooks/useUserGearLists';
 import styles from './GearLists.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { isArrayOfGearLists } from '../../utils/validators/gearTypeValidators';
 
 export default function GearLists() {
   const { userGearLists, setUserGearLists, removeGearList } = useUserGearLists();
@@ -32,18 +33,35 @@ export default function GearLists() {
         const res = await fetch('http://localhost:4000/api/gear-lists', {
           headers: { Authorization: `Bearer ${token}` },
         });
-        const lists = await res.json();
 
-        //TODO Error handle and check that data is the right shape
-        if (!Array.isArray(lists)) {
-          console.error('Fetched gear lists are not an array', lists);
+        if (!res.ok) {
+          const error = await res.json();
+          console.error(error?.message || 'There was a problem fetching gear lists');
+          setErrorUserGearLists(error?.message || 'There was a problem fetching gear lists');
           return;
         }
+
+        const lists = await res.json();
+        console.log(lists);
+
+        if (!isArrayOfGearLists(lists)) {
+          const error = await res.json();
+          console.error(error?.message || 'Gear lists returned an unexpected format');
+          setErrorUserGearLists(
+            error?.message || 'There was a problem fetching gear lists. List formatted incorrectly.',
+          );
+          return;
+        }
+
         setUserGearLists(lists);
       } catch (error) {
-        console.error(error);
-        //TODO: handle error
-        setErrorUserGearLists('There was a problem fetching gear lists');
+        if (error instanceof Error && error.message) {
+          console.error('Error updating gear item:', error.message);
+          setErrorUserGearLists(`There was a problem fetching gear lists: ${error.message}`);
+        } else {
+          console.error('Error updating gear item:', error);
+          setErrorUserGearLists('There was a problem fetching gear lists');
+        }
       } finally {
         setLoadingUserGearLists(false);
       }

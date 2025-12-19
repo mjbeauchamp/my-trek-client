@@ -1,6 +1,4 @@
-import type { UserGearItem } from '../../types/gearTypes';
-
-export function isUserGearItem(obj: any): obj is UserGearItem {
+export function isUserGearItem(obj: any) {
   return (
     obj &&
     typeof obj._id === 'string' &&
@@ -11,4 +9,18 @@ export function isUserGearItem(obj: any): obj is UserGearItem {
     (obj.quantityToShop === undefined || typeof obj.quantityToShop === 'number') &&
     (obj.notes === undefined || typeof obj.notes === 'string')
   );
+}
+
+export function isArrayOfGearLists(listArray: any) {
+  if (!listArray || !Array.isArray(listArray)) {
+    return false;
+  }
+
+  return listArray.every((list: any) => {
+    return (
+      typeof list.listTitle === 'string' &&
+      Array.isArray(list.items) &&
+      list.items.every((item: any) => isUserGearItem(item))
+    );
+  });
 }
