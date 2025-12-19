@@ -1,5 +1,5 @@
 .action-panel {
-  margin: 60px auto;
+  margin: 100px auto;
   width: 90%;
   max-width: 700px;
   display: flex;
@@ -46,14 +46,16 @@
     h4,
     h5,
     h6 {
-      font-size: var(--fs-xl);
-      font-weight: 600;
+      font-size: var(--fs-2xl);
+      font-family: 'Fjord One', serif;
+      font-weight: 400;
+      font-style: normal;
     }
   }
 
   @media (max-width: 700px) {
     width: 100%;
-    margin: 30px auto;
+    margin: 50px auto;
 
     header {
       padding: 15px;
