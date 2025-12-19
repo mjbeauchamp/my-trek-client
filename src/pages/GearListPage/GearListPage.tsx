@@ -193,7 +193,7 @@ export default function GearListPage() {
         {userGearList?.listDescription ? <p className={styles.description}>{userGearList?.listDescription}</p> : null}
       </header>
 
-      <hr />
+      <hr className={styles['gear-list-page-separator']} />
 
       <button onClick={() => openListItemDialog('create')} className="btn large dark">
         Add Gear Item

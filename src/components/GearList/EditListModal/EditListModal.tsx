@@ -64,7 +64,7 @@ export default function EditListModal({
       (userGearList?.listTitle === updatedGearListMetadata.listTitle &&
         userGearList.listDescription === updatedGearListMetadata.listDescription)
     ) {
-      console.log('Make a change to list name or description to update the selected list.');
+      console.warn('Make a change to list name or description to update the selected list.');
       setEditingError('Make a change to list name or description to update the selected list.');
       return;
     }

@@ -103,7 +103,7 @@ export default function GearListByCategory({
 
         return (
           <div key={cat.id}>
-            {i > 0 ? <hr /> : null}
+            {i > 0 ? <hr className={styles['gear-list-separator']} /> : null}
 
             <section className={styles['category-section']}>
               <div className={styles['category-title']}>

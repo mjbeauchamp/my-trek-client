@@ -1,6 +1,5 @@
 import { useState, Fragment } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
-
 import { Checkbox } from '@headlessui/react';
 import styles from './ListItem.module.scss';
 import type { UserGearItem } from '../../../types/gearTypes';
@@ -8,6 +7,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import type { GearList } from '../../../types/gearTypes';
+import { Toaster, toast } from 'react-hot-toast';
+import { isUserGearItem } from '../../../utils/validators/gearTypeValidators';
 
 interface ListItemProps {
   openListItemDialog: (mode: 'create' | 'edit', item?: UserGearItem) => void;
@@ -29,67 +30,85 @@ export default function ListItem({
   const [checked, setChecked] = useState(item?.quantityToPack === 0);
   const [showCheckAnimation, setShowCheckAnimation] = useState(false);
   const [showNotes, setShowNotes] = useState(false);
+  const [itemLoading, setItemLoading] = useState(false);
 
   const { getAccessTokenSilently } = useAuth0();
 
-  const updateItem = async (checkValueUpdate: boolean) => {
-    setChecked(checkValueUpdate);
-    setShowCheckAnimation(checkValueUpdate);
-
-    // TODO: VALIDATE/SANITIZE TEXT VALUES
+  const updateItem = async (checkboxValue: boolean) => {
     if (!listId) {
-      // TODO: Error handling
+      console.error('List ID not present when editing gear item');
+      toast.error('There was a problem updating list item. Please try again');
       return;
     }
 
     if (!item?._id) {
-      // TODO: HANDLE ERROR, because if we don't have these we can't make the call
+      console.error('Item ID not present when editing gear item');
+      toast.error('No list item selected to update. Please try again');
+      return;
     }
 
-    let quantityToPack = item.quantityNeeded;
+    let quantityToPack = 0;
 
-    if (checkValueUpdate) {
-      quantityToPack = 0;
+    if (!checkboxValue) {
+      const quantityNeededNum = Number(item.quantityNeeded);
+
+      if (isNaN(quantityNeededNum)) {
+        console.error('Quantity needed not a valid number');
+        toast.error('Please update Quantity Needed to a valid number');
+        return;
+      }
+
+      quantityToPack = quantityNeededNum;
     }
 
-    const newItem = {
+    const newItemData = {
       itemData: {
         quantityToPack,
       },
     };
 
     try {
-      // setLoading(true);
-      // setError(null);
+      setItemLoading(true);
 
       const token = await getAccessTokenSilently();
 
       if (!token) {
         console.error('No user token found');
-        throw new Error('There was a problem creating the gear list. User token not found.');
+        throw new Error('There was a problem updating gear item. User token not found.');
       }
+
       const res = await fetch(`http://localhost:4000/api/gear-lists/gear-list/${listId}/items/${item._id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(newItem),
+        body: JSON.stringify(newItemData),
       });
+
       if (!res.ok) {
-        const body = await res.json().catch(() => ({}));
-        throw new Error(body.message || 'Failed to edit item');
+        const error = await res.json();
+        throw new Error(error?.message || 'Failed to update item');
       }
+
       const updatedList = await res.json();
 
-      setUserGearList(updatedList);
-      // setLoading(false);
+      if (
+        updatedList.listTitle &&
+        Array.isArray(updatedList.items) &&
+        updatedList.items.every((item: unknown) => isUserGearItem(item))
+      ) {
+        setChecked(checkboxValue);
+        setShowCheckAnimation(checkboxValue);
+        setUserGearList(updatedList);
+      } else {
+        toast('The server returned an unexpected response. Please try again.');
+      }
     } catch (err: unknown) {
-      //TODO: error handling
-      // Re-load the list
-      // setError(err.message || "Error");
-      // setLoading(false);
       console.error('There was an error updating item: ', err);
+      toast('The server returned an unexpected response. Please try again.');
+    } finally {
+      setItemLoading(false);
     }
   };
 
@@ -106,8 +125,8 @@ export default function ListItem({
         >
           <div className={`flex-align-start ${styles['item-info']}`}>
             <div className={`flex-align-start ${styles['item-header']}`}>
-              <Checkbox checked={checked} onChange={() => updateItem(!checked)} as={Fragment}>
-                <span className={styles['checkbox']}>
+              <Checkbox checked={checked} onChange={() => updateItem(!checked)} as={Fragment} disabled={itemLoading}>
+                <span className={`${styles['checkbox']} ${itemLoading ? styles['disabled'] : ''}`}>
                   <svg className={styles.check} viewBox="0 0 14 14" fill="none">
                     <path d="M3 8L6 11L11 3.5" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
@@ -133,6 +152,7 @@ export default function ListItem({
               onClick={() => openListItemDialog('edit', item)}
               aria-label="Edit list item"
               className={styles['edit-button']}
+              disabled={itemLoading}
             >
               <FontAwesomeIcon icon={faEdit} size="xl" />
             </button>
@@ -140,6 +160,7 @@ export default function ListItem({
               onClick={(e) => openDeleteItemDialog(e, item._id)}
               aria-label="Delete list item"
               className={styles['delete-button']}
+              disabled={itemLoading}
             >
               <FontAwesomeIcon icon={faTrash} size="xl" />
             </button>
@@ -152,6 +173,7 @@ export default function ListItem({
           </div>
         ) : null}
       </article>
+      <Toaster />
     </li>
   );
 }

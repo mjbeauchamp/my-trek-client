@@ -33,7 +33,7 @@ export default function GearItemForm({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // TODO: GIVE USER ABILITY TO UPDATE THESE WHEN SHOPPING LIST
+  // TODO: GIVE USER ABILITY TO UPDATE quantityToPack AND quantityToShop ONCE SHOPPING LIST
   // AND PACKING LIST TABS ARE SUPPORTED
   // eslint-disable-next-line
   const [quantityToPack, setQuantityToPack] = useState(initialData?.quantityToPack || '1');
@@ -51,7 +51,12 @@ export default function GearItemForm({
     }
   };
 
-  const addGearListItem = async (newItem: { itemData: UserNewGearItem }) => {
+  const addGearListItem = async (itemData: UserNewGearItem) => {
+    if (!listId) {
+      setError('No gear list selected to update.');
+      return;
+    }
+
     try {
       setLoading(true);
       setError(null);
@@ -70,11 +75,12 @@ export default function GearItemForm({
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(newItem),
+        body: JSON.stringify({ itemData }),
       });
 
       if (!res.ok) {
-        throw new Error('Failed to add item');
+        const error = await res.json();
+        throw new Error(error?.message || 'Failed to add item');
       }
 
       const createdItem = await res.json();
@@ -89,9 +95,10 @@ export default function GearItemForm({
           };
         });
         setNewItemId(createdItem._id);
+        closeListItemDialog();
+      } else {
+        setError('The server returned an unexpected response. Please try again.');
       }
-
-      closeListItemDialog();
     } catch (error) {
       if (error instanceof Error) {
         console.error('Error adding gear item:', error.message);
@@ -105,11 +112,17 @@ export default function GearItemForm({
     }
   };
 
-  const editGearListItem = async (newItem: { itemData: UserNewGearItem }) => {
-    if (!listId || !initialData?._id) {
-      // TODO: HANDLE ERROR, because if we don't have these we can't make the call
+  const editGearListItem = async (itemData: UserNewGearItem) => {
+    if (!listId) {
+      setError('No gear list selected to update.');
       return;
     }
+
+    if (!initialData?._id) {
+      setError('No list item selected to update.');
+      return;
+    }
+
     try {
       setLoading(true);
       setError(null);
@@ -121,27 +134,39 @@ export default function GearItemForm({
         setError('There was a problem editing the gear list. User token not found.');
         return;
       }
+
       const res = await fetch(`http://localhost:4000/api/gear-lists/gear-list/${listId}/items/${initialData._id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(newItem),
+        body: JSON.stringify({ itemData }),
       });
-      if (!res.ok) {
-        const body = await res.json().catch(() => ({}));
-        throw new Error(body.message || 'Failed to edit item');
-      }
-      const updatedList = await res.json();
 
-      setUserGearList(updatedList);
-      closeListItemDialog();
+      if (!res.ok) {
+        const error = await res.json();
+        throw new Error(error?.message || 'Failed to update item');
+      }
+
+      const updatedList: GearList = await res.json();
+
+      if (
+        updatedList.listTitle &&
+        Array.isArray(updatedList.items) &&
+        updatedList.items.every((item: unknown) => isUserGearItem(item))
+      ) {
+        setUserGearList(updatedList);
+        closeListItemDialog();
+      } else {
+        setError('The server returned an unexpected response. Please try again.');
+      }
     } catch (error) {
-      //TODO: error handling
       if (error instanceof Error) {
+        console.error('Error updating gear item:', error.message);
         setError(error.message);
       } else {
+        console.error('Error updating gear item:', error);
         setError('There was an error updating gear item');
       }
     } finally {
@@ -152,40 +177,41 @@ export default function GearItemForm({
   const submitForm = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    // TODO: VALIDATE/SANITIZE ALL TEXT VALUES
     if (!listId) {
-      // TODO: Error handling
+      console.error('List ID not present when submitting gear item');
+      setError('There was a problem adding new list item. Please try again.');
       return;
     }
 
     const quantityNeededNum = Number(quantityNeeded);
-    if (isNaN(quantityNeededNum)) {
-      //TODO: Clean up error handlin for all of these
-      alert("Please enter a valid 'Quantity Needed' number");
-      return;
-    }
-
     const quantityToPackNum = Number(quantityToPack);
-    if (isNaN(quantityToPackNum)) {
-      alert("Please enter a valid 'Quantity to Pack' number");
-      return;
-    }
-
     const quantityToShopNum = Number(quantityToShop);
-    if (isNaN(quantityToShopNum)) {
-      alert("Please enter a valid 'Quantity to Shop' number");
+
+    const trimmedName = itemName.trim();
+    const trimmedNotes = notes.trim();
+
+    if (!trimmedName) {
+      setError('Gear item name value must be provided');
       return;
     }
 
-    const newItem: { itemData: UserNewGearItem } = {
-      itemData: {
-        name: itemName.trim(),
-        category: category.trim(),
-        quantityNeeded: quantityNeededNum,
-        quantityToPack: quantityToPackNum,
-        quantityToShop: quantityToShopNum,
-        notes,
-      },
+    if (trimmedName.length > 60) {
+      setError('Gear item name cannot exceed 60 characters.');
+      return;
+    }
+
+    if (trimmedNotes.length > 500) {
+      setError('Notes text cannot exceed 500 characters.');
+      return;
+    }
+
+    const newItem: UserNewGearItem = {
+      name: trimmedName,
+      category,
+      quantityNeeded: quantityNeededNum,
+      quantityToPack: quantityToPackNum,
+      quantityToShop: quantityToShopNum,
+      notes: trimmedNotes,
     };
 
     if (mode === 'create') {
@@ -228,7 +254,9 @@ export default function GearItemForm({
             value={category}
             onChange={(e) => setCategory(e.target.value)}
           >
-            <option value="">Select a category</option>
+            <option value="" disabled>
+              Select a category
+            </option>
             {GEAR_CATEGORIES.map((cat) => (
               <option key={cat.id} value={cat.id}>
                 {cat.label}
@@ -250,7 +278,7 @@ export default function GearItemForm({
           />
         </div>
 
-        {/* TODO: UPDATE WHEN PACKING LIST IS IMPLEMENTED */}
+        {/* TODO: UPDATE TO SHOW INPUTS WHEN PACKING/SHOPPING LIST IS IMPLEMENTED */}
         {/* <div className="input-container">
                     <label htmlFor="quantityToPack">Quantity to Pack</label>
                     <input
