@@ -121,7 +121,7 @@ export default function BackpackingBasicsPage() {
       <header className={`${styles.header} content-container`}>
         <h1 className="fjord-one">BACKPACKING 101</h1>
         <p>Expert advice on getting the most out of your outdoor adventures</p>
-        <hr />
+        <hr className={styles['articles-section-line']} />
       </header>
 
       <section className="content-container flex-content-container">{listContent()}</section>

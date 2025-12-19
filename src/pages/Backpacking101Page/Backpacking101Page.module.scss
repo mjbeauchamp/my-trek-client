@@ -16,7 +16,7 @@
   p {
     font-size: 1.2rem;
     margin-top: 0;
-    margin-bottom: 60px;
+    width: 80%;
   }
 }
 
@@ -97,9 +97,20 @@ ul {
   }
 }
 
+.articles-section-line {
+  margin-top: 60px;
+  margin-bottom: 40px;
+}
+
 @media (max-width: 1400px) {
   .article-card .text-container .article-header h2 {
     font-size: var(--fs-md-lg);
+  }
+}
+
+@media (max-width: 1200px) {
+  .articles-section-line {
+    margin-top: 40px;
   }
 }
 
@@ -122,5 +133,9 @@ ul {
     p {
       font-size: 1rem;
     }
+  }
+
+  .articles-section-line {
+    margin-top: 30px;
   }
 }

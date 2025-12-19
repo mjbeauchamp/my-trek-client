@@ -10,17 +10,31 @@
 
   .tagline {
     font-size: 1.2rem;
+    width: 80%;
   }
 
-  hr {
-    margin-top: 40px;
+  .gear-lists-section-line {
+    margin-top: 60px;
     margin-bottom: 40px;
   }
 
-  @media (max-width: 740px) {
+  @media (max-width: 1200px) {
+    .gear-lists-section-line {
+      margin-top: 40px;
+    }
+  }
+
+  @media (max-width: 700px) {
     .header {
       font-size: var(--fs-2xl);
-      line-height: 1.2;
+    }
+
+    .tagline {
+      font-size: 1rem;
+    }
+
+    .gear-lists-section-line {
+      margin-top: 30px;
     }
   }
 }

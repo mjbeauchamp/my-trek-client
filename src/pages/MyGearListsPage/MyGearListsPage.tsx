@@ -15,7 +15,7 @@ export default function MyGearListsPage() {
         <p className={styles.tagline}>Create multiple gear checklists so you're prepared for any adventure!</p>
       </header>
 
-      <hr />
+      <hr className={styles['gear-lists-section-line']} />
 
       {isAuthenticated ? (
         <Link to="/my-gear-lists/new" className="btn large light-green">
