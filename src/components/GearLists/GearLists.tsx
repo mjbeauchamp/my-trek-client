@@ -36,9 +36,9 @@ export default function GearLists() {
         });
 
         if (!res.ok) {
-          const error = await res.json();
-          console.error(error?.message || 'There was a problem fetching gear lists');
-          setErrorUserGearLists(error?.message || 'There was a problem fetching gear lists');
+          const message = await parseFetchError(res);
+          console.error(`There was a problem fetching gear lists: ${message}`);
+          setErrorUserGearLists(message);
           return;
         }
 

@@ -3,6 +3,7 @@ import { Link } from 'react-router';
 import styles from './Backpacking101Page.module.scss';
 import LoadingSkeletonSection from '../../components/SharedUi/LoadingSkeletonSection/LoadingSkeletonSection';
 import { ErrorAlertBlock } from '../../components/SharedUi/ErrorAlertBlock/ErrorAlertBlock';
+import { parseFetchError } from '../../utils/parseFetchError';
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -39,11 +40,13 @@ export default function BackpackingBasicsPage() {
       try {
         const res = await fetch(`${apiUrl}/backpacking-articles`);
 
-        const data = await res.json();
-
         if (!res.ok) {
-          throw new Error(data.message || 'Server error fetching gear lists');
+          const message = await parseFetchError(res);
+          console.error('Error fetching articles:', message);
+          throw new Error(message);
         }
+
+        const data = await res.json();
 
         if (Array.isArray(data)) {
           setArticles(data);

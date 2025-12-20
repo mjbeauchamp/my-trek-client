@@ -5,6 +5,7 @@ import { ErrorAlertBlock } from '../../components/SharedUi/ErrorAlertBlock/Error
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import styles from './BackpackingArticlePage.module.scss';
+import { parseFetchError } from '../../utils/parseFetchError';
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -40,11 +41,14 @@ export default function BackpackingArticlePage() {
       try {
         const res = await fetch(`${apiUrl}/backpacking-articles/${articleId}`);
 
-        const data = await res.json();
-
         if (!res.ok) {
-          throw new Error(data.message || 'Server error');
+          const message = await parseFetchError(res);
+          console.error(`There was an issue fetching article: ${message}`);
+          setError(`There was a problem fetching the article: ${message}`);
+          return;
         }
+
+        const data = await res.json();
 
         if (data.title && data.content && data.imageUrl) {
           setArticle(data);
