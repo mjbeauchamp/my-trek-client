@@ -10,7 +10,7 @@ import styles from './GearLists.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { isArrayOfGearLists } from '../../utils/validators/gearTypeValidators';
-import { Toaster, toast } from 'react-hot-toast';
+import { parseFetchError } from '../../utils/parseFetchError';
 
 export default function GearLists() {
   const { userGearLists, setUserGearLists, removeGearList } = useUserGearLists();
@@ -82,8 +82,7 @@ export default function GearLists() {
   const deleteGearList = async () => {
     if (!pendingDeleteId) {
       console.error('No gear list selected to update.');
-      toast.error('No gear list selected to update.');
-      return;
+      throw new Error('No gear list selected to update.');
     }
 
     try {
@@ -91,8 +90,7 @@ export default function GearLists() {
 
       if (!token) {
         console.error('No user token found');
-        toast.error('There was a problem deleting gear list: User token not found');
-        return;
+        throw new Error('There was a problem deleting gear item. No user token found.');
       }
 
       const res = await fetch(`http://localhost:4000/api/gear-lists/gear-list/${pendingDeleteId}`, {
@@ -104,19 +102,16 @@ export default function GearLists() {
       });
 
       if (!res.ok) {
-        const error = await res.json();
-        throw new Error(error?.message || 'Failed to delete item');
+        const message = await parseFetchError(res);
+        console.error('Error deleting list:', message);
+        throw new Error(message);
       }
 
       removeGearList(pendingDeleteId);
     } catch (error) {
-      if (error instanceof Error) {
-        console.error('Error updating gear item:', error.message);
-        toast.error(`There was a problem deleting gear list: ${error.message}`);
-      } else {
-        console.error('Error updating gear item:', error);
-        toast.error(`There was a problem deleting gear list.`);
-      }
+      console.error('Error deleting list: ', error);
+      if (error instanceof Error) throw error;
+      throw new Error('There was a problem deleting the list. Please try again.');
     }
   };
 
@@ -172,7 +167,6 @@ export default function GearLists() {
         description="This action cannot be undone. Are you sure you want to permanently delete this gear list?"
         actionBtnText="DELETE"
       />
-      <Toaster />
     </>
   );
 }
