@@ -28,8 +28,8 @@ export default function CreateGearListPage() {
       return;
     }
 
-    if (listTitle.trim().length > 100) {
-      setError('List title cannot exceed 100 characters.');
+    if (listTitle.trim().length > 60) {
+      setError('List title cannot exceed 60 characters.');
       return;
     }
     if (listDescription.trim().length > 250) {
@@ -72,9 +72,7 @@ export default function CreateGearListPage() {
 
       const data = await res.json();
 
-      //TODO: check that data is the right shape
-
-      if (!data._id) {
+      if (!data._id || !data.listTitle || !Array.isArray(data.items)) {
         console.error('There was a problem fetching the gear list.');
         setError('There was a problem fetching the gear list.');
       } else {
@@ -83,7 +81,7 @@ export default function CreateGearListPage() {
       }
     } catch (err) {
       console.error(err);
-      setError('There was a problem creating the gear list.');
+      setError('There was a problem creating the gear list. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -104,7 +102,7 @@ export default function CreateGearListPage() {
                 setError('');
                 return setListTitle(e.target.value);
               }}
-              maxLength={100}
+              maxLength={60}
               placeholder="e.g. Everest Trip"
               required
             />
