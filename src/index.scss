@@ -10,13 +10,13 @@
   --color-accent: #{t.$color-accent};
   --color-accent-bright: #{t.$color-accent-bright};
   --color-light-primary: #{t.$color-light-primary};
-  --color-light-highlight: #{t.$color-light-highlight};
+  --color-light-secondary: #{t.$color-light-secondary};
   --color-text: #{t.$color-text};
-  --color-text-gray: #{t.$color-text-gray};
+  --color-text-soft: #{t.$color-text-soft};
   --color-light-green: #{t.$color-light-green};
   --color-light-gray: #{t.$color-light-gray};
   --color-highlight: #{t.$color-highlight};
-  --color-bright-highlight: #{t.$color-bright-highlight};
+  --color-highlight-bright: #{t.$color-highlight-bright};
 
   /* Typography - fonts */
   --font-sans: #{t.$font-sans};
@@ -197,7 +197,7 @@ hr {
 
   &.light-green {
     background-color: var(--color-secondary);
-    color: var(--color-light-highlight);
+    color: var(--color-light-secondary);
 
     &:hover:not(:disabled) {
       background-color: var(--color-primary);
@@ -210,7 +210,7 @@ hr {
 
   &.dark {
     background-color: var(--color-primary);
-    color: var(--color-light-highlight);
+    color: var(--color-light-secondary);
 
     &:hover:not(:disabled) {
       background-color: var(--color-secondary);
@@ -238,13 +238,13 @@ hr {
 
   &.gray {
     &:hover:not(:disabled) {
-      background-color: var(--color-text-gray);
+      background-color: var(--color-text-soft);
       color: white;
     }
   }
 
   &:focus {
-    outline: 2px solid var(--color-bright-highlight);
+    outline: 2px solid var(--color-highlight-bright);
     outline-offset: 2px;
   }
 

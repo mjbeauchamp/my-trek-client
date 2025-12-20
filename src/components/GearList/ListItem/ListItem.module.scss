@@ -28,7 +28,7 @@
   h3 {
     font-size: 1.3rem;
     font-weight: 500;
-    color: var(--color-text-gray);
+    color: var(--color-text-soft);
   }
 
   .item-info {
@@ -69,7 +69,7 @@
     padding: 8px;
     background-color: rgba(0, 0, 0, 0);
     cursor: pointer;
-    color: var(--color-text-gray);
+    color: var(--color-text-soft);
     opacity: 0.7;
 
     &:disabled {
@@ -184,10 +184,10 @@
 }
 
 .notes {
-  background-color: var(--color-light-highlight);
+  background-color: var(--color-light-secondary);
   border: 1px solid #debfa3;
   border-radius: 6px;
   margin-top: 8px;
   padding: 10px 14px 20px;
-  color: var(--color-text-gray);
+  color: var(--color-text-soft);
 }
