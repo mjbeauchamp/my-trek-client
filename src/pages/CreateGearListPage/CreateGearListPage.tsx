@@ -7,6 +7,7 @@ import { ErrorAlertBlock } from '../../components/SharedUi/ErrorAlertBlock/Error
 import styles from './CreateGearListPage.module.scss';
 import { ClipLoader } from 'react-spinners';
 import { isGearList } from '../../utils/validators/gearTypeValidators';
+import { parseFetchError } from '../../utils/parseFetchError';
 
 export default function CreateGearListPage() {
   const [listTitle, setListTitle] = useState('');
@@ -65,8 +66,8 @@ export default function CreateGearListPage() {
       });
 
       if (!res.ok) {
-        const serverError = await res.json();
-        console.error('Server error: ', serverError);
+        const message = await parseFetchError(res);
+        console.error('Server error: ', message);
         setError('There was a problem creating the gear list.');
         return;
       }

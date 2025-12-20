@@ -72,7 +72,7 @@ export default function GearListPage() {
         });
 
         if (!res.ok) {
-          const error = await res.json();
+          const error = await parseFetchError(res);
           console.error('Error fetching list: ', error);
           setErrorUserGearList('There was a problem fetching the gear list.');
           return;
