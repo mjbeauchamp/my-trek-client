@@ -68,7 +68,7 @@ export default function CreateGearListPage() {
       if (!res.ok) {
         const message = await parseFetchError(res);
         console.error('Server error: ', message);
-        setError('There was a problem creating the gear list.');
+        setError(`There was a problem creating the gear list: ${message}`);
         return;
       }
 

@@ -66,7 +66,7 @@ export default function GearItemForm({
 
       if (!token) {
         console.error('No user token found');
-        setError('There was a problem creating the gear list. User token not found.');
+        setError('There was a problem adding the new list item. User token not found.');
         return;
       }
 
