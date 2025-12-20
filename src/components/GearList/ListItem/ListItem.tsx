@@ -8,7 +8,8 @@ import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import type { GearList } from '../../../types/gearTypes';
 import { Toaster, toast } from 'react-hot-toast';
-import { isUserGearItem } from '../../../utils/validators/gearTypeValidators';
+import { isGearList } from '../../../utils/validators/gearTypeValidators';
+import { parseFetchError } from '../../../utils/parseFetchError';
 
 interface ListItemProps {
   openListItemDialog: (mode: 'create' | 'edit', item?: UserGearItem) => void;
@@ -74,7 +75,8 @@ export default function ListItem({
 
       if (!token) {
         console.error('No user token found');
-        throw new Error('There was a problem updating gear item. User token not found.');
+        toast.error('There was a problem updating gear item. User token not found.');
+        return;
       }
 
       const res = await fetch(`http://localhost:4000/api/gear-lists/gear-list/${listId}/items/${item._id}`, {
@@ -87,17 +89,16 @@ export default function ListItem({
       });
 
       if (!res.ok) {
-        const error = await res.json();
-        throw new Error(error?.message || 'Failed to update item');
+        const message = await parseFetchError(res);
+        console.error('Failed to update item:', message);
+        toast.error('There was a problem updating gear item. Please try again.');
+
+        return;
       }
 
       const updatedList = await res.json();
 
-      if (
-        updatedList.listTitle &&
-        Array.isArray(updatedList.items) &&
-        updatedList.items.every((item: unknown) => isUserGearItem(item))
-      ) {
+      if (isGearList(updatedList)) {
         setChecked(checkboxValue);
         setShowCheckAnimation(checkboxValue);
         setUserGearList(updatedList);
