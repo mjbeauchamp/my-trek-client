@@ -12,6 +12,7 @@ import GearListsPage from './pages/MyGearListsPage/MyGearListsPage';
 import GearListPage from './pages/GearListPage/GearListPage';
 import CreateGearListPage from './pages/CreateGearListPage/CreateGearListPage';
 import UserGearListsProvider from './providers/UserGearListsProvider';
+import { parseFetchError } from './utils/parseFetchError';
 
 type SyncStatus = 'idle' | 'syncing' | 'success' | 'error';
 
@@ -46,8 +47,9 @@ function App() {
         });
 
         if (!res.ok) {
+          const message = await parseFetchError(res);
           syncStatus.current = 'error';
-          console.error('User sync failed:', res.status);
+          console.error('User sync failed:', message);
           return;
         }
 

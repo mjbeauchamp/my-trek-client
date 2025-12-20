@@ -5,6 +5,8 @@ import { ClipLoader } from 'react-spinners';
 import ConfirmationModal from '../../SharedUi/ConfirmationModal/ConfirmationModal';
 import { ErrorAlertBlock } from '../../SharedUi/ErrorAlertBlock/ErrorAlertBlock';
 import type { GearList } from '../../../types/gearTypes';
+import { parseFetchError } from '../../../utils/parseFetchError';
+import { isGearList } from '../../../utils/validators/gearTypeValidators';
 
 interface EditListModalProps {
   isEditMetadataDialogOpen: boolean;
@@ -92,35 +94,21 @@ export default function EditListModal({
       });
 
       if (!res.ok) {
-        const serverError = await res.json();
-        console.error('Server error: ', serverError);
-        throw new Error('There was a problem updating the gear list.');
+        const message = await parseFetchError(res);
+        console.error('Error updating list:', message);
+        setEditingError(`There was a problem updating the list: ${message}`);
+        return;
       }
 
       const data = await res.json();
 
-      if (!data._id) {
-        throw new Error('There was a problem fetching the gear list.');
+      if (!isGearList(data)) {
+        setEditingError(`There was a problem fetching the updated list.`);
+        console.error('Error updating list. Returned list data is incorrectly formatted');
+        return;
       }
 
-      let newTitle: string | undefined = undefined;
-      if (typeof data.listTitle === 'string' && data.listTitle.trim().length > 0) {
-        newTitle = data.listTitle.trim();
-      }
-
-      let newDescription: string | undefined = undefined;
-      if (typeof data.listDescription === 'string') {
-        newDescription = data.listDescription.trim();
-      }
-
-      setUserGearList((prev: GearList | null) => {
-        if (!prev) return prev;
-        return {
-          ...prev,
-          listTitle: newTitle !== undefined ? newTitle : prev.listTitle,
-          listDescription: newDescription !== undefined ? newDescription : prev.listDescription,
-        };
-      });
+      setUserGearList(data);
       setIsEditMetadataDialogOpen(false);
     } catch (err) {
       console.error(err);

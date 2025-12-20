@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { Combobox, ComboboxInput, ComboboxOption, ComboboxOptions } from '@headlessui/react';
 import type { CommonGearItem, UserGearItem } from '../../../types/gearTypes';
 import { GEAR_CATEGORIES } from '../../../constants/categories';
+import { parseFetchError } from '../../../utils/parseFetchError';
 
 interface PropTypes {
   onCommonGearSelect: (gear: CommonGearItem | null) => void;
@@ -49,10 +50,21 @@ export default function CommonGearDropdown({ onCommonGearSelect, userGearListIte
     const fetchCommonGear = async () => {
       try {
         const res = await fetch('http://localhost:4000/api/commonGear');
-        if (!res.ok) throw new Error('Network response not ok');
+
+        if (!res.ok) {
+          const message = await parseFetchError(res);
+          console.error('Error fetching common gear items:', message);
+          setHideComboBox(true);
+          return;
+        }
+
         const data = await res.json();
 
-        if (!Array.isArray(data)) throw new Error('Improperly formatted data');
+        if (!Array.isArray(data)) {
+          console.error('Common gear formatting incorrect');
+          setHideComboBox(true);
+          return;
+        }
 
         setCommonGear(data);
       } catch (err) {

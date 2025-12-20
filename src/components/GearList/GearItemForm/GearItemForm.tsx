@@ -4,7 +4,8 @@ import { ErrorAlertBlock } from '../../SharedUi/ErrorAlertBlock/ErrorAlertBlock'
 import CommonGearDropdown from '../CommonGearDropdown/CommonGearDropdown';
 import { GEAR_CATEGORIES } from '../../../constants/categories';
 import type { GearList, CommonGearItem, UserGearItem, UserNewGearItem } from '../../../types/gearTypes';
-import { isUserGearItem } from '../../../utils/validators/gearTypeValidators';
+import { isGearList, isUserGearItem } from '../../../utils/validators/gearTypeValidators';
+import { parseFetchError } from '../../../utils/parseFetchError';
 
 interface PropTypes {
   userGearListItems: UserGearItem[] | undefined;
@@ -79,8 +80,10 @@ export default function GearItemForm({
       });
 
       if (!res.ok) {
-        const error = await res.json();
-        throw new Error(error?.message || 'Failed to add item');
+        const message = await parseFetchError(res);
+        console.error('Error adding item to list:', message);
+        setError(`There was a problem adding item to the list: ${message}`);
+        return;
       }
 
       const createdItem = await res.json();
@@ -145,17 +148,15 @@ export default function GearItemForm({
       });
 
       if (!res.ok) {
-        const error = await res.json();
-        throw new Error(error?.message || 'Failed to update item');
+        const message = await parseFetchError(res);
+        console.error('Error updating list item:', message);
+        setError(`There was a problem updating list item: ${message}`);
+        return;
       }
 
       const updatedList: GearList = await res.json();
 
-      if (
-        updatedList.listTitle &&
-        Array.isArray(updatedList.items) &&
-        updatedList.items.every((item: unknown) => isUserGearItem(item))
-      ) {
+      if (isGearList(updatedList)) {
         setUserGearList(updatedList);
         closeListItemDialog();
       } else {

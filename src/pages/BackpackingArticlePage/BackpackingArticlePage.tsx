@@ -28,6 +28,12 @@ export default function BackpackingArticlePage() {
 
   useEffect(() => {
     const fetchArticle = async () => {
+      if (!articleId) {
+        console.error('No articleId found');
+        setError('There was a problem fetching the article. Article ID not found');
+        return;
+      }
+
       setIsLoading(true);
       setError('');
 
