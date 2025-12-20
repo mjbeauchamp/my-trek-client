@@ -11,16 +11,22 @@ export function isUserGearItem(obj: any) {
   );
 }
 
+export function isGearList(obj: any) {
+  return (
+    obj &&
+    typeof obj._id === 'string' &&
+    typeof obj.listTitle === 'string' &&
+    (obj.listDescription === undefined || typeof obj.listDescription === 'string') &&
+    Array.isArray(obj.items)
+  );
+}
+
 export function isArrayOfGearLists(listArray: any) {
   if (!listArray || !Array.isArray(listArray)) {
     return false;
   }
 
   return listArray.every((list: any) => {
-    return (
-      typeof list.listTitle === 'string' &&
-      Array.isArray(list.items) &&
-      list.items.every((item: any) => isUserGearItem(item))
-    );
+    return isGearList(list);
   });
 }

@@ -37,13 +37,16 @@ export default function ConfirmationModal({
       setLoading(true);
       await onConfirm();
       setLoading(false);
-    } catch (err) {
-      // TODO: add error handling
-      console.error('ERROR DELETING ITEM:', err);
-      toast.error('There was a problem completing action.');
-    } finally {
-      setLoading(false);
       onClose();
+    } catch (error: any) {
+      if (error && error.message) {
+        toast.error(error.message);
+        console.error('There was a problem completing modal action: ', error.message);
+      } else {
+        toast.error('There was a problem completing modal action.');
+        console.error('There was a problem completing modal action.');
+      }
+      setLoading(false);
     }
   };
 

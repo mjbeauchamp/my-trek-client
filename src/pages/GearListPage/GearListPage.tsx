@@ -12,6 +12,8 @@ import styles from './GearListPage.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import LoadingMessage from '../../components/SharedUi/LoadingMessage/LoadingMessage';
+import { isGearList } from '../../utils/validators/gearTypeValidators';
+import { parseFetchError } from '../../utils/parseFetchError';
 
 export default function GearListPage() {
   const { listId } = useParams();
@@ -41,42 +43,56 @@ export default function GearListPage() {
     itemRefs.current[itemId] = el;
   };
 
-  const fetchUserGearList = async () => {
-    setLoadingUserGearList(true);
-    setErrorUserGearList('');
-    try {
-      const token = await getAccessTokenSilently();
-
-      if (!token) {
-        console.error('No user token found');
-        setErrorUserGearList('There was a problem fetching gear lists: User token not found');
-        return;
-      }
-
-      const res = await fetch(`http://localhost:4000/api/gear-lists/gear-list/${listId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (!res.ok) {
-        //TODO: handle error
-      }
-
-      const data = await res.json();
-
-      setUserGearList(data);
-    } catch (err) {
-      console.error('Error fetching gear:', err);
-      setErrorUserGearList('There was an error fetching gear list');
-    } finally {
-      setLoadingUserGearList(false);
-    }
-  };
-
   useEffect(() => {
     // Checking for gear list in useUserGearLists provider state
     const list = listId && getGearListById(listId);
+
+    const fetchUserGearList = async () => {
+      setLoadingUserGearList(true);
+      setErrorUserGearList('');
+      try {
+        const token = await getAccessTokenSilently();
+
+        if (!token) {
+          console.warn('No user token found');
+          setErrorUserGearList('There was a problem fetching gear lists: User token not found');
+          return;
+        }
+
+        if (!listId) {
+          console.warn('No list ID found');
+          setErrorUserGearList('There was a problem fetching gear lists. Please try again.');
+          return;
+        }
+
+        const res = await fetch(`http://localhost:4000/api/gear-lists/gear-list/${listId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!res.ok) {
+          const error = await res.json();
+          console.error('Error fetching list: ', error);
+          setErrorUserGearList('There was a problem fetching the gear list.');
+          return;
+        }
+
+        const data = await res.json();
+
+        if (isGearList(data)) {
+          setUserGearList(data);
+        } else {
+          console.error('Error fetching gear list');
+          setErrorUserGearList('There was an error fetching list. Please try again.');
+        }
+      } catch (err) {
+        console.error('Error fetching gear:', err);
+        setErrorUserGearList('There was an error fetching gear list');
+      } finally {
+        setLoadingUserGearList(false);
+      }
+    };
 
     if (list) {
       setUserGearList(list);
@@ -110,16 +126,15 @@ export default function GearListPage() {
 
   const deleteGearItem = async () => {
     if (!pendingDeleteId) {
-      //TODO: handle this
+      console.error('No item ID found for item to delete');
+      throw new Error('No item ID found for item to delete');
     }
 
     try {
       const token = await getAccessTokenSilently();
 
       if (!token) {
-        console.error('No user token found');
-        setErrorUserGearList('There was a problem deleting gear item: User token not found');
-        return;
+        throw new Error('There was a problem deleting gear item. No user token found.');
       }
 
       const res = await fetch(`http://localhost:4000/api/gear-lists/gear-list/${listId}/items/${pendingDeleteId}`, {
@@ -131,13 +146,23 @@ export default function GearListPage() {
       });
 
       if (!res.ok) {
-        //TODO: handle error
+        const message = await parseFetchError(res);
+        console.error('Error deleting list item:', message);
+        throw new Error(message);
       }
 
-      fetchUserGearList();
-    } catch (error) {
-      //TODO: Handle error
-      console.error('There was a problem deleting gear item:', error);
+      const updatedList = await res.json();
+
+      if (isGearList(updatedList)) {
+        setUserGearList(updatedList);
+      } else {
+        console.error('Error fetching gear list');
+        setErrorUserGearList('There was an error fetching list. Please try again.');
+      }
+    } catch (error: any) {
+      console.error('Error deleting list item: ', error);
+      if (error instanceof Error) throw error;
+      throw new Error('There was a problem deleting the list item. Please try again.');
     }
   };
 

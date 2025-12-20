@@ -6,6 +6,7 @@ import ActionPanel from '../../components/SharedUi/ActionPanel/ActionPanel';
 import { ErrorAlertBlock } from '../../components/SharedUi/ErrorAlertBlock/ErrorAlertBlock';
 import styles from './CreateGearListPage.module.scss';
 import { ClipLoader } from 'react-spinners';
+import { isGearList } from '../../utils/validators/gearTypeValidators';
 
 export default function CreateGearListPage() {
   const [listTitle, setListTitle] = useState('');
@@ -72,12 +73,12 @@ export default function CreateGearListPage() {
 
       const data = await res.json();
 
-      if (!data._id || !data.listTitle || !Array.isArray(data.items)) {
-        console.error('There was a problem fetching the gear list.');
-        setError('There was a problem fetching the gear list.');
-      } else {
+      if (isGearList(data)) {
         addGearList(data);
         navigate(`/my-gear-lists/${data._id}`);
+      } else {
+        console.error('There was a problem fetching the gear list.');
+        setError('There was a problem fetching the gear list. Please try again.');
       }
     } catch (err) {
       console.error(err);
