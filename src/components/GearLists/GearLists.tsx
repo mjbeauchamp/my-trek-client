@@ -12,6 +12,8 @@ import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { isArrayOfGearLists } from '../../utils/validators/gearTypeValidators';
 import { parseFetchError } from '../../utils/parseFetchError';
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 export default function GearLists() {
   const { userGearLists, setUserGearLists, removeGearList } = useUserGearLists();
   const { getAccessTokenSilently } = useAuth0();
@@ -31,7 +33,7 @@ export default function GearLists() {
           setErrorUserGearLists('There was a problem fetching gear lists: User token not found');
           return;
         }
-        const res = await fetch('http://localhost:4000/api/gear-lists', {
+        const res = await fetch(`${apiUrl}/gear-lists`, {
           headers: { Authorization: `Bearer ${token}` },
         });
 
@@ -93,7 +95,7 @@ export default function GearLists() {
         throw new Error('There was a problem deleting gear item. No user token found.');
       }
 
-      const res = await fetch(`http://localhost:4000/api/gear-lists/gear-list/${pendingDeleteId}`, {
+      const res = await fetch(`${apiUrl}/gear-lists/gear-list/${pendingDeleteId}`, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${token}`,

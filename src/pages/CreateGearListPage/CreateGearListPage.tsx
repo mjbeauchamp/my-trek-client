@@ -9,6 +9,8 @@ import { ClipLoader } from 'react-spinners';
 import { isGearList } from '../../utils/validators/gearTypeValidators';
 import { parseFetchError } from '../../utils/parseFetchError';
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 export default function CreateGearListPage() {
   const [listTitle, setListTitle] = useState('');
   const [listDescription, setListDescription] = useState('');
@@ -56,7 +58,7 @@ export default function CreateGearListPage() {
 
       setLoading(true);
 
-      const res = await fetch('http://localhost:4000/api/gear-lists/gear-list', {
+      const res = await fetch(`${apiUrl}/gear-lists/gear-list`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

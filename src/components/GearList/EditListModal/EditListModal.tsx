@@ -16,6 +16,8 @@ interface EditListModalProps {
   listId?: string;
 }
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 export default function EditListModal({
   isEditMetadataDialogOpen,
   userGearList,
@@ -84,7 +86,7 @@ export default function EditListModal({
 
       setEditLoading(true);
 
-      const res = await fetch(`http://localhost:4000/api/gear-lists/gear-list/${listId}`, {
+      const res = await fetch(`${apiUrl}/gear-lists/gear-list/${listId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

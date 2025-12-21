@@ -17,6 +17,8 @@ import { Toaster, toast } from 'react-hot-toast';
 
 type SyncStatus = 'idle' | 'syncing' | 'success' | 'error';
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 function App() {
   const { user, isAuthenticated, isLoading, getAccessTokenSilently } = useAuth0();
   const hasSynced = useRef(false);
@@ -39,7 +41,7 @@ function App() {
           return;
         }
 
-        const res = await fetch('http://localhost:4000/api/user', {
+        const res = await fetch(`${apiUrl}/user`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

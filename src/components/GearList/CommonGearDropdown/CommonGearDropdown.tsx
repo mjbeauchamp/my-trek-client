@@ -9,6 +9,8 @@ interface PropTypes {
   userGearListItems: UserGearItem[] | undefined;
 }
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 export default function CommonGearDropdown({ onCommonGearSelect, userGearListItems }: PropTypes) {
   const [commonGear, setCommonGear] = useState<CommonGearItem[]>([]);
   const [query, setQuery] = useState('');
@@ -49,7 +51,7 @@ export default function CommonGearDropdown({ onCommonGearSelect, userGearListIte
   useEffect(() => {
     const fetchCommonGear = async () => {
       try {
-        const res = await fetch('http://localhost:4000/api/commonGear');
+        const res = await fetch(`${apiUrl}/commonGear`);
 
         if (!res.ok) {
           const message = await parseFetchError(res);

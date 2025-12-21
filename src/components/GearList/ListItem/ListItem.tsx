@@ -20,6 +20,8 @@ interface ListItemProps {
   listId?: string;
 }
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 export default function ListItem({
   openListItemDialog,
   openDeleteItemDialog,
@@ -79,7 +81,7 @@ export default function ListItem({
         return;
       }
 
-      const res = await fetch(`http://localhost:4000/api/gear-lists/gear-list/${listId}/items/${item._id}`, {
+      const res = await fetch(`${apiUrl}/gear-lists/gear-list/${listId}/items/${item._id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

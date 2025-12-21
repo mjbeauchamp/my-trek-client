@@ -17,6 +17,8 @@ interface PropTypes {
   listId?: string;
 }
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 export default function GearItemForm({
   userGearListItems,
   setUserGearList,
@@ -70,7 +72,7 @@ export default function GearItemForm({
         return;
       }
 
-      const res = await fetch(`http://localhost:4000/api/gear-lists/gear-list/${listId}/items`, {
+      const res = await fetch(`${apiUrl}/gear-lists/gear-list/${listId}/items`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -138,7 +140,7 @@ export default function GearItemForm({
         return;
       }
 
-      const res = await fetch(`http://localhost:4000/api/gear-lists/gear-list/${listId}/items/${initialData._id}`, {
+      const res = await fetch(`${apiUrl}/gear-lists/gear-list/${listId}/items/${initialData._id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

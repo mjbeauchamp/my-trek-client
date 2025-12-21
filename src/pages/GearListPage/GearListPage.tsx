@@ -15,6 +15,8 @@ import LoadingMessage from '../../components/SharedUi/LoadingMessage/LoadingMess
 import { isGearList } from '../../utils/validators/gearTypeValidators';
 import { parseFetchError } from '../../utils/parseFetchError';
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 export default function GearListPage() {
   const { listId } = useParams();
   const { getGearListById, userGearLists } = useUserGearLists();
@@ -65,7 +67,7 @@ export default function GearListPage() {
           return;
         }
 
-        const res = await fetch(`http://localhost:4000/api/gear-lists/gear-list/${listId}`, {
+        const res = await fetch(`${apiUrl}/gear-lists/gear-list/${listId}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -137,7 +139,7 @@ export default function GearListPage() {
         throw new Error('There was a problem deleting gear item. No user token found.');
       }
 
-      const res = await fetch(`http://localhost:4000/api/gear-lists/gear-list/${listId}/items/${pendingDeleteId}`, {
+      const res = await fetch(`${apiUrl}/gear-lists/gear-list/${listId}/items/${pendingDeleteId}`, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${token}`,
