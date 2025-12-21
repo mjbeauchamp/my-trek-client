@@ -9,8 +9,8 @@ export default function ProtectedRoute({ children }: { children: React.ReactNode
   React.useEffect(() => {
     if (!isLoading && !isAuthenticated) {
       loginWithRedirect({
-        authorizationParams: {
-          redirect_uri: window.location.href,
+        appState: {
+          returnTo: window.location.pathname,
         },
       });
     }

@@ -36,7 +36,8 @@ export default function MyGearListsPage() {
 
           <button
             className="btn dark large"
-            onClick={() => loginWithRedirect({ authorizationParams: { redirect_uri: window.location.href } })}
+            // onClick={() => loginWithRedirect({ authorizationParams: { redirect_uri: window.location.href } })}
+            onClick={() => loginWithRedirect({ appState: { returnTo: window.location.pathname } })}
           >
             GET STARTED
           </button>

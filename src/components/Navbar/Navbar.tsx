@@ -77,7 +77,8 @@ export default function Navbar() {
         ) : (
           <button
             className="btn light"
-            onClick={() => loginWithRedirect({ authorizationParams: { redirect_uri: window.location.href } })}
+            // onClick={() => loginWithRedirect({ authorizationParams: { redirect_uri: window.location.href } })}
+            onClick={() => loginWithRedirect({ appState: { returnTo: window.location.pathname } })}
           >
             Sign In
           </button>
