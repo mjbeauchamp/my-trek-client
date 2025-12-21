@@ -13,6 +13,7 @@ import GearListPage from './pages/GearListPage/GearListPage';
 import CreateGearListPage from './pages/CreateGearListPage/CreateGearListPage';
 import UserGearListsProvider from './providers/UserGearListsProvider';
 import { parseFetchError } from './utils/parseFetchError';
+import { Toaster, toast } from 'react-hot-toast';
 
 type SyncStatus = 'idle' | 'syncing' | 'success' | 'error';
 
@@ -33,6 +34,7 @@ function App() {
 
         if (!token) {
           console.error('User sync failed: No user token found');
+          toast.error('There was a problem with user sync. Some user features may be unavailable.');
           syncStatus.current = 'error';
           return;
         }
@@ -50,12 +52,14 @@ function App() {
           const message = await parseFetchError(res);
           syncStatus.current = 'error';
           console.error('User sync failed:', message);
+          toast.error('There was a problem with user sync. Some user features may be unavailable.');
           return;
         }
 
         syncStatus.current = 'success';
       } catch (err) {
         console.error('Failed to sync user:', err);
+        toast.error('There was a problem with user sync. Some user features may be unavailable.');
       }
     };
 
@@ -91,6 +95,7 @@ function App() {
           <Route path="*" element={<PageNotFound />} />
         </Route>
       </Routes>
+      <Toaster />
     </>
   );
 }
