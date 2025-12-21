@@ -179,17 +179,41 @@ export default function GearListPage() {
       return <LoadingMessage title="Loading list..." />;
     } else if (errorUserGearList) {
       return <ErrorAlertBlock message="Whoops! There was an error fetching gear list." />;
-    } else if (userGearList?.items && userGearList.items.length > 0) {
+    } else if (userGearList?.listTitle) {
       return (
         <>
-          <GearListByCategory
-            listId={listId}
-            userGearList={userGearList}
-            updateItemRef={updateItemRef}
-            openDeleteItemDialog={openDeleteItemDialog}
-            openListItemDialog={openListItemDialog}
-            setUserGearList={setUserGearList}
-          />
+          <header>
+            <div className={styles['list-details']}>
+              <h1 className={`fjord-one ${styles.title}`}>{userGearList?.listTitle}</h1>
+              <button
+                onClick={() => setIsEditMetadataDialogOpen(true)}
+                aria-label="Edit list title and description"
+                className={styles['edit-list-details']}
+              >
+                <FontAwesomeIcon icon={faEdit} size="lg" />
+              </button>
+            </div>
+
+            {userGearList?.listDescription ? (
+              <p className={styles.description}>{userGearList?.listDescription}</p>
+            ) : null}
+          </header>
+
+          <hr className={styles['gear-list-page-separator']} />
+
+          <button onClick={() => openListItemDialog('create')} className="btn large dark">
+            Add Gear Item
+          </button>
+          {userGearList.items.length > 0 && (
+            <GearListByCategory
+              listId={listId}
+              userGearList={userGearList}
+              updateItemRef={updateItemRef}
+              openDeleteItemDialog={openDeleteItemDialog}
+              openListItemDialog={openListItemDialog}
+              setUserGearList={setUserGearList}
+            />
+          )}
         </>
       );
     }
@@ -203,26 +227,7 @@ export default function GearListPage() {
         <FontAwesomeIcon icon={faArrowLeft} size="sm" />
         <span>My Gear Lists</span>
       </Link>
-      <header>
-        <div className={styles['list-details']}>
-          <h1 className={`fjord-one ${styles.title}`}>{userGearList?.listTitle}</h1>
-          <button
-            onClick={() => setIsEditMetadataDialogOpen(true)}
-            aria-label="Edit list title and description"
-            className={styles['edit-list-details']}
-          >
-            <FontAwesomeIcon icon={faEdit} size="lg" />
-          </button>
-        </div>
 
-        {userGearList?.listDescription ? <p className={styles.description}>{userGearList?.listDescription}</p> : null}
-      </header>
-
-      <hr className={styles['gear-list-page-separator']} />
-
-      <button onClick={() => openListItemDialog('create')} className="btn large dark">
-        Add Gear Item
-      </button>
       {gearListRenderContent()}
 
       <ConfirmationModal

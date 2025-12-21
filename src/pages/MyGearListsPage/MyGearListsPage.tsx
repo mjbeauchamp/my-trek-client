@@ -9,24 +9,26 @@ export default function MyGearListsPage() {
   const { loginWithRedirect, isAuthenticated, isLoading } = useAuth0();
 
   return (
-    <div className={`content-container base-padding-top ${styles['my-gear-lists']}`}>
-      <header>
-        <h1 className={`fjord-one ${styles.header}`}>MY GEAR LISTS</h1>
-        <p className={styles.tagline}>Create multiple gear checklists so you're prepared for any adventure!</p>
-      </header>
-
-      <hr className={styles['gear-lists-section-line']} />
-
-      {isAuthenticated ? (
-        <Link to="/my-gear-lists/new" className="btn large light-green">
-          CREATE NEW GEAR LIST
-        </Link>
-      ) : null}
-
+    <div className={`content-container ${styles['my-gear-lists']}`}>
       {isLoading ? (
         <LoadingMessage title="Loading User..." />
       ) : isAuthenticated ? (
-        <GearLists />
+        <div className="base-padding-top">
+          <header>
+            <h1 className={`fjord-one ${styles.header}`}>MY GEAR LISTS</h1>
+            <p className={styles.tagline}>Create multiple gear checklists so you're prepared for any adventure!</p>
+          </header>
+
+          <hr className={styles['gear-lists-section-line']} />
+
+          {isAuthenticated ? (
+            <Link to="/my-gear-lists/new" className="btn large light-green">
+              CREATE NEW GEAR LIST
+            </Link>
+          ) : null}
+
+          <GearLists />
+        </div>
       ) : (
         <ActionPanel title="Sign In to Start Planning" headingTag="h2">
           <p>Log in or create your account to get started!</p>
