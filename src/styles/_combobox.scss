@@ -40,6 +40,10 @@
   }
 }
 
+.combobox-option[data-focus] {
+  background-color: #f2f0ef;
+}
+
 .combobox-option {
   padding: 10px 12px;
   font-size: 1rem;
@@ -49,7 +53,7 @@
   align-items: center;
 
   &:hover,
-  &:focus-visible {
+  &:focus {
     background-color: #f2f0ef !important;
   }
 

@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { Combobox, ComboboxInput, ComboboxOption, ComboboxOptions } from '@headlessui/react';
+import { Combobox, ComboboxInput, ComboboxOption, ComboboxOptions, Field, Label } from '@headlessui/react';
 import type { CommonGearItem, UserGearItem } from '../../../types/gearTypes';
 import { GEAR_CATEGORIES } from '../../../constants/categories';
 import { parseFetchError } from '../../../utils/parseFetchError';
@@ -80,55 +80,60 @@ export default function CommonGearDropdown({ onCommonGearSelect, userGearListIte
   return (
     <>
       {hideComboBox ? null : (
-        <Combobox
-          value={selectedCommonGear}
-          onChange={(gear) => {
-            setSelectedCommonGear(gear);
-            onCommonGearSelect(gear);
-          }}
-          onClose={() => setQuery('')}
-          immediate
-        >
-          <div className="combobox-container">
-            <ComboboxInput
-              ref={commonGearInputRef}
-              placeholder="Select common items"
-              aria-label="Select Common Gear Item"
-              onChange={(e) => setQuery(e.target.value)}
-              onClick={() => {
-                commonGearInputRef.current?.blur();
-                commonGearInputRef.current?.focus();
-              }}
-              displayValue={(gear: CommonGearItem | null) => (gear ? gear.name : '')}
-              className="input-base select-base"
-            />
+        <Field className="combobox-field">
+          <Label className="combobox-label">Commonly Used Gear</Label>
+          <Combobox
+            value={selectedCommonGear}
+            onChange={(gear) => {
+              setSelectedCommonGear(gear);
+              onCommonGearSelect(gear);
+            }}
+            onClose={() => setQuery('')}
+            immediate
+          >
+            <div className="combobox-container">
+              <ComboboxInput
+                ref={commonGearInputRef}
+                placeholder="Select from common items"
+                aria-label="Select Common Gear Item"
+                onChange={(e) => setQuery(e.target.value)}
+                onClick={() => {
+                  commonGearInputRef.current?.blur();
+                  commonGearInputRef.current?.focus();
+                }}
+                displayValue={(gear: CommonGearItem | null) => (gear ? gear.name : '')}
+                className="input-base select-base"
+              />
 
-            <ComboboxOptions className="combobox-options">
-              {sortedCategories.map(([category, items]) => (
-                <div key={category} className="combobox-group">
-                  <h3 className="combobox-group-label">{category}</h3>
-                  {items.map((gear) => {
-                    const alreadyAdded = userGearListItems?.some((item: UserGearItem) => item.name === gear.name);
-                    return (
-                      <ComboboxOption
-                        key={gear._id}
-                        value={gear}
-                        disabled={alreadyAdded}
-                        className={({ disabled }) =>
-                          `combobox-option
+              <ComboboxOptions className="combobox-options">
+                {sortedCategories.map(([category, items]) => (
+                  <div key={category} role="presentation" className="combobox-group">
+                    <h3 className="combobox-group-label" aria-hidden="true">
+                      {category}
+                    </h3>
+                    {items.map((gear) => {
+                      const alreadyAdded = userGearListItems?.some((item: UserGearItem) => item.name === gear.name);
+                      return (
+                        <ComboboxOption
+                          key={gear._id}
+                          value={gear}
+                          disabled={alreadyAdded}
+                          className={({ disabled }) =>
+                            `combobox-option
                                                     ${disabled ? 'disabled' : ''}`
-                        }
-                      >
-                        {gear.name}
-                        {alreadyAdded ? <span className="combobox-badge">Already in list</span> : null}
-                      </ComboboxOption>
-                    );
-                  })}
-                </div>
-              ))}
-            </ComboboxOptions>
-          </div>
-        </Combobox>
+                          }
+                        >
+                          {gear.name}
+                          {alreadyAdded ? <span className="combobox-badge">Already in list</span> : null}
+                        </ComboboxOption>
+                      );
+                    })}
+                  </div>
+                ))}
+              </ComboboxOptions>
+            </div>
+          </Combobox>
+        </Field>
       )}
     </>
   );
