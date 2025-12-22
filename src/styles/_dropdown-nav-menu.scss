@@ -38,9 +38,13 @@
       color: white;
     }
 
+    &[data-focus] {
+      background-color: #f9e5be;
+    }
+
     &:hover,
     &:focus {
-      background-color: #f6efe1;
+      background-color: #f9e5be;
     }
 
     &:last-child {
@@ -48,6 +52,10 @@
 
       &:hover,
       &:focus {
+        background-color: var(--color-primary);
+      }
+
+      &[data-focus] {
         background-color: var(--color-primary);
       }
     }
