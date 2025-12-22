@@ -10,10 +10,18 @@
 
   a {
     flex-grow: 1;
-    max-width: 80%;
     padding-top: 25px;
     padding-bottom: 25px;
     padding-left: 30px;
+
+    h2,
+    p {
+      max-width: 80%;
+
+      @media (max-width: 600px) {
+        max-width: 100%;
+      }
+    }
   }
 
   .gear-list {

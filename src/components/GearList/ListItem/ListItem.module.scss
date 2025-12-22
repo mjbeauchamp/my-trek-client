@@ -139,6 +139,15 @@
       opacity: 0.75;
     }
 
+    .notes-toggle-btn {
+      background-color: #584637;
+
+      &:hover,
+      &:focus-visible {
+        background-color: #241c16;
+      }
+    }
+
     .checkbox {
       border-color: #225607;
     }
@@ -174,13 +183,14 @@
   border-radius: 4px;
   margin-top: 0.4rem;
   margin-left: 1.8rem;
-  background-color: #9f7f66;
+
+  background-color: #7d6654;
   color: white;
   flex-grow: 0;
 
   &:hover,
   &:focus-visible {
-    background-color: #7d6049;
+    background-color: #3b2f25;
   }
 
   @media (max-width: 700px) {
