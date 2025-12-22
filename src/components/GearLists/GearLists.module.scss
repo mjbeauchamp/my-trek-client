@@ -86,9 +86,10 @@
     padding: 4px;
     background-color: rgba(0, 0, 0, 0);
     cursor: pointer;
-    color: var(--color-light-gray);
+    color: #95918e;
 
-    &:hover {
+    &:hover:not(:disabled),
+    &:focus-visible:not(:disabled) {
       color: #ad1515;
     }
 

@@ -81,7 +81,8 @@
   }
 
   .edit-button {
-    &:hover:not(:disabled) {
+    &:hover:not(:disabled),
+    &:focus-visible:not(:disabled) {
       opacity: 1;
     }
   }
@@ -89,7 +90,8 @@
   .delete-button {
     margin-left: 4px;
 
-    &:hover:not(:disabled) {
+    &:hover:not(:disabled),
+    &:focus-visible:not(:disabled) {
       color: #ad1515;
     }
 
@@ -176,7 +178,8 @@
   color: white;
   flex-grow: 0;
 
-  &:hover {
+  &:hover,
+  &:focus-visible {
     background-color: #7d6049;
   }
 
@@ -191,5 +194,5 @@
   border-radius: 6px;
   margin-top: 8px;
   padding: 10px 14px 20px;
-  color: var(--color-text-soft);
+  color: var(--color-text);
 }

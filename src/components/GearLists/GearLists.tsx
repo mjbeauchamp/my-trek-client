@@ -13,6 +13,7 @@ import { isArrayOfGearLists } from '../../utils/validators/gearTypeValidators';
 import { parseFetchError } from '../../utils/parseFetchError';
 
 const apiUrl = import.meta.env.VITE_API_URL;
+const DESCRIPTION_PREVIEW_LENGTH = 160;
 
 export default function GearLists() {
   const { userGearLists, setUserGearLists, removeGearList } = useUserGearLists();
@@ -118,7 +119,12 @@ export default function GearLists() {
   };
 
   const getDescriptionPreview = (description: string) => {
-    return description.length <= 90 ? description : `${description.slice(0, 90).trim()}...`;
+    if (typeof description !== 'string') return '';
+
+    if (description.length <= DESCRIPTION_PREVIEW_LENGTH) return description;
+
+    const truncated = description.slice(0, DESCRIPTION_PREVIEW_LENGTH);
+    return `${truncated.slice(0, truncated.lastIndexOf(' '))}...`;
   };
 
   const listSectionContent = () => {

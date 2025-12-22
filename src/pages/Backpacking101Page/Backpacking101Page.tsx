@@ -6,6 +6,7 @@ import { ErrorAlertBlock } from '../../components/SharedUi/ErrorAlertBlock/Error
 import { parseFetchError } from '../../utils/parseFetchError';
 
 const apiUrl = import.meta.env.VITE_API_URL;
+const ARTICLE_PREVIEW_LENGTH = 85;
 
 interface IBackpackingArticle {
   title: string;
@@ -65,10 +66,12 @@ export default function BackpackingBasicsPage() {
   }, []);
 
   const getArticlePreview = (article: IBackpackingArticle) => {
-    if (Array.isArray(article?.content) && typeof article.content[0] === 'string') {
-      return article.content[0].length <= 80 ? article.content[0] : `${article.content[0].slice(0, 80).trim()}...`;
-    }
-    return '';
+    const firstBlock = article?.content?.[0];
+
+    if (firstBlock.length <= ARTICLE_PREVIEW_LENGTH) return firstBlock;
+
+    const truncated = firstBlock.slice(0, ARTICLE_PREVIEW_LENGTH);
+    return `${truncated.slice(0, truncated.lastIndexOf(' '))}...`;
   };
 
   const listContent = () => {

@@ -42,12 +42,13 @@
   .edit-list-details {
     border: none;
     background-color: transparent;
-    color: var(--color-text-soft);
+    color: var(--color-text);
     cursor: pointer;
     padding: 6px;
     opacity: 0.7;
 
-    &:hover {
+    &:hover,
+    &:focus-visible {
       opacity: 1;
     }
   }

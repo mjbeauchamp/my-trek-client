@@ -203,7 +203,7 @@ export default function GearListPage() {
 
           <hr className={styles['gear-list-page-separator']} />
 
-          <button onClick={() => openListItemDialog('create')} className="btn large dark">
+          <button onClick={() => openListItemDialog('create')} className="btn large light-green">
             ADD GEAR ITEM
           </button>
           {userGearList.items.length > 0 && (

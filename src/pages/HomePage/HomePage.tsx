@@ -31,11 +31,11 @@ export default function HomePage() {
             checklists so you're prepared for whatever comes your way!
           </p>
           <p className="warm-text">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-            dolore magna aliqua.{' '}
+            Add items, check them off as you pack, and reuse lists for future trips to save time and avoid forgetting
+            essentials.
           </p>
           <Link className="btn dark large" to={isAuthenticated ? '/my-gear-lists/new' : '/my-gear-lists'}>
-            CREATE GEAR LIST
+            GET STARTED
           </Link>
         </div>
       </section>
@@ -43,12 +43,14 @@ export default function HomePage() {
       <section className={`${styles['articles-info']} ${styles['info-section']}`}>
         <div className="content-container flex-content-container">
           <h2 className="fjord-one">Backpacking 101</h2>
-          <p>Check out Backpacking 101 to learn more about how to explore the wilderness safely!</p>
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-            dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-            ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-            nulla pariatur.{' '}
+            New to backpacking or brushing up on the basics? From choosing the right gear and planning your route to
+            understanding weather considerations and Leave No Trace principles, Backpacking 101 is designed to help you
+            feel confident before you ever hit the trail.
+          </p>
+          <p>
+            Whether you're preparing for your first overnight trip or refining your setup for longer adventures, these
+            guides break down complex topics into practical, easy-to-follow advice.
           </p>
           <Link className="btn light large" to="/backpacking-101">
             BACKPACKING 101

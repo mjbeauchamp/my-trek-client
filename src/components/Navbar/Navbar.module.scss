@@ -27,8 +27,11 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      font-size: 1.1rem;
+      padding: 2px;
 
-      &:hover {
+      &:hover,
+      &:focus-visible {
         color: #ffffff;
       }
 
@@ -102,10 +105,10 @@
   animation: pulse 2s ease-in-out infinite;
 }
 
-@media (max-width: 460px) {
+@media (max-width: 480px) {
   .nav-container {
-    a {
-      font-size: 0.85rem;
+    .link-list a {
+      font-size: 0.9rem;
     }
 
     button {
