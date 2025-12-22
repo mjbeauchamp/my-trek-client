@@ -96,7 +96,9 @@ export default function CreateGearListPage() {
       <ActionPanel headingTag="h1" title="Create Your Gear List">
         <form onSubmit={(e) => createList(e)}>
           <div className={styles['input-container']}>
-            <label htmlFor="listName">List Name</label>
+            <label htmlFor="listName" className="warm-text">
+              List Name
+            </label>
             <input
               className="input-base"
               id="listName"
@@ -113,7 +115,9 @@ export default function CreateGearListPage() {
           </div>
 
           <div className={styles['input-container']}>
-            <label htmlFor="listDescription">List Description (optional)</label>
+            <label htmlFor="listDescription" className="warm-text">
+              List Description (optional)
+            </label>
             <input
               className="input-base"
               id="listDescription"

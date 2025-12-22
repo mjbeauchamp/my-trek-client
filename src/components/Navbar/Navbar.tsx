@@ -35,12 +35,7 @@ export default function Navbar() {
             <Menu>
               <MenuButton className={styles['profile-menu-button']}>
                 {user?.picture ? (
-                  <img
-                    className={styles['profile-image']}
-                    src={user.picture}
-                    alt={user?.name ?? user?.email}
-                    // onError={e => { e.currentTarget.src = '/default-avatar.png'; }}
-                  />
+                  <img className={styles['profile-image']} src={user.picture} alt={user?.name ?? user?.email} />
                 ) : (
                   <div className={styles['profile-icon-container']}>
                     <FontAwesomeIcon icon={faUser} color="white" size="xl" />
@@ -67,7 +62,7 @@ export default function Navbar() {
                 <MenuItem>
                   <div className="menu-item">
                     <button onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}>
-                      Log Out
+                      LOG OUT
                     </button>
                   </div>
                 </MenuItem>

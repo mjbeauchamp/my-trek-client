@@ -12,7 +12,9 @@ export default function HomePage() {
           <h1 className="fjord-one">
             <span>Welcome to</span> <span>Trek List</span>
           </h1>
-          <p>Your adventure starts here!</p>
+          <p>
+            <span>Your next backpacking</span> <span>adventure starts here!</span>
+          </p>
           <Link className="btn light" to={isAuthenticated ? '/my-gear-lists/new' : '/my-gear-lists'}>
             CREATE GEAR LIST
           </Link>
@@ -21,14 +23,14 @@ export default function HomePage() {
 
       <section className={`${styles['info-section']}`}>
         <div className="content-container flex-content-container">
-          <h2 className="fjord-one">
+          <h2 className="fjord-one warm-text">
             <span>Create Gear</span> <span>Checklists</span>
           </h2>
-          <p>
+          <p className="warm-text">
             Each adventure has its own unique challenges and gear requirements. Create multiple customized gear
             checklists so you're prepared for whatever comes your way!
           </p>
-          <p>
+          <p className="warm-text">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
             dolore magna aliqua.{' '}
           </p>

@@ -3,13 +3,19 @@
   margin-top: 60px;
   border: 1px solid var(--color-light-gray);
   border-radius: 6px;
-
+  background: rgba(255, 255, 255, 0.6);
   .gear-list-separator {
     margin-bottom: 0;
   }
 
   @media (max-width: 600px) {
     border: none;
+  }
+}
+
+.category-container {
+  &:not(:last-child) {
+    border-bottom: 1px solid var(--color-light-gray);
   }
 }
 

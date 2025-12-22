@@ -82,7 +82,7 @@ export default function ConfirmationModal({
 
               {onConfirm && actionBtnText ? (
                 <div className="confirmation-modal__actions">
-                  <button type="button" onClick={onClose} className="btn">
+                  <button type="button" onClick={onClose} className="btn outline">
                     CANCEL
                   </button>
                   <button

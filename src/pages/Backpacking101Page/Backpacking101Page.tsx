@@ -66,7 +66,7 @@ export default function BackpackingBasicsPage() {
 
   const getArticlePreview = (article: IBackpackingArticle) => {
     if (Array.isArray(article?.content) && typeof article.content[0] === 'string') {
-      return `${article.content[0].slice(0, 80).trim()}...`;
+      return article.content[0].length <= 80 ? article.content[0] : `${article.content[0].slice(0, 80).trim()}...`;
     }
     return '';
   };
@@ -98,7 +98,7 @@ export default function BackpackingBasicsPage() {
                   <img src={`/images/articles/${article.imageUrl}`} alt={article.imageAlt} />
                   <div className={styles['text-container']}>
                     <div className={styles['article-header']}>
-                      <h2 className="merriweather">{article.title}</h2>
+                      <h2 className="merriweather warm-text">{article.title}</h2>
                       <p>{article.tagline}</p>
                     </div>
 
@@ -122,8 +122,8 @@ export default function BackpackingBasicsPage() {
   return (
     <div className={`base-padding-top ${styles['articles-container']}`}>
       <header className={`${styles.header} content-container`}>
-        <h1 className="fjord-one">BACKPACKING 101</h1>
-        <p>Expert advice on getting the most out of your outdoor adventures</p>
+        <h1 className="fjord-one warm-text">BACKPACKING 101</h1>
+        <p className="warm-text">Expert advice on getting the most out of your outdoor adventures</p>
         <hr className={styles['articles-section-line']} />
       </header>
 

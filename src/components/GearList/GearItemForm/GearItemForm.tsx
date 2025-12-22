@@ -234,7 +234,9 @@ export default function GearItemForm({
 
       <form onSubmit={(e) => submitForm(e)}>
         <div className="input-container">
-          <label htmlFor="itemName">Item Name</label>
+          <label htmlFor="itemName" className="warm-text">
+            Item Name
+          </label>
           <input
             className="input-base"
             id="itemName"
@@ -250,7 +252,9 @@ export default function GearItemForm({
         </div>
 
         <div className="input-container">
-          <label htmlFor="category">Category</label>
+          <label htmlFor="category" className="warm-text">
+            Category
+          </label>
           <select
             id="category"
             className="input-base select-base"
@@ -269,7 +273,9 @@ export default function GearItemForm({
         </div>
 
         <div className="input-container">
-          <label htmlFor="quantityNeeded">Quantity Needed</label>
+          <label htmlFor="quantityNeeded" className="warm-text">
+            Quantity Needed
+          </label>
           <input
             id="quantityNeeded"
             type="number"
@@ -308,7 +314,9 @@ export default function GearItemForm({
                 </div> */}
 
         <div className="input-container">
-          <label htmlFor="notes">Notes</label>
+          <label htmlFor="notes" className="warm-text">
+            Notes
+          </label>
           <textarea
             id="notes"
             value={notes}
@@ -321,7 +329,7 @@ export default function GearItemForm({
         {error && <ErrorAlertBlock message={error} />}
 
         <div className="action-container">
-          <button type="button" onClick={closeListItemDialog} className="btn gray">
+          <button type="button" onClick={closeListItemDialog} className="btn outline">
             CANCEL
           </button>
 

@@ -15,8 +15,10 @@ export default function MyGearListsPage() {
       ) : isAuthenticated ? (
         <div className="base-padding-top">
           <header>
-            <h1 className={`fjord-one ${styles.header}`}>MY GEAR LISTS</h1>
-            <p className={styles.tagline}>Create multiple gear checklists so you're prepared for any adventure!</p>
+            <h1 className={`fjord-one warm-text ${styles.header}`}>MY GEAR LISTS</h1>
+            <p className={`warm-text ${styles.tagline}`}>
+              Create multiple gear checklists so you're prepared for any adventure!
+            </p>
           </header>
 
           <hr className={styles['gear-lists-section-line']} />

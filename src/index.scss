@@ -13,6 +13,7 @@
   --color-light-secondary: #{t.$color-light-secondary};
   --color-text: #{t.$color-text};
   --color-text-soft: #{t.$color-text-soft};
+  --color-text-warm: #{t.$color-text-warm};
   --color-light-green: #{t.$color-light-green};
   --color-light-gray: #{t.$color-light-gray};
   --color-highlight: #{t.$color-highlight};
@@ -59,6 +60,10 @@
   font-family: 'Fjord One', serif;
   font-weight: 400;
   font-style: normal;
+}
+
+.warm-text {
+  color: var(--color-text-warm);
 }
 
 // GENERAL GLOBAL ELEMENT STYLES
@@ -153,7 +158,7 @@ hr {
   display: inline-block;
   padding: 0.6rem 1.2rem;
   font-size: 1rem;
-  font-weight: 600;
+  font-weight: 500;
   border: none;
   border-radius: 0.5rem;
   cursor: pointer;
@@ -163,6 +168,7 @@ hr {
     transform 0.1s;
   width: fit-content;
   min-width: fit-content;
+  font-family: var(--font-sans);
 
   &.large {
     font-size: 1.1rem;
@@ -236,9 +242,14 @@ hr {
     }
   }
 
-  &.gray {
+  &.outline {
+    background-color: #fff;
+    border: 1px solid var(--color-primary);
+    color: var(--color-primary);
+
     &:hover:not(:disabled) {
-      background-color: var(--color-text-soft);
+      background-color: var(--color-primary);
+      border: 1px solid var(--color-primary);
       color: white;
     }
   }
@@ -256,7 +267,6 @@ hr {
 }
 
 // INPUT STYLING
-
 .input-base {
   width: 100%;
   font-size: 1.1rem;
@@ -300,7 +310,7 @@ hr {
 
 .back-link {
   display: inline-block;
-  color: #5f5f5d;
+  color: #55524a;
   font-weight: 500;
   margin-bottom: 30px;
 

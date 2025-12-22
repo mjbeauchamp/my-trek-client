@@ -1,9 +1,11 @@
 @keyframes checkedFlash {
   0% {
-    background-color: #d4f5d4;
+    background-color: #c9f4bf;
+    border-radius: 6px;
   }
   100% {
     background-color: transparent;
+    border-radius: 6px;
   }
 }
 
@@ -28,7 +30,7 @@
   h3 {
     font-size: 1.3rem;
     font-weight: 500;
-    color: var(--color-text-soft);
+    color: var(--color-text-warm);
   }
 
   .item-info {
@@ -69,7 +71,7 @@
     padding: 8px;
     background-color: rgba(0, 0, 0, 0);
     cursor: pointer;
-    color: var(--color-text-soft);
+    color: var(--color-text-warm);
     opacity: 0.7;
 
     &:disabled {
@@ -116,7 +118,7 @@
     margin-top: 0.4rem;
 
     .check {
-      stroke: #277500;
+      stroke: #338706;
       opacity: 0;
     }
 
@@ -132,11 +134,11 @@
   &.checked {
     .item-info,
     .item-buttons {
-      opacity: 0.5;
+      opacity: 0.75;
     }
 
     .checkbox {
-      border-color: #277500;
+      border-color: #225607;
     }
 
     .check {

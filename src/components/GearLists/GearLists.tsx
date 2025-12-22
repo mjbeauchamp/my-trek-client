@@ -118,7 +118,7 @@ export default function GearLists() {
   };
 
   const getDescriptionPreview = (description: string) => {
-    return `${description.slice(0, 90).trim()}...`;
+    return description.length <= 90 ? description : `${description.slice(0, 90).trim()}...`;
   };
 
   const listSectionContent = () => {
@@ -166,7 +166,7 @@ export default function GearLists() {
         onClose={() => setIsDeleteDialogOpen(false)}
         onConfirm={deleteGearList}
         title="Delete Gear List"
-        description="This action cannot be undone. Are you sure you want to permanently delete this gear list?"
+        description="This action can't be undone. Are you sure you want to permanently delete this gear list?"
         actionBtnText="DELETE"
       />
     </>

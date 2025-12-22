@@ -96,15 +96,13 @@ export default function GearListByCategory({
 
   return (
     <div className={styles['items-list-container']}>
-      {GEAR_CATEGORIES.map((cat, i) => {
+      {GEAR_CATEGORIES.map((cat) => {
         const items = categorizedList[cat.id];
         // skip empty categories
         if (!items || items.length === 0) return null;
 
         return (
-          <div key={cat.id}>
-            {i > 0 ? <hr className={styles['gear-list-separator']} /> : null}
-
+          <div key={cat.id} className={styles['category-container']}>
             <section className={styles['category-section']}>
               <div className={styles['category-title']}>
                 <FontAwesomeIcon icon={getCategoryIcon(cat.id)} size="2xl" />

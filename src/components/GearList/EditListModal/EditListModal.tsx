@@ -167,7 +167,7 @@ export default function EditListModal({
               if (userGearList?.listDescription) setListDescription(userGearList.listDescription);
               setIsEditMetadataDialogOpen(false);
             }}
-            className="btn"
+            className="btn outline"
           >
             CANCEL
           </button>

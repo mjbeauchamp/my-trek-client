@@ -186,7 +186,7 @@ export default function GearListPage() {
         <>
           <header>
             <div className={styles['list-details']}>
-              <h1 className={`fjord-one ${styles.title}`}>{userGearList?.listTitle}</h1>
+              <h1 className={`fjord-one warm-text ${styles.title}`}>{userGearList?.listTitle}</h1>
               <button
                 onClick={() => setIsEditMetadataDialogOpen(true)}
                 aria-label="Edit list title and description"
@@ -197,14 +197,14 @@ export default function GearListPage() {
             </div>
 
             {userGearList?.listDescription ? (
-              <p className={styles.description}>{userGearList?.listDescription}</p>
+              <p className={`warm-text ${styles.description}`}>{userGearList?.listDescription}</p>
             ) : null}
           </header>
 
           <hr className={styles['gear-list-page-separator']} />
 
           <button onClick={() => openListItemDialog('create')} className="btn large dark">
-            Add Gear Item
+            ADD GEAR ITEM
           </button>
           {userGearList.items.length > 0 && (
             <GearListByCategory

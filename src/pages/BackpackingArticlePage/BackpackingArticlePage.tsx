@@ -81,9 +81,9 @@ export default function BackpackingArticlePage() {
       return (
         <article>
           <header>
-            <h1 className={`fjord-one ${styles.title}`}>{article.title}</h1>
-            {article.tagline && <p className={styles.tagline}>{article.tagline}</p>}
-            {article.author && <address className={styles.byline}>By {article.author}</address>}
+            <h1 className={`fjord-one warm-text ${styles.title}`}>{article.title}</h1>
+            {article.tagline && <p className={`warm-text ${styles.tagline}`}>{article.tagline}</p>}
+            {article.author && <address className={`warm-text ${styles.byline}`}>By {article.author}</address>}
           </header>
 
           <hr />
