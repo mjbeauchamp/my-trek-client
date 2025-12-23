@@ -198,15 +198,14 @@ hr {
   }
 
   &.light {
-    background-color: var(--color-light-primary);
+    background-color: var(--color-light-secondary);
     color: var(--color-text);
     border: 2px solid rgba(0, 0, 0, 0);
 
     &:hover:not(:disabled),
     &:focus-visible:not(:disabled) {
-      border: 2px solid white;
-      color: white;
-      background-color: var(--color-secondary);
+      color: #241f1a;
+      background-color: #f6eace;
     }
 
     &:active:not(:disabled) {

@@ -6,7 +6,7 @@
 .navbar-menu-items {
   display: flex;
   flex-direction: column;
-  background-color: var(--color-light-primary);
+  background-color: var(--color-light-secondary);
   min-width: 250px;
   margin-top: 4px;
   border-radius: 6px;
@@ -39,12 +39,12 @@
     }
 
     &[data-focus] {
-      background-color: #f9e5be;
+      background-color: #fcf6e7;
     }
 
     &:hover,
     &:focus {
-      background-color: #f9e5be;
+      background-color: #fcf6e7;
     }
 
     &:last-child {
