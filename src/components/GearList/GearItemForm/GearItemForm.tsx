@@ -152,7 +152,7 @@ export default function GearItemForm({
       if (!res.ok) {
         const message = await parseFetchError(res);
         console.error('Error updating list item:', message);
-        setError(`There was a problem updating list item: ${message}`);
+        setError(message);
         return;
       }
 
@@ -249,7 +249,7 @@ export default function GearItemForm({
             }}
             maxLength={60}
             placeholder="e.g. Sleeping Bag"
-            // required
+            required
           />
         </div>
 
