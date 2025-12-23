@@ -81,7 +81,7 @@ export default function CommonGearDropdown({ onCommonGearSelect, userGearListIte
     <>
       {hideComboBox ? null : (
         <Field className="combobox-field">
-          <Label className="combobox-label">Commonly Used Gear</Label>
+          <Label className="combobox-label">Select from Common Items</Label>
           <Combobox
             value={selectedCommonGear}
             onChange={(gear) => {
@@ -94,8 +94,7 @@ export default function CommonGearDropdown({ onCommonGearSelect, userGearListIte
             <div className="combobox-container">
               <ComboboxInput
                 ref={commonGearInputRef}
-                placeholder="Select from common items"
-                aria-label="Select Common Gear Item"
+                placeholder="Search & select common gear"
                 onChange={(e) => setQuery(e.target.value)}
                 onClick={() => {
                   commonGearInputRef.current?.blur();

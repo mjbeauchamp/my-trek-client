@@ -226,6 +226,8 @@ export default function GearItemForm({
 
   return (
     <>
+      <p className="form-explanation">Select from common gear, or create your own custom gear item</p>
+
       {mode === 'create' ? (
         <div className="w-80">
           <CommonGearDropdown onCommonGearSelect={onCommonGearSelect} userGearListItems={userGearListItems} />
@@ -234,7 +236,7 @@ export default function GearItemForm({
 
       <form onSubmit={(e) => submitForm(e)}>
         <div className="input-container">
-          <label htmlFor="itemName" className="warm-text">
+          <label htmlFor="itemName" className="text-base">
             Item Name
           </label>
           <input
@@ -247,12 +249,12 @@ export default function GearItemForm({
             }}
             maxLength={60}
             placeholder="e.g. Sleeping Bag"
-            required
+            // required
           />
         </div>
 
         <div className="input-container">
-          <label htmlFor="category" className="warm-text">
+          <label htmlFor="category" className="text-base">
             Category
           </label>
           <select
@@ -273,7 +275,7 @@ export default function GearItemForm({
         </div>
 
         <div className="input-container">
-          <label htmlFor="quantityNeeded" className="warm-text">
+          <label htmlFor="quantityNeeded" className="text-base">
             Quantity Needed
           </label>
           <input
@@ -314,7 +316,7 @@ export default function GearItemForm({
                 </div> */}
 
         <div className="input-container">
-          <label htmlFor="notes" className="warm-text">
+          <label htmlFor="notes" className="text-base">
             Notes
           </label>
           <textarea
