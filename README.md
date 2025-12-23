@@ -26,6 +26,7 @@ Frontend for **Trek List**, a backpacking checklist application. Users can creat
 - **State Management:** React Context
 - **Authentication:** Auth0 (via `@auth0/auth0-react`)
 - **Routing:** React Router
+- **Styling:** SCSS (intentionally chosen over Tailwind CSS to demonstrate core CSS fundamentals)
 - **Type Safety:** TypeScript
 - **UI Components:** Headless UI
 - **Linting:** ESLint
