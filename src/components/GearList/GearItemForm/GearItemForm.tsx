@@ -226,10 +226,9 @@ export default function GearItemForm({
 
   return (
     <>
-      <p className="form-explanation">Select from common gear, or create your own custom gear item</p>
-
       {mode === 'create' ? (
         <div className="w-80">
+          <p className="form-explanation">Select from common gear, or create your own custom gear item</p>
           <CommonGearDropdown onCommonGearSelect={onCommonGearSelect} userGearListItems={userGearListItems} />
         </div>
       ) : null}
@@ -288,32 +287,6 @@ export default function GearItemForm({
             max="100"
           />
         </div>
-
-        {/* TODO: UPDATE TO SHOW INPUTS WHEN PACKING/SHOPPING LIST IS IMPLEMENTED */}
-        {/* <div className="input-container">
-                    <label htmlFor="quantityToPack">Quantity to Pack</label>
-                    <input
-                        id="quantityToPack"
-                        type="number" 
-                        value={quantityToPack} 
-                        onChange={(e) => setQuantityToPack(e.target.value)}
-                        className="input-base"
-                        min="0"
-                    />
-                </div> */}
-
-        {/* TODO: UPDATE WHEN SHOPPING LIST IS IMPLEMENTED */}
-        {/* <div className="input-container">
-                    <label htmlFor="quantityToShop">Quantity to Shop</label>
-                    <input
-                        id="quantityToShop"
-                        type="number" 
-                        value={quantityToShop} 
-                        onChange={(e) => setQuantityToShop(e.target.value)}
-                        className="input-base"
-                        min="0"
-                    />
-                </div> */}
 
         <div className="input-container">
           <label htmlFor="notes" className="text-base">
