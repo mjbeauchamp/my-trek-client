@@ -38,10 +38,10 @@ export default function GearItemForm({
 
   // TODO: GIVE USER ABILITY TO UPDATE quantityToPack AND quantityToShop ONCE SHOPPING LIST
   // AND PACKING LIST TABS ARE SUPPORTED
-  // eslint-disable-next-line
-  const [quantityToPack, setQuantityToPack] = useState(initialData?.quantityToPack || '1');
-  // eslint-disable-next-line
-  const [quantityToShop, setQuantityToShop] = useState(initialData?.quantityToShop || '0');
+
+  const [quantityToPack] = useState(initialData?.quantityToPack || '1');
+
+  const [quantityToShop] = useState(initialData?.quantityToShop || '0');
 
   const { getAccessTokenSilently } = useAuth0();
 
