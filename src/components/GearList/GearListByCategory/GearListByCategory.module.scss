@@ -8,8 +8,12 @@
     margin-bottom: 0;
   }
 
-  @media (max-width: 600px) {
-    border: none;
+  @media (max-width: 580px) {
+    border-left: none;
+    border-right: none;
+    border-radius: 0;
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
   }
 }
 
@@ -47,6 +51,10 @@
 
     h2 {
       font-size: 1.4rem;
+    }
+
+    .category-title {
+      margin-left: 12px;
     }
   }
 }
