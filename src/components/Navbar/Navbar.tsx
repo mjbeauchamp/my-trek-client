@@ -20,7 +20,13 @@ export default function Navbar() {
           </li>
           <li>
             <Link to="/my-gear-lists">
-              {isAuthenticated ? <span>My Gear Lists</span> : <span>Create Gear List</span>}
+              {isAuthenticated ? (
+                <span>My Gear Lists</span>
+              ) : (
+                <span>
+                  <span>Create</span> <span>My List</span>
+                </span>
+              )}
             </Link>
           </li>
           <li>
@@ -72,7 +78,6 @@ export default function Navbar() {
         ) : (
           <button
             className="btn light"
-            // onClick={() => loginWithRedirect({ authorizationParams: { redirect_uri: window.location.href } })}
             onClick={() => loginWithRedirect({ appState: { returnTo: window.location.pathname } })}
           >
             Sign In
