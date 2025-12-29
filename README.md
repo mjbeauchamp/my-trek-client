@@ -1,10 +1,24 @@
 # TREK LIST CLIENT
 
-Frontend for **Trek List**, a backpacking checklist application. Users can create multiple gear checklists, and manage items in each checklist. They can also access a list of informational backpacking articles. This is a portfolio project demonstrating modern React development practices, state management, and integration with a separate Node.js/Express backend that manages users, gear lists, and backpacking articles.
+This is the frontend codebase for **Trek List**, a backpacking checklist application. Users can create multiple gear checklists, and manage items in each checklist. They can also access a list of informational backpacking articles. This is a portfolio project demonstrating modern React development practices, state management, and integration with a separate Node.js/Express backend that manages users, gear lists, and backpacking articles.
 
 **Server Repository:** [Trek List Server Repository](https://github.com/mjbeauchamp/my-trek-server)
 
-**Note:** Some sections of the app use placeholder Lorem Ipsum text and placeholder images. This is a portfolio project, so content may be minimal or illustrative rather than fully built out.
+## Live Demo
+
+View deployed site here: [Trek List](https://trek-list.vercel.app/)
+
+The client is deployed on **Vercel**.
+
+The server is deployed using **Render**.
+
+Base URL for the deployed API:
+
+https://trek-list-api.onrender.com
+
+Authenticated routes require a valid Auth0 JWT.
+
+**Note:** Some sections of the app use placeholder text or images. This is a portfolio project, so some content is minimal or illustrative rather than fully built out.
 
 ---
 
@@ -39,11 +53,12 @@ Frontend for **Trek List**, a backpacking checklist application. Users can creat
 ### Prerequisites
 
 - Node.js (see .nvmrc for current version)
-- Access to a working instance of the Trek List server backend
 - Auth0 account configured for the app
-- A successfully running instance of the corresponding server code, found here: (https://github.com/mjbeauchamp/my-trek-server)
+- Access to a successfully running instance of the corresponding server code, found here: (https://github.com/mjbeauchamp/my-trek-server)
 
-### Environment Variables
+## INSTALLATION & RUNNING LOCALLY
+
+Clone down the repo from GitHub.
 
 Create an `.env` file in the root of the project:
 
@@ -55,9 +70,7 @@ VITE_AUTH0_AUDIENCE=<your-auth0-audience>
 VITE_ENV=development
 ```
 
-## INSTALLATION & RUNNING LOCALLY
-
-Clone down the repo from GitHub. Then run:
+Then run:
 
 ```bash
 npm install
@@ -74,8 +87,8 @@ Your app should now be running smoothly and accessible in your browser.
 ## NOTES
 
 - The app relies on a separate Node.js/Express backend to manage users, gear lists, and backpacking articles.
-- All API calls involving user data and gear lists are protected using JWTs from Auth0.
-- List items are stored as arrays on their respective gear list documents in MongoDB.
+- All API calls that modify or retrieve user-specific data are protected using Auth0 JWT authentication.
+- Users can have multiple gear lists. Each gear list contains list metadata and an 'items' array that can contain user-generated gear items.
 
 ## FUTURE IMPROVEMENTS
 
