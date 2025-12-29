@@ -13,7 +13,7 @@
     display: flex;
     align-items: center;
     margin: 0;
-    margin-right: 16px;
+    margin-right: 24px;
     gap: 2rem;
 
     li {
@@ -35,14 +35,14 @@
         color: #ffffff;
       }
 
+      span {
+        display: inline-block;
+      }
+
       .home-logo {
         width: 2.8rem;
         margin-right: 5px;
       }
-    }
-
-    @media (max-width: 700px) {
-      gap: 1.1rem;
     }
   }
 
@@ -105,14 +105,39 @@
   animation: pulse 2s ease-in-out infinite;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 700px) {
   .nav-container {
-    .link-list a {
-      font-size: 0.9rem;
+    .link-list {
+      gap: 1.1rem;
+    }
+  }
+}
+
+@media (max-width: 520px) {
+  .nav-container {
+    padding: 8px 12px;
+
+    .link-list {
+      gap: 0.8rem;
+
+      a {
+        font-size: 0.9rem;
+
+        .home-logo {
+          width: 2.5rem;
+          margin-right: 5px;
+        }
+      }
     }
 
     button {
-      font-size: 0.9rem;
+      padding: 0.3rem 0.6rem;
+      border-radius: 6px;
+    }
+
+    .profile-image {
+      width: 38px;
+      height: 38px;
     }
   }
 }

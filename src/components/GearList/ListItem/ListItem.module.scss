@@ -36,7 +36,7 @@
   .item-info {
     flex-wrap: wrap;
     flex-grow: 1;
-    max-width: 90%;
+    max-width: 80%;
   }
 
   .item-header {
@@ -52,23 +52,18 @@
   }
 
   .item-buttons {
-    padding-top: 4px;
     align-self: flex-start;
     display: flex;
     justify-content: flex-end;
     flex-wrap: wrap;
     flex-grow: 0;
-
-    @media (max-width: 700px) {
-      flex-direction: column;
-      gap: 10px;
-    }
   }
 
   .delete-button,
   .edit-button {
     border: none;
     padding: 8px;
+    margin: 6px 0;
     background-color: rgba(0, 0, 0, 0);
     cursor: pointer;
     color: var(--color-text-warm);
@@ -88,7 +83,7 @@
   }
 
   .delete-button {
-    margin-left: 4px;
+    margin-left: 8px;
 
     &:hover:not(:disabled),
     &:focus-visible:not(:disabled) {

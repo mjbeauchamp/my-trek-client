@@ -37,4 +37,10 @@
       margin-top: 30px;
     }
   }
+
+  @media (max-width: 420px) {
+    .header {
+      font-size: var(--fs-xl);
+    }
+  }
 }
