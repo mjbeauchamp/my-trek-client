@@ -118,9 +118,36 @@ export default function GearListPage() {
   useEffect(() => {
     if (!newItemId) return;
     const el = itemRefs.current[newItemId];
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
+
+    if (!el) return;
+
+    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+    let timeoutId: number | null = null;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          el.classList.add('blue-flash');
+
+          timeoutId = window.setTimeout(() => {
+            el.classList.remove('blue-flash');
+          }, 1000);
+
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.6 },
+    );
+
+    observer.observe(el);
+
+    return () => {
+      observer.disconnect();
+      if (timeoutId !== null) {
+        clearTimeout(timeoutId);
+      }
+    };
   }, [newItemId]);
 
   function openListItemDialog(mode: 'create' | 'edit', item?: UserGearItem) {

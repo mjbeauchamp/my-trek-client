@@ -123,9 +123,7 @@ export default function ListItem({
       className={`w-full ${styles['list-item-container']} ${showCheckAnimation ? styles.flash : ''}`}
     >
       <article>
-        <div
-          className={`${styles['list-item']} ${checked ? styles.checked : ''} ${showCheckAnimation ? styles.flash : ''}`}
-        >
+        <div className={`${styles['list-item']} ${checked ? styles.checked : ''}`}>
           <div className={`flex-align-start ${styles['item-info']}`}>
             <div className={`flex-align-start ${styles['item-header']}`}>
               <Checkbox checked={checked} onChange={() => updateItem(!checked)} as={Fragment} disabled={itemLoading}>

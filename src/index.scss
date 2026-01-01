@@ -335,3 +335,19 @@ hr {
     text-decoration: underline;
   }
 }
+
+// ANIMATIONS
+@keyframes blueFlash {
+  0% {
+    background-color: #bfdbf4;
+    border-radius: 6px;
+  }
+  100% {
+    background-color: transparent;
+    border-radius: 6px;
+  }
+}
+
+.blue-flash {
+  animation: blueFlash 0.9s ease-out;
+}
