@@ -1,5 +1,13 @@
 import { useState, useEffect, useRef } from 'react';
-import { Combobox, ComboboxInput, ComboboxOption, ComboboxOptions, Field, Label } from '@headlessui/react';
+import {
+  Combobox,
+  ComboboxInput,
+  ComboboxOption,
+  ComboboxOptions,
+  ComboboxButton,
+  Field,
+  Label,
+} from '@headlessui/react';
 import type { CommonGearItem, UserGearItem } from '../../../types/gearTypes';
 import { GEAR_CATEGORIES } from '../../../constants/categories';
 import { parseFetchError } from '../../../utils/parseFetchError';
@@ -7,11 +15,18 @@ import { parseFetchError } from '../../../utils/parseFetchError';
 interface PropTypes {
   onCommonGearSelect: (gear: CommonGearItem | null) => void;
   userGearListItems: UserGearItem[] | undefined;
+  isDisabled?: boolean;
+  inputLabel?: string;
 }
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
-export default function CommonGearDropdown({ onCommonGearSelect, userGearListItems }: PropTypes) {
+export default function CommonGearDropdown({
+  onCommonGearSelect,
+  userGearListItems,
+  isDisabled,
+  inputLabel = 'Select from Common Items',
+}: PropTypes) {
   const [commonGear, setCommonGear] = useState<CommonGearItem[]>([]);
   const [query, setQuery] = useState('');
   const [selectedCommonGear, setSelectedCommonGear] = useState<CommonGearItem | null>(null);
@@ -81,28 +96,34 @@ export default function CommonGearDropdown({ onCommonGearSelect, userGearListIte
     <>
       {hideComboBox ? null : (
         <Field className="combobox-field">
-          <Label className="combobox-label">Select from Common Items</Label>
+          <Label className="combobox-label">{inputLabel}</Label>
           <Combobox
             value={selectedCommonGear}
             onChange={(gear) => {
+              if (!gear || !gear._id) return;
               setSelectedCommonGear(gear);
               onCommonGearSelect(gear);
             }}
             onClose={() => setQuery('')}
+            disabled={isDisabled}
             immediate
           >
             <div className="combobox-container">
-              <ComboboxInput
-                ref={commonGearInputRef}
-                placeholder="Search & select common gear"
-                onChange={(e) => setQuery(e.target.value)}
-                onClick={() => {
-                  commonGearInputRef.current?.blur();
-                  commonGearInputRef.current?.focus();
-                }}
-                displayValue={(gear: CommonGearItem | null) => (gear ? gear.name : '')}
-                className="input-base select-base"
-              />
+              <div className="combobox-input-container">
+                <ComboboxInput
+                  ref={commonGearInputRef}
+                  placeholder="Search common gear"
+                  onChange={(e) => {
+                    setSelectedCommonGear(null);
+                    setQuery(e.target.value);
+                  }}
+                  displayValue={(gear: CommonGearItem | null) => (gear ? gear.name : '')}
+                  className="input-base"
+                />
+                <ComboboxButton className="combobox-button" aria-label="Open common gear menu">
+                  <img src="/icons/angle-down-solid-full.svg" alt="" aria-hidden="true" />
+                </ComboboxButton>
+              </div>
 
               <ComboboxOptions className="combobox-options">
                 {sortedCategories.map(([category, items]) => (

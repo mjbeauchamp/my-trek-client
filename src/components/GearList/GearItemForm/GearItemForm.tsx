@@ -4,8 +4,9 @@ import { ErrorAlertBlock } from '../../SharedUi/ErrorAlertBlock/ErrorAlertBlock'
 import CommonGearDropdown from '../CommonGearDropdown/CommonGearDropdown';
 import { GEAR_CATEGORIES } from '../../../constants/categories';
 import type { GearList, CommonGearItem, UserGearItem, UserNewGearItem } from '../../../types/gearTypes';
-import { isGearList, isUserGearItem } from '../../../utils/validators/gearTypeValidators';
+import { isGearList } from '../../../utils/validators/gearTypeValidators';
 import { parseFetchError } from '../../../utils/parseFetchError';
+import useAddGearItem from '../../../hooks/useAddGearItem';
 
 interface PropTypes {
   userGearListItems: UserGearItem[] | undefined;
@@ -28,6 +29,7 @@ export default function GearItemForm({
   mode = 'create',
   initialData,
 }: PropTypes) {
+  const { addGearListItem, isItemLoading, addItemError } = useAddGearItem(listId);
   // Gear list item form data
   const [itemName, setItemName] = useState(initialData?.name || '');
   const [category, setCategory] = useState(initialData?.category || '');
@@ -54,52 +56,20 @@ export default function GearItemForm({
     }
   };
 
-  const addGearListItem = async (itemData: UserNewGearItem) => {
-    if (!listId) {
-      setError('No gear list selected to update.');
-      return;
-    }
-
+  const addItem = async (itemData: UserNewGearItem) => {
     try {
-      setLoading(true);
-      setError(null);
+      const addedGearItem = await addGearListItem(itemData);
 
-      const token = await getAccessTokenSilently();
-
-      if (!token) {
-        console.error('No user token found');
-        setError('There was a problem adding the new list item. User token not found.');
-        return;
-      }
-
-      const res = await fetch(`${apiUrl}/gear-lists/gear-list/${listId}/items`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ itemData }),
-      });
-
-      if (!res.ok) {
-        const message = await parseFetchError(res);
-        console.error('Error adding item to list:', message);
-        setError(`There was a problem adding item to the list: ${message}`);
-        return;
-      }
-
-      const createdItem = await res.json();
-
-      if (isUserGearItem(createdItem)) {
+      if (addedGearItem) {
         setUserGearList((prev: GearList | null) => {
           if (prev === null) return prev;
 
           return {
             ...prev,
-            items: [...prev.items, createdItem],
+            items: [...prev.items, addedGearItem],
           };
         });
-        setNewItemId(createdItem._id);
+        setNewItemId(addedGearItem._id);
         closeListItemDialog();
       } else {
         setError('The server returned an unexpected response. Please try again.');
@@ -112,8 +82,6 @@ export default function GearItemForm({
         console.error('Error adding gear item:', error);
         setError('There was an error adding gear item');
       }
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -218,7 +186,7 @@ export default function GearItemForm({
     };
 
     if (mode === 'create') {
-      addGearListItem(newItem);
+      addItem(newItem);
     } else if (mode === 'edit') {
       editGearListItem(newItem);
     }
@@ -302,13 +270,14 @@ export default function GearItemForm({
         </div>
 
         {error && <ErrorAlertBlock message={error} />}
+        {addItemError && <ErrorAlertBlock message={addItemError} />}
 
         <div className="action-container">
           <button type="button" onClick={closeListItemDialog} className="btn outline">
             CANCEL
           </button>
 
-          <button type="submit" className="btn dark" disabled={loading}>
+          <button type="submit" className="btn dark" disabled={loading || isItemLoading}>
             {mode === 'create' ? <span>ADD</span> : <span>UPDATE</span>}
           </button>
         </div>

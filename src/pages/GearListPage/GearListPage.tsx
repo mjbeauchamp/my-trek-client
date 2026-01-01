@@ -1,25 +1,36 @@
 import { useEffect, useState, useRef } from 'react';
 import { useParams, Link } from 'react-router';
 import { useAuth0 } from '@auth0/auth0-react';
-import type { GearList, UserGearItem } from '../../types/gearTypes';
-import useUserGearLists from '../../hooks/useUserGearLists';
+
+import styles from './GearListPage.module.scss';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEdit, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+
 import GearItemForm from '../../components/GearList/GearItemForm/GearItemForm';
 import ConfirmationModal from '../../components/SharedUi/ConfirmationModal/ConfirmationModal';
 import EditListModal from '../../components/GearList/EditListModal/EditListModal';
 import { ErrorAlertBlock } from '../../components/SharedUi/ErrorAlertBlock/ErrorAlertBlock';
 import GearListByCategory from '../../components/GearList/GearListByCategory/GearListByCategory';
-import styles from './GearListPage.module.scss';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import LoadingMessage from '../../components/SharedUi/LoadingMessage/LoadingMessage';
+import CommonGearDropdown from '../../components/GearList/CommonGearDropdown/CommonGearDropdown';
+
+import useAddGearItem from '../../hooks/useAddGearItem';
+import useUserGearLists from '../../hooks/useUserGearLists';
+
 import { isGearList } from '../../utils/validators/gearTypeValidators';
 import { parseFetchError } from '../../utils/parseFetchError';
+import type { GearList, UserGearItem, CommonGearItem, UserNewGearItem } from '../../types/gearTypes';
+
+import { Toaster, toast } from 'react-hot-toast';
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
 export default function GearListPage() {
   const { listId } = useParams();
   const { getGearListById, userGearLists } = useUserGearLists();
+  const { addGearListItem, isItemLoading } = useAddGearItem(listId, {
+    onError: (message) => toast.error(message),
+  });
   const [userGearList, setUserGearList] = useState<GearList | null>(null);
   const [loadingUserGearList, setLoadingUserGearList] = useState(false);
   const [errorUserGearList, setErrorUserGearList] = useState('');
@@ -176,6 +187,54 @@ export default function GearListPage() {
     setIsDeleteDialogOpen(true);
   };
 
+  const onCommonGearSelect = async (gear: CommonGearItem | null) => {
+    if (!gear?.name) {
+      console.error('Gear item name value must be provided');
+      toast.error('Gear item name value must be provided');
+      return;
+    }
+
+    if (!listId) {
+      console.error('List ID not present when submitting gear item');
+      toast.error('There was a problem adding new list item. Please try again.');
+      return;
+    }
+
+    if (!gear?.category) {
+      console.error('Common gear item is missing category');
+      toast.error('Common gear item is missing category');
+      return;
+    }
+
+    const newItem: UserNewGearItem = {
+      name: gear.name.trim(),
+      category: gear.category.trim(),
+      quantityNeeded: 1,
+      quantityToPack: 1,
+      quantityToShop: 0,
+      notes: '',
+    };
+
+    try {
+      const addedGearItem = await addGearListItem(newItem);
+
+      if (addedGearItem) {
+        setUserGearList((prev: GearList | null) => {
+          if (prev === null) return prev;
+
+          return {
+            ...prev,
+            items: [...prev.items, addedGearItem],
+          };
+        });
+        setNewItemId(addedGearItem._id);
+      }
+    } catch (error) {
+      console.error('There was a problem adding gear item: ', error);
+      toast.error('There was a problem adding gear item');
+    }
+  };
+
   const gearListRenderContent = () => {
     if (loadingUserGearList) {
       return <LoadingMessage title="Loading list..." />;
@@ -203,10 +262,32 @@ export default function GearListPage() {
 
           <hr className={styles['gear-list-page-separator']} />
 
-          <button onClick={() => openListItemDialog('create')} className="btn large light-green">
-            ADD GEAR ITEM
-          </button>
-          {userGearList.items.length > 0 && (
+          <section>
+            <h2 className={styles['page-intro-text']}>
+              Create and add your own custom gear items, or quick-add items from our list of commonly used gear.
+            </h2>
+
+            <button onClick={() => openListItemDialog('create')} className="btn large light-green">
+              ADD CUSTOM GEAR
+            </button>
+
+            <div className="common-gear-combo-container">
+              <CommonGearDropdown
+                userGearListItems={userGearList?.items}
+                onCommonGearSelect={onCommonGearSelect}
+                isDisabled={isItemLoading}
+                inputLabel="Quick-Add Common Gear Items:"
+              />
+            </div>
+          </section>
+
+          {userGearList?.items?.length === 0 && (
+            <div className={styles['empty-list-message']}>
+              <p>Your gear list is empty. Add your first item!</p>
+            </div>
+          )}
+
+          {userGearList?.items?.length > 0 && (
             <GearListByCategory
               listId={listId}
               userGearList={userGearList}
@@ -264,6 +345,7 @@ export default function GearListPage() {
         setUserGearList={setUserGearList}
         listId={listId}
       />
+      <Toaster />
     </div>
   );
 }
