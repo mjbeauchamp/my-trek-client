@@ -15,8 +15,8 @@ export default function HomePage() {
           <p>
             <span>Your next backpacking</span> <span>adventure starts here!</span>
           </p>
-          <Link className="btn light" to={isAuthenticated ? '/my-gear-lists/new' : '/my-gear-lists'}>
-            CREATE GEAR LIST
+          <Link className="btn light" to="/my-gear-lists">
+            {isAuthenticated ? 'MY GEAR LISTS' : 'CREATE GEAR LIST'}
           </Link>
         </div>
       </section>

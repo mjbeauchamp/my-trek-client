@@ -132,7 +132,7 @@ export default function GearLists() {
       return <LoadingMessage title="Loading Gear Lists..." />;
     } else if (errorUserGearLists) {
       return <ErrorAlertBlock message={errorUserGearLists} />;
-    } else if (userGearLists.length > 0) {
+    } else if (userGearLists?.length > 0) {
       return (
         <ul>
           {userGearLists.map((list: GearList) => {
@@ -158,6 +158,12 @@ export default function GearLists() {
             );
           })}
         </ul>
+      );
+    } else if (userGearLists?.length === 0) {
+      return (
+        <div className="info-message">
+          <p>No gear lists yet. Create your first list!</p>
+        </div>
       );
     }
 
