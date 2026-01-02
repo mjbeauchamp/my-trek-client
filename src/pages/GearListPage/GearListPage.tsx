@@ -309,7 +309,7 @@ export default function GearListPage() {
           </section>
 
           {userGearList?.items?.length === 0 && (
-            <div className={styles['empty-list-message']}>
+            <div className="info-message">
               <p>Your gear list is empty. Add your first item!</p>
             </div>
           )}
